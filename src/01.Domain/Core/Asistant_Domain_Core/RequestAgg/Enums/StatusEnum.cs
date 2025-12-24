@@ -8,11 +8,11 @@ namespace Asistant_Domain_Core.RequestAgg.Enums
 {
     public enum StatusEnum
     {
-        
-        PendingExpertApproval=1,
-        AwaitingExpertArrivalOnSite=2,
-        InProgress=3,
-        Completed=4,
-        RejectedByAdmin = 5
+        PendingExpertApproval= 1,
+        PendingSuggestionApproval=2,
+        AwaitingExpertArrivalOnSite=3,
+        InProgress=4,
+        Completed=5,
+        RejectedByAdmin = 6
     }
 }
