@@ -1,4 +1,5 @@
-﻿using Asistant_Domain_Core.UserAgg.Entities;
+﻿using Asistant_Domain_Core.CommentAgg.Enum;
+using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UtilityAgg.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Asistant_Domain_Core.CommentAgg.Entity
         public string Description { get; set; }
         public int Rate { get; set; }
         public DateTime CreatedAt { get; set; }
+        public StatusEnum Status { get; set; }
 
         #region Navigation Prop
         public Customer Customer { get; set; }
