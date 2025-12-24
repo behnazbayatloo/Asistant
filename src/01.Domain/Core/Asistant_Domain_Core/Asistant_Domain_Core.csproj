@@ -22,7 +22,6 @@
     <Folder Include="SuggestionAgg\AppServices\" />
     <Folder Include="SuggestionAgg\Data\" />
     <Folder Include="SuggestionAgg\DTOs\" />
-    <Folder Include="SuggestionAgg\Enums\" />
     <Folder Include="SuggestionAgg\Services\" />
     <Folder Include="UserAgg\Data\" />
     <Folder Include="UserAgg\AppServices\" />

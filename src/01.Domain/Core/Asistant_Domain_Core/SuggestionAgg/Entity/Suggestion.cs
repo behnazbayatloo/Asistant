@@ -1,5 +1,6 @@
 ﻿using Asistant_Domain_Core.ImageAgg.Entity;
 using Asistant_Domain_Core.RequestAgg.Entity;
+using Asistant_Domain_Core.SuggestionAgg.Enums;
 using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UtilityAgg.Entities;
 using System;
@@ -17,7 +18,7 @@ namespace Asistant_Domain_Core.SuggestionAgg.Entity
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public decimal Price { get; set; }
-
+        public StatusEnum Status { get; set; }
         #region Navigation Prop
         public int ExpertId { get; set; }
         public Expert Expert { get; set; }
