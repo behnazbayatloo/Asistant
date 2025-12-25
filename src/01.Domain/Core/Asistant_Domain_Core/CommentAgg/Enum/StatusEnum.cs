@@ -8,7 +8,8 @@ namespace Asistant_Domain_Core.CommentAgg.Enum
 {
     public enum StatusEnum
     {
-        Accept=1,
-        Reject=2
+        Pending=1,
+        Accept=2,
+        Reject=3
     }
 }

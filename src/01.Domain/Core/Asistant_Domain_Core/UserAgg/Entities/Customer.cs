@@ -20,7 +20,7 @@ namespace Asistant_Domain_Core.UserAgg.Entities
         public Image? Image { get; set; }
         public int? ImageId { get; set; }
         public List<Request>? Requests { get; set; }
-        public List<Comment> Comments { get; set; }
+        public List<Comment>? Comments { get; set; }
         #endregion
 
     }
