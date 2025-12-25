@@ -1,0 +1,21 @@
+﻿using Asistant_Domain_Core.HomeServiceAgg.Entities;
+using Asistant_Domain_Core.SuggestionAgg.Entity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Asistant_Infra_Db_Sql.EntityConfigurations
+{
+    public class SuggestionConfig : IEntityTypeConfiguration<Suggestion>
+    {
+        public void Configure(EntityTypeBuilder<Suggestion> builder)
+        {
+            builder.HasMany(s => s.Images).WithOne(i => i.Suggestion).HasForeignKey(i => i.SuggestionId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(s => s.HomeService).WithMany(hs => hs.Suggestions).HasForeignKey(s => s.HomeServiceId).OnDelete(DeleteBehavior.NoAction);
+        }
+    }
+}

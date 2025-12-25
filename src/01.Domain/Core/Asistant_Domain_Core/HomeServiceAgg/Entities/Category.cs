@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Asistant_Domain_Core.UtilityAgg.Entities
+namespace Asistant_Domain_Core.HomeServiceAgg.Entities
 {
     public class Category
     {
@@ -14,7 +14,7 @@ namespace Asistant_Domain_Core.UtilityAgg.Entities
         public string Name { get; set; }
 
         #region Navigation Prop
-        public List<Utility> Utilities { get; set; }
+        public List<HomeService> HomeServices { get; set; }
         public Image Image { get; set; }
         public int ImageId { get; set; }
         #endregion

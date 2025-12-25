@@ -11,11 +11,17 @@ namespace Asistant_Domain_Core.UserAgg.Entities
 {
     public class AppUser: IdentityUser<int>
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public double Balance { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public decimal? Balance { get; set; }
 
-      
+        #region Navigation Prop
+        public Customer? Customer { get; set; }
+        public int? CustomerId { get; set; }
+        public Expert? Expert { get; set; }
+        public int? ExpertId { get; set; }
+        #endregion
+
 
         #region Audit 
         public DateTime CreatedAt { get; set; }

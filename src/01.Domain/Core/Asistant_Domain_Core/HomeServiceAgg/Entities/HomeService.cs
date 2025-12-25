@@ -1,14 +1,17 @@
 ﻿using Asistant_Domain_Core.CommentAgg.Entity;
 using Asistant_Domain_Core.ImageAgg.Entity;
+using Asistant_Domain_Core.RequestAgg.Entity;
+using Asistant_Domain_Core.SuggestionAgg.Entity;
+using Asistant_Domain_Core.UserAgg.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Asistant_Domain_Core.UtilityAgg.Entities
+namespace Asistant_Domain_Core.HomeServiceAgg.Entities
 {
-    public class Utility
+    public class HomeService
     {
         public int Id { get; set; } 
         public string Name { get; set; }
@@ -21,6 +24,9 @@ namespace Asistant_Domain_Core.UtilityAgg.Entities
         public Image Image { get; set; }
         public int ImageId { get; set; }
         public List<Comment> Comments { get; set; }
+        public List<Expert> Experts { get; set; }
+        public List<Request> Requests { get; set; }
+        public List<Suggestion> Suggestions { get; set; }
         #endregion
     }
 }

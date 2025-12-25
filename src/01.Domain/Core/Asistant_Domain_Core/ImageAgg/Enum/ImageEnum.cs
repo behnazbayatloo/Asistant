@@ -10,7 +10,7 @@ namespace Asistant_Domain_Core.ImageAgg.Enum
     {
         UserProfile=1,
         Category=2,
-        Utility=3,
+        HomeService=3,
         Request=4,
         Suggestion=5
     }

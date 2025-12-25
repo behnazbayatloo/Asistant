@@ -2,7 +2,7 @@
 using Asistant_Domain_Core.RequestAgg.Entity;
 using Asistant_Domain_Core.SuggestionAgg.Enums;
 using Asistant_Domain_Core.UserAgg.Entities;
-using Asistant_Domain_Core.UtilityAgg.Entities;
+using Asistant_Domain_Core.HomeServiceAgg.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +22,8 @@ namespace Asistant_Domain_Core.SuggestionAgg.Entity
         #region Navigation Prop
         public int ExpertId { get; set; }
         public Expert Expert { get; set; }
-        public Utility Utility { get; set; }
-        public int UtilityId { get; set; }
+        public HomeService HomeService { get; set; }
+        public int HomeServiceId { get; set; }
         public Request Request  { get; set; }
         public int RequestId {  get; set; }
         public List<Image>? Images { get; set; }

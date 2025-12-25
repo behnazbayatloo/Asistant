@@ -28,15 +28,15 @@
     <Folder Include="UserAgg\DTOs\" />
     <Folder Include="UserAgg\Enums\" />
     <Folder Include="UserAgg\Services\" />
-    <Folder Include="UtilityAgg\Data\" />
-    <Folder Include="UtilityAgg\AppServices\" />
-    <Folder Include="UtilityAgg\DTOs\" />
-    <Folder Include="UtilityAgg\Enums\" />
-    <Folder Include="UtilityAgg\Services\" />
+    <Folder Include="HomeServiceAgg\Data\" />
+    <Folder Include="HomeServiceAgg\AppServices\" />
+    <Folder Include="HomeServiceAgg\DTOs\" />
+    <Folder Include="HomeServiceAgg\Enums\" />
+    <Folder Include="HomeServiceAgg\Services\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="9.0.0" />
   </ItemGroup>
 
 </Project>

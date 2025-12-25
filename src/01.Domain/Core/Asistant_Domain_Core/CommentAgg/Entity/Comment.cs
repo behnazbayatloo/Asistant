@@ -1,6 +1,7 @@
 ﻿using Asistant_Domain_Core.CommentAgg.Enum;
+using Asistant_Domain_Core.HomeServiceAgg.Entities;
 using Asistant_Domain_Core.UserAgg.Entities;
-using Asistant_Domain_Core.UtilityAgg.Entities;
+using Asistant_Domain_Core.HomeServiceAgg.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,8 @@ namespace Asistant_Domain_Core.CommentAgg.Entity
         public int CustomerId { get; set; }
         public Expert Expert { get; set; }
         public int ExpertId { get; set; }
-        public Utility Utility { get; set; }
-        public int UtilityId { get; set; }
+        public HomeService HomeService { get; set; }
+        public int HomeServiceId { get; set; }
         #endregion
     }
 }
