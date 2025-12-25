@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\01.Domain\Core\Asistant_Domain_Core\Asistant_Domain_Core.csproj" />
+    <ProjectReference Include="..\..\Infra.Db.Sql\Asistant_Infra_Db_Sql\Asistant_Infra_Db_Sql.csproj" />
+  </ItemGroup>
+
 </Project>

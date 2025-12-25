@@ -20,26 +20,31 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
             {
                 Id=1,
                 CityId = 1,
+                UserId=4
             };
             var expert2 = new Expert
             {
                 Id = 2,
                 CityId = 4,
+                UserId = 5
             };
             var expert3 = new Expert
             {
                 Id = 3,
                 CityId = 1,
+                UserId = 6
             };
             var expert4 = new Expert
             {
                 Id = 4,
                 CityId = 4,
+                UserId = 7
             };
             var expert5 = new Expert
             {
                 Id = 5,
                 CityId = 1,
+                UserId = 8
             };
             builder.HasData(expert1,expert2, expert3, expert4,expert5);
 

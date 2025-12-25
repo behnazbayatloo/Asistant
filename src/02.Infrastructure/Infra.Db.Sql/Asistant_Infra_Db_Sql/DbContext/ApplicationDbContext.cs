@@ -31,6 +31,7 @@ namespace Asistant_Infra_Db_Sql.DbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           
             modelBuilder.Entity<IdentityUserClaim<int>>(entity => { entity.ToTable(name: "AspNetUserClaims", schema: "user"); });
             modelBuilder.Entity<IdentityUserLogin<int>>(entity => { entity.ToTable(name: "AspNetUserLogins", schema: "user"); });
             modelBuilder.Entity<IdentityRoleClaim<int>>(entity => { entity.ToTable(name: "AspNetRoleClaims", schema: "user"); });

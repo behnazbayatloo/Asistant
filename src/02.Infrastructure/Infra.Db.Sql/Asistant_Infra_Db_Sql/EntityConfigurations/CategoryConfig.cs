@@ -23,52 +23,62 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
                 {
                     Id = 1,
                     Name = "نظافت منزل",
+                    ImageId=1
                     
                 }
                 , new Category
                 {
                     Id = 2,
                     Name = "تعمیرات لوازم خانگی"
+                    ,ImageId=2
                 },
                 new Category
                 {
                     Id = 3,
-                    Name = "خدمات برقکاری"
+                    Name = "خدمات برقکاری",
+                    ImageId=3
                 },
                 new Category
                 {
                     Id = 4,
-                    Name = "خدمات لوله‌کشی"
+                    Name = "خدمات لوله‌کشی",
+                    ImageId=4
                 },
                 new Category
                 {
                     Id = 5,
                     Name = "خدمات نقاشی و دکوراسیون"
+                    ,ImageId =5
                 },
                 new Category
                 {
                     Id = 6,
-                    Name = "خدمات باغبانی"
+                    Name = "خدمات باغبانی",
+                    ImageId=6
                 },
                 new Category
                 {
                     Id = 7,
-                    Name = "خدمات کامپیوتر و شبکه"
+                    Name = "خدمات کامپیوتر و شبکه",
+                    ImageId=7
                 },
                 new Category
                 {
                     Id = 8,
-                    Name = "خدمات خودرو"
+                    Name = "خدمات خودرو",
+                    ImageId=8
                 },
                 new Category
                 {
                     Id = 9,
-                    Name = "خدمات آموزشی"
+                    Name = "خدمات آموزشی",
+                    ImageId=9
                 },
                 new Category
                 {
                     Id = 10,
-                    Name = "خدمات پزشکی و پرستاری"
+                    Name = "خدمات پزشکی و پرستاری",
+                    ImageId=10
                 });
         }
     }

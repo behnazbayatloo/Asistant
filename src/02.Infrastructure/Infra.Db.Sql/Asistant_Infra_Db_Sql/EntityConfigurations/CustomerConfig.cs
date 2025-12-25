@@ -21,13 +21,15 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
             {
                 Id=1,
                 Address = "تهران خیابان ایت الله کاشانی کوچه بهنام پلاک 4 واحد1",
-                CityId = 1
+                CityId = 1,
+                UserId=2
             };
             var customer2 = new Customer
             {
                 Id = 2,
                 Address = "شیراز بلوار سعدی کوچه پرستو پلاک 12 واحد 2 ",
-                CityId = 4
+                CityId = 4,
+                UserId=3
             };
             builder.HasData(customer1, customer2);
 

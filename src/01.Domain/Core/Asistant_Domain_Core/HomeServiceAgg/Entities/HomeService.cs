@@ -23,10 +23,10 @@ namespace Asistant_Domain_Core.HomeServiceAgg.Entities
         public Category Category { get; set; }
         public Image Image { get; set; }
         public int ImageId { get; set; }
-        public List<Comment> Comments { get; set; }
-        public List<Expert> Experts { get; set; }
-        public List<Request> Requests { get; set; }
-        public List<Suggestion> Suggestions { get; set; }
+        public List<Comment>? Comments { get; set; }
+        public List<Expert>? Experts { get; set; }
+        public List<Request>? Requests { get; set; }
+        public List<Suggestion>? Suggestions { get; set; }
         #endregion
     }
 }

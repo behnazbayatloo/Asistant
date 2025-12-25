@@ -28,9 +28,7 @@
     <Folder Include="UserAgg\DTOs\" />
     <Folder Include="UserAgg\Enums\" />
     <Folder Include="UserAgg\Services\" />
-    <Folder Include="HomeServiceAgg\Data\" />
     <Folder Include="HomeServiceAgg\AppServices\" />
-    <Folder Include="HomeServiceAgg\DTOs\" />
     <Folder Include="HomeServiceAgg\Enums\" />
     <Folder Include="HomeServiceAgg\Services\" />
   </ItemGroup>
