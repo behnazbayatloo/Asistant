@@ -37,7 +37,8 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
             builder.HasMany(c=>c.Comments).WithOne(cm=>cm.Customer).HasForeignKey(cm=>cm.CustomerId).OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(c => c.City).WithMany(c => c.Customers).HasForeignKey(c => c.CityId).OnDelete(DeleteBehavior.NoAction);
             builder.HasMany(c=>c.Requests).WithOne(r=>r.Customer).HasForeignKey(r=>r.CustomerId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne(c=>c.Image).WithOne(i=>i.Customer).HasForeignKey<Image>(i=>i.CustomerId).OnDelete(DeleteBehavior.NoAction); 
+            builder.HasOne(c=>c.Image).WithOne(i=>i.Customer).HasForeignKey<Image>(i=>i.CustomerId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(c => c.User).WithOne(au => au.Customer).HasForeignKey<Customer>(c => c.UserId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

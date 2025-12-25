@@ -22,7 +22,8 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
                 new Category
                 {
                     Id = 1,
-                    Name = "نظافت منزل"
+                    Name = "نظافت منزل",
+                    
                 }
                 , new Category
                 {

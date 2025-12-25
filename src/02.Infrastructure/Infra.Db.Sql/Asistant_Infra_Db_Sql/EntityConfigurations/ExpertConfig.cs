@@ -57,6 +57,7 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
             builder.HasOne(e => e.Image).WithOne(i => i.Expert).HasForeignKey<Image>(i => i.ExpertId).OnDelete(DeleteBehavior.NoAction);
             builder.HasMany(e => e.Suggestions).WithOne(s => s.Expert).HasForeignKey(s => s.ExpertId).OnDelete(DeleteBehavior.NoAction);
             builder.HasMany(e => e.Comments).WithOne(c => c.Expert).HasForeignKey(c => c.ExpertId).OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(e=>e.User).WithOne(au=>au.Expert).HasForeignKey<Expert>(e=>e.UserId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
