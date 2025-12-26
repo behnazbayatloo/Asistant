@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Asistant_Infra_Db_Sql.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251225172159_init")]
+    [Migration("20251226085346_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -845,7 +845,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5a7f0ac1-5679-456a-a5b8-54bf2b206547",
+                            ConcurrencyStamp = "b9ede448-60b1-4291-9d37-8aea803d523e",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "admin@admin.com",
@@ -855,9 +855,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "09351650512",
-                            PasswordHash = "AQAAAAIAAYagAAAAECAO5TIRK7IrDM59Gqpzv2JGmyjlEbDlwlTeJyMxLqktDiqp/WXUHHT8mcBmU3SDRA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOJ1i4H5k22QaBkR+f97qHp8W0La09ReuO0C0xaByE0bXwtdLlnERGs4b9bY+UaiEA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fff31c3e-3af8-43f6-9b74-514fab5518f7",
+                            SecurityStamp = "1b5e57fc-c0bd-4afb-90ce-f414421271b0",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "09351650512"
@@ -867,7 +867,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             Balance = 6000000m,
-                            ConcurrencyStamp = "1a8aa04e-a46a-418d-91a3-18b218942a1a",
+                            ConcurrencyStamp = "56db7a36-3bd7-4fc3-8271-e23513491617",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             CustomerId = 1,
@@ -878,9 +878,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "BEHNAZ@GMAIL.COM",
                             NormalizedUserName = "BEHNAZ",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA7cqzen1AMbCUiHZWmEo4TPv0zFuI45CUqCfoeX5J3Npsc3P6OuzGW5Ue++CE7Wxg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJd4pA3edA7vB8LqlKrHzK6T40JhhI3hzo+Cdyi7WJ0orvnKoR0nAgg1DzN1SkWJ2g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "25332b44-a82e-43bb-8fe9-3bc1b391170a",
+                            SecurityStamp = "191382ef-a618-40e4-b7e7-70558c9dc70e",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "behnaz"
@@ -890,7 +890,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             Id = 3,
                             AccessFailedCount = 0,
                             Balance = 4000000m,
-                            ConcurrencyStamp = "99ce8591-047b-4c15-9aba-8d22b690919d",
+                            ConcurrencyStamp = "2e5d6979-9803-45cb-bf21-b7777bab9bfa",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             CustomerId = 2,
@@ -901,9 +901,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "HASAN@GMAIL.COM",
                             NormalizedUserName = "HASAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO6mIyIgw44cx0hE61m+o29ea6yynEw7VwER4oF/WpYTLR6lXWhkgvs3+OxgHo7HRw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJwLz25oIpmYtcQRb28X5KJvq5lWVswhrvfYsFWgfzUOEXSIDIjAwrvcIFMWFbWwnA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "62a0d7df-957f-45c2-82e3-1c3968006b1e",
+                            SecurityStamp = "3a24a440-c2c5-4245-9d1d-b2d21f2fdaa1",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "hasan"
@@ -912,7 +912,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5a1f7701-3d64-4123-a510-1d6e59ca673a",
+                            ConcurrencyStamp = "2968360d-8b3c-4416-9d8c-0f8dd79321c1",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "mohammad@gmail.com",
@@ -923,9 +923,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MOHAMMAD@GMAIL.COM",
                             NormalizedUserName = "MOHAMMAD",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHuRGfH/L3bO76WxrRnNxHTnwpWhDTbijuSVRWstapHqcglWcUqWaTZHuzdG76S/aA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENhRdlp9eCvM6Lcc/xm+ieZ/RCfGJivZToMrbyb4bMSmSwUJawvmpkCZjF7/3qPpIg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "91b77534-7def-4eca-b5f2-512bc1199f02",
+                            SecurityStamp = "3cc7447b-8843-477e-a5dd-af69c9f34b3d",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "mohammad"
@@ -934,7 +934,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 5,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "09c5d83f-c2cc-40e3-9cdf-bcfc99d4e9e5",
+                            ConcurrencyStamp = "d1e597b3-3761-4e43-afc3-ea666ba4dbdf",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "majid@gmail.com",
@@ -945,9 +945,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MAJID@GMAIL.COM",
                             NormalizedUserName = "MAJID",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH8bLXtLX15vX3bxErCPSDpK+xloz2sYjvsMitTgvh8YslfyxwQoKbTPJ5TFzx+8Xg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELYx236vCdi/aKgDZdGe1BA7Yk2gFk6iq9gEpUqXsYEX1lq1roeWfbtJjlHjK7LhMA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8f8af664-c1af-466d-8baa-2a792260f549",
+                            SecurityStamp = "565034a7-7d45-4d3d-9323-28e76fa76702",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "majid"
@@ -956,7 +956,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 6,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2e57ff53-1405-4744-a009-67ed6c49fd73",
+                            ConcurrencyStamp = "25cb5acc-d239-43d9-9bb1-45214c8f35a2",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "meysam@gmail.com",
@@ -967,9 +967,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MEYSAM@GMAIL.COM",
                             NormalizedUserName = "MEYSAM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPtv/xiJG61ZTA48+YDCLxJ8o/MM0d6KK6X1nTwuGuac1RJhWCDSTAWOjPuY1Sne2Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELbzX4Qc/tZYgyWIJspYZz8fO+VvBY7OO/i9lvi10bnw7jHI4Rr7Lpl2SX9m1J0MxA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3b0fd3a8-e465-4d93-a1f1-a268fadd7000",
+                            SecurityStamp = "4ff5b95a-9b61-4f4f-a704-40c61e6bcac6",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "meysam"
@@ -978,7 +978,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 7,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6bcb1d81-02eb-43ad-a33e-1887489b643a",
+                            ConcurrencyStamp = "96ef1e9b-6dca-421e-91a9-014b10254dbc",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "saman@gmail.com",
@@ -989,9 +989,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SAMAN@GMAIL.COM",
                             NormalizedUserName = "SAMAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEDj679FkVnrdjn7WS06ccs0L05+160n7iU7dq2yP10HYI90n72RkhvjedBcdpkTjA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEImJX7x4yMhrIkzUSK3RBDt21GjjfWv/LEiwCLbODMi/C4xrZHW/oM99brLwWZU8Sw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8457ba2d-aa69-4d33-94b8-d9e579079bec",
+                            SecurityStamp = "06fd5c8c-1c20-4a2c-bd77-d4e5bd46bacd",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "saman"
@@ -1000,7 +1000,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 8,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "de13c1ea-a487-40fa-ba7f-fb8c08dd8886",
+                            ConcurrencyStamp = "2a0d648d-0d41-4a26-9426-71061f7d2004",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "sara@gmail.com",
@@ -1011,9 +1011,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SARA@GMAIL.COM",
                             NormalizedUserName = "SARA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBrHUkrJSn9f5tX+YvPkvx0wtgre2TGyLb28KcfUeirLeAzUXAzeQl0IMVr5vrfrZA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENGlCdWGd+kzPdwW+L/wHF1XJfjdA19ZW3PSGA50J+4driKjTr1Ryh1I6xDfy3mjdg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cb376523-5b0d-47a0-b205-62fe110a8e3c",
+                            SecurityStamp = "a70e16a9-37c5-49db-b148-a476ac2818c3",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "sara"

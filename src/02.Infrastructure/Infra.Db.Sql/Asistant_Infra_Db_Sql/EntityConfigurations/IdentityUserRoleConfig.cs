@@ -14,7 +14,7 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<IdentityUserRole<int>> builder)
         {
-            builder.ToTable(name: "AspNetUserRoles", schema: "user");
+          
             builder.HasData(new IdentityUserRole<int>
             {
                 UserId = 1, 

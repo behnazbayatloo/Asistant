@@ -13,7 +13,7 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<IdentityRole<int>> builder)
         {
-            builder.ToTable(name: "AspNetRoles", schema: "user");
+          
             builder.HasData(
                 new IdentityRole<int>
                 {
