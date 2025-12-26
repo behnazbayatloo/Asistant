@@ -9,7 +9,7 @@ namespace Asistant_Domain_Core.HomeServiceAgg.Data
 {
     public interface ICategoryRepository
     {
-        Task<int> CreateCategory(string name, CancellationToken ct);
+        Task<int> CreateCategory(string name);
         Task<IEnumerable<GetCategoryDTO>> GetAllCtegories(CancellationToken ct);
         Task<GetCategoryDTO?> GetCategoryById(int id, CancellationToken ct);
         Task<bool> UpdateImage(int id, string imagePath, CancellationToken ct);

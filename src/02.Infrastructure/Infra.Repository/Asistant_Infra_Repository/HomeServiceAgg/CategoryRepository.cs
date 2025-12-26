@@ -13,14 +13,14 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
 {
     public class CategoryRepository(ApplicationDbContext _dbcontext):ICategoryRepository
     {
-        public async Task<int> CreateCategory(string name,CancellationToken ct)
+        public async Task<int> CreateCategory(string name)
         {
             var category = new Category
             {
                 Name = name,
             };
             await _dbcontext.Categories.AddAsync(category);
-            await _dbcontext.SaveChangesAsync(ct);
+            await _dbcontext.SaveChangesAsync();
             return category.Id;
         }
 
@@ -54,9 +54,9 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
 
         public async Task<bool> UpdateImage(int id,string imagePath, CancellationToken ct)
         {
-           await _dbcontext.Categories.Where(c => c.Id == id)
-                .ExecuteUpdateAsync(set => set.SetProperty(c => c.Image.ImagePath, imagePath), ct);
-            return true;
+            return await _dbcontext.Categories.Where(c => c.Id == id)
+                .ExecuteUpdateAsync(set => set.SetProperty(c => c.Image.ImagePath, imagePath), ct)>0;
+         
         }
     }
 }

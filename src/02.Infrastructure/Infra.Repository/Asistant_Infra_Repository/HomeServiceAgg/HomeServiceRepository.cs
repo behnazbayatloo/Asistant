@@ -13,7 +13,7 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
 {
     public class HomeServiceRepository(ApplicationDbContext _dbcontext):IHomeServiceRepository
     {
-        public async Task<int> CreateHomeService(InputHomeServiceDTO homeServiceDto,CancellationToken ct)
+        public async Task<int> CreateHomeService(InputHomeServiceDTO homeServiceDto)
         {
             var homeService = new HomeService
             {
@@ -24,7 +24,7 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
                 Description = homeServiceDto.Description,
             };
             await _dbcontext.HomeServices.AddAsync(homeService);
-            await _dbcontext.SaveChangesAsync(ct);
+            await _dbcontext.SaveChangesAsync();
             return homeService.Id;
 
         }
@@ -71,15 +71,15 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
         }
         public async Task<bool> UpdateBasePrice(int id,decimal newPrice,CancellationToken ct)
         {
-            await _dbcontext.HomeServices.Where(hs => hs.Id == id)
-                .ExecuteUpdateAsync(set => set.SetProperty(hs => hs.BasePrice, newPrice), ct);
-            return true;
+          return  await _dbcontext.HomeServices.Where(hs => hs.Id == id)
+                .ExecuteUpdateAsync(set => set.SetProperty(hs => hs.BasePrice, newPrice), ct)>0;
+       
         }
         public async Task<bool> UpdateImagePath(int id,string imagePath,CancellationToken ct)
         {
-            await _dbcontext.HomeServices.Where(hs=>hs.Id==id)
-                .ExecuteUpdateAsync(set=>set.SetProperty(hs=>hs.Image.ImagePath, imagePath), ct);
-            return true;
+          return  await _dbcontext.HomeServices.Where(hs=>hs.Id==id)
+                .ExecuteUpdateAsync(set=>set.SetProperty(hs=>hs.Image.ImagePath, imagePath), ct)>0;
+           
         }
         
     }
