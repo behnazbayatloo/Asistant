@@ -15,8 +15,7 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
         public void Configure(EntityTypeBuilder<HomeService> builder)
         {
             builder.HasOne(hs=>hs.Image).WithOne(i=>i.HomeService).HasForeignKey<Image>(i=>i.HomeServiceId).OnDelete(DeleteBehavior.NoAction);
-        builder.HasMany(hs=>hs.Comments).WithOne(c=>c.HomeService).HasForeignKey(c=>c.HomeServiceId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasData(
+       
                 new HomeService
                 {
                     Id = 1,

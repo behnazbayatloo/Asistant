@@ -15,7 +15,7 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
         public void Configure(EntityTypeBuilder<Suggestion> builder)
         {
             builder.HasMany(s => s.Images).WithOne(i => i.Suggestion).HasForeignKey(i => i.SuggestionId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne(s => s.HomeService).WithMany(hs => hs.Suggestions).HasForeignKey(s => s.HomeServiceId).OnDelete(DeleteBehavior.NoAction);
+           
         }
     }
 }

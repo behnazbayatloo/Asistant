@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Asistant_Domain_Core.RequestAgg.Entity;
 
 namespace Asistant_Domain_Core.CommentAgg.Entity
 {
@@ -24,9 +25,11 @@ namespace Asistant_Domain_Core.CommentAgg.Entity
         public int CustomerId { get; set; }
         public Expert Expert { get; set; }
         public int ExpertId { get; set; }
-        //public HomeService HomeService { get; set; }
-        //public int HomeServiceId { get; set; }
-        //request
+        public Request Request { get; set; }
+        public int RequestId { get; set; }
+        public HomeService HomeService { get; set; }
+        public int HomeServiceId { get; set; }
+       
         #endregion
     }
 }
