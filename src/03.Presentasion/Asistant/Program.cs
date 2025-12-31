@@ -10,6 +10,7 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+#region DataBaseConfig
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
@@ -21,15 +22,18 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>()
       .AddDefaultTokenProviders();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+#endregion
 
-
+#region Serilog
 builder.Host.UseSerilog((context, configuration) =>
 {
     configuration.ReadFrom.Configuration(context.Configuration);
 });
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+#endregion
 
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddRazorPages();
+#region IdentityConfigs
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -61,6 +65,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.SlidingExpiration = true;
 });
+#endregion
 
 var app = builder.Build();
 
