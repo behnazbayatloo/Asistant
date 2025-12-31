@@ -12,6 +12,7 @@ namespace Asistant_Domain_Core.HomeServiceAgg.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Navigation Prop
         public List<HomeService> HomeServices { get; set; }

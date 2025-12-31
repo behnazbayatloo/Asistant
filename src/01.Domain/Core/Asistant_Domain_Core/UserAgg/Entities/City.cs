@@ -10,6 +10,7 @@ namespace Asistant_Domain_Core.UserAgg.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool IsDeleted { get; set; }
         #region Navigation Prop
         public List<Customer> Customers { get; set; }
         public List<Expert> Experts { get; set; }

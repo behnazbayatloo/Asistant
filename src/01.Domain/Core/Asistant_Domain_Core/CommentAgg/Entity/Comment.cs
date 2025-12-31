@@ -19,6 +19,7 @@ namespace Asistant_Domain_Core.CommentAgg.Entity
         public int Rate { get; set; }
         public DateTime CreatedAt { get; set; }
         public StatusEnum Status { get; set; }
+        public bool IsDeleted {  get; set; }
 
         #region Navigation Prop
         public Customer Customer { get; set; }

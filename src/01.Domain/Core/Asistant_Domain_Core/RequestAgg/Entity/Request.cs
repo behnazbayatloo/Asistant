@@ -23,6 +23,7 @@ namespace Asistant_Domain_Core.RequestAgg.Entity
         public StatusEnum Status { get; set; }
         public DateTime? VerifyExpertDate { get; set; }
         public DateTime? CompletedDate { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Navigation Prop
         public int CustomerId { get; set; }

@@ -12,8 +12,9 @@ namespace Asistant_Domain_Core.UserAgg.Entities
     public class Customer
     {
         public int Id { get; set; }
-   
+        
         public string? Address { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Navigation Prop
         public AppUser User { get; set; }

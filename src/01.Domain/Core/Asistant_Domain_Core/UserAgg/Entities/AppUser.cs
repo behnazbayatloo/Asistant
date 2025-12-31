@@ -14,6 +14,7 @@ namespace Asistant_Domain_Core.UserAgg.Entities
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public decimal? Balance { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Navigation Prop
         public Customer? Customer { get; set; }

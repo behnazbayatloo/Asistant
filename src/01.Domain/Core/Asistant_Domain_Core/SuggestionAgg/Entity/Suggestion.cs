@@ -18,6 +18,7 @@ namespace Asistant_Domain_Core.SuggestionAgg.Entity
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public decimal Price { get; set; }
+        public bool IsDeleted { get; set; }
         public StatusEnum Status { get; set; }
         #region Navigation Prop
         public int ExpertId { get; set; }

@@ -17,6 +17,7 @@ namespace Asistant_Domain_Core.HomeServiceAgg.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal BasePrice { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Navigation Prop
         public int CategoryId { get; set; }
