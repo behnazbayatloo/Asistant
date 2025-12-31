@@ -47,7 +47,13 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     b.Property<int>("HomeServiceId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Rate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequestId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -64,6 +70,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
 
                     b.HasIndex("HomeServiceId");
 
+                    b.HasIndex("RequestId")
+                        .IsUnique();
+
                     b.ToTable("Comments");
                 });
 
@@ -77,6 +86,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
 
                     b.Property<int>("ImageId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -92,60 +104,70 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 1,
                             ImageId = 1,
+                            IsDeleted = false,
                             Name = "نظافت منزل"
                         },
                         new
                         {
                             Id = 2,
                             ImageId = 2,
+                            IsDeleted = false,
                             Name = "تعمیرات لوازم خانگی"
                         },
                         new
                         {
                             Id = 3,
                             ImageId = 3,
+                            IsDeleted = false,
                             Name = "خدمات برقکاری"
                         },
                         new
                         {
                             Id = 4,
                             ImageId = 4,
+                            IsDeleted = false,
                             Name = "خدمات لوله‌کشی"
                         },
                         new
                         {
                             Id = 5,
                             ImageId = 5,
+                            IsDeleted = false,
                             Name = "خدمات نقاشی و دکوراسیون"
                         },
                         new
                         {
                             Id = 6,
                             ImageId = 6,
+                            IsDeleted = false,
                             Name = "خدمات باغبانی"
                         },
                         new
                         {
                             Id = 7,
                             ImageId = 7,
+                            IsDeleted = false,
                             Name = "خدمات کامپیوتر و شبکه"
                         },
                         new
                         {
                             Id = 8,
                             ImageId = 8,
+                            IsDeleted = false,
                             Name = "خدمات خودرو"
                         },
                         new
                         {
                             Id = 9,
                             ImageId = 9,
+                            IsDeleted = false,
                             Name = "خدمات آموزشی"
                         },
                         new
                         {
                             Id = 10,
                             ImageId = 10,
+                            IsDeleted = false,
                             Name = "خدمات پزشکی و پرستاری"
                         });
                 });
@@ -171,6 +193,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     b.Property<int>("ImageId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -189,6 +214,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 1,
                             Description = "تمیزکاری کامل کابینت‌ها، کف و دیوارها",
                             ImageId = 11,
+                            IsDeleted = false,
                             Name = "نظافت آشپزخانه"
                         },
                         new
@@ -198,6 +224,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 1,
                             Description = "گردگیری و جاروکشی اتاق‌ها",
                             ImageId = 12,
+                            IsDeleted = false,
                             Name = "نظافت اتاق‌ها"
                         },
                         new
@@ -207,6 +234,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 1,
                             Description = "شستشو و ضدعفونی سرویس‌ها",
                             ImageId = 13,
+                            IsDeleted = false,
                             Name = "نظافت سرویس بهداشتی"
                         },
                         new
@@ -216,6 +244,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 2,
                             Description = "عیب‌یابی و تعمیر انواع ماشین لباسشویی",
                             ImageId = 14,
+                            IsDeleted = false,
                             Name = "تعمیر ماشین لباسشویی"
                         },
                         new
@@ -225,6 +254,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 2,
                             Description = "سرویس و تعمیر یخچال و فریزر",
                             ImageId = 15,
+                            IsDeleted = false,
                             Name = "تعمیر یخچال"
                         },
                         new
@@ -234,6 +264,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 3,
                             Description = "نصب و تعویض کلید و پریز برق",
                             ImageId = 16,
+                            IsDeleted = false,
                             Name = "نصب کلید و پریز"
                         },
                         new
@@ -243,6 +274,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 3,
                             Description = "اجرای سیم‌کشی برق داخلی",
                             ImageId = 17,
+                            IsDeleted = false,
                             Name = "سیم‌کشی ساختمان"
                         },
                         new
@@ -252,6 +284,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 4,
                             Description = "باز کردن لوله‌های فاضلاب و آب",
                             ImageId = 18,
+                            IsDeleted = false,
                             Name = "رفع گرفتگی لوله"
                         },
                         new
@@ -261,6 +294,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 4,
                             Description = "نصب و تعویض شیرآلات آشپزخانه و حمام",
                             ImageId = 19,
+                            IsDeleted = false,
                             Name = "نصب شیرآلات"
                         },
                         new
@@ -270,6 +304,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 5,
                             Description = "رنگ‌آمیزی دیوارهای داخلی",
                             ImageId = 20,
+                            IsDeleted = false,
                             Name = "نقاشی دیوار"
                         },
                         new
@@ -279,6 +314,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 5,
                             Description = "نصب انواع کاغذ دیواری",
                             ImageId = 21,
+                            IsDeleted = false,
                             Name = "کاغذ دیواری"
                         },
                         new
@@ -288,6 +324,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 6,
                             Description = "هرس و مرتب‌سازی درختان باغ و حیاط",
                             ImageId = 22,
+                            IsDeleted = false,
                             Name = "هرس درختان"
                         },
                         new
@@ -297,6 +334,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 6,
                             Description = "کاشت و نگهداری گل‌ها و گیاهان",
                             ImageId = 23,
+                            IsDeleted = false,
                             Name = "کاشت گل و گیاه"
                         },
                         new
@@ -306,6 +344,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 7,
                             Description = "نصب و راه‌اندازی سیستم عامل ویندوز",
                             ImageId = 24,
+                            IsDeleted = false,
                             Name = "نصب ویندوز"
                         },
                         new
@@ -315,6 +354,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 7,
                             Description = "نصب مودم و تنظیم شبکه داخلی",
                             ImageId = 25,
+                            IsDeleted = false,
                             Name = "راه‌اندازی شبکه خانگی"
                         },
                         new
@@ -324,6 +364,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 8,
                             Description = "تعویض روغن موتور خودرو",
                             ImageId = 26,
+                            IsDeleted = false,
                             Name = "تعویض روغن"
                         },
                         new
@@ -333,6 +374,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 8,
                             Description = "نصب و تعمیر باتری خودرو",
                             ImageId = 27,
+                            IsDeleted = false,
                             Name = "باتری‌سازی"
                         },
                         new
@@ -342,6 +384,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 9,
                             Description = "کلاس خصوصی زبان انگلیسی",
                             ImageId = 28,
+                            IsDeleted = false,
                             Name = "آموزش زبان انگلیسی"
                         },
                         new
@@ -351,6 +394,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 9,
                             Description = "کلاس تقویتی ریاضی",
                             ImageId = 29,
+                            IsDeleted = false,
                             Name = "آموزش ریاضی"
                         },
                         new
@@ -360,6 +404,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 10,
                             Description = "مراقبت از بیمار در منزل",
                             ImageId = 30,
+                            IsDeleted = false,
                             Name = "پرستاری در منزل"
                         },
                         new
@@ -369,6 +414,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             CategoryId = 10,
                             Description = "ویزیت پزشک در منزل",
                             ImageId = 31,
+                            IsDeleted = false,
                             Name = "ویزیت پزشک عمومی"
                         });
                 });
@@ -661,6 +707,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     b.Property<DateTime>("AppointmentReadyDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("CompletedDate")
                         .HasColumnType("datetime2");
 
@@ -676,6 +725,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
 
                     b.Property<int>("HomeServiceId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -713,8 +765,11 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     b.Property<int>("ExpertId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HomeServiceId")
+                    b.Property<int?>("HomeServiceId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -734,7 +789,8 @@ namespace Asistant_Infra_Db_Sql.Migrations
 
                     b.HasIndex("HomeServiceId");
 
-                    b.HasIndex("RequestId");
+                    b.HasIndex("RequestId", "ExpertId")
+                        .IsUnique();
 
                     b.ToTable("Suggestions");
                 });
@@ -781,6 +837,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     b.Property<string>("FirstName")
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(400)
@@ -842,19 +901,20 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b9ede448-60b1-4291-9d37-8aea803d523e",
+                            ConcurrencyStamp = "54f3dc0a-7e64-425d-8e5f-2e5ef2f35d07",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
+                            IsDeleted = false,
                             LastName = "Admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "09351650512",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOJ1i4H5k22QaBkR+f97qHp8W0La09ReuO0C0xaByE0bXwtdLlnERGs4b9bY+UaiEA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENFSZkKleJsOLkD9z6W2lEPF2n15D7N8TyhEU4kKBSRW++R5xV36K6eY5cUTllid8A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1b5e57fc-c0bd-4afb-90ce-f414421271b0",
+                            SecurityStamp = "6ddc4d08-c6bc-4a7f-bf1c-b0ef15922b65",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "09351650512"
@@ -864,20 +924,21 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             Balance = 6000000m,
-                            ConcurrencyStamp = "56db7a36-3bd7-4fc3-8271-e23513491617",
+                            ConcurrencyStamp = "8b8e1d78-025c-42b5-a01d-1d614faf6223",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             CustomerId = 1,
                             Email = "behnaz@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "بهناز",
+                            IsDeleted = false,
                             LastName = "بیاتلو",
                             LockoutEnabled = false,
                             NormalizedEmail = "BEHNAZ@GMAIL.COM",
                             NormalizedUserName = "BEHNAZ",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJd4pA3edA7vB8LqlKrHzK6T40JhhI3hzo+Cdyi7WJ0orvnKoR0nAgg1DzN1SkWJ2g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPbKebXeTQDv9BG1em4+VYpB59MtNU2BiMVdviXXkaIvY6LqCzD305fUKCvnwnq1yw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "191382ef-a618-40e4-b7e7-70558c9dc70e",
+                            SecurityStamp = "e748bf26-917f-44c9-8146-bae8c25aaf1c",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "behnaz"
@@ -887,20 +948,21 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             Id = 3,
                             AccessFailedCount = 0,
                             Balance = 4000000m,
-                            ConcurrencyStamp = "2e5d6979-9803-45cb-bf21-b7777bab9bfa",
+                            ConcurrencyStamp = "70eb6bdf-ae54-47b4-bbd5-ebd1f44e9225",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             CustomerId = 2,
                             Email = "hasan@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "حسن",
+                            IsDeleted = false,
                             LastName = "اسدی",
                             LockoutEnabled = false,
                             NormalizedEmail = "HASAN@GMAIL.COM",
                             NormalizedUserName = "HASAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJwLz25oIpmYtcQRb28X5KJvq5lWVswhrvfYsFWgfzUOEXSIDIjAwrvcIFMWFbWwnA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKWDlJUEtEVufhQ7rQidFJlblu8ZlJ+DxGgmEQAUt3R6GIuIGHwg8WslOa480APTxw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3a24a440-c2c5-4245-9d1d-b2d21f2fdaa1",
+                            SecurityStamp = "e79f467d-5286-46de-baf5-3d2bc1fad309",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "hasan"
@@ -909,20 +971,21 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2968360d-8b3c-4416-9d8c-0f8dd79321c1",
+                            ConcurrencyStamp = "665be6c9-9fa8-44ad-ba16-ff884e7d5646",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "mohammad@gmail.com",
                             EmailConfirmed = false,
                             ExpertId = 1,
                             FirstName = "محمد",
+                            IsDeleted = false,
                             LastName = "اکبری",
                             LockoutEnabled = false,
                             NormalizedEmail = "MOHAMMAD@GMAIL.COM",
                             NormalizedUserName = "MOHAMMAD",
-                            PasswordHash = "AQAAAAIAAYagAAAAENhRdlp9eCvM6Lcc/xm+ieZ/RCfGJivZToMrbyb4bMSmSwUJawvmpkCZjF7/3qPpIg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENt9TO6JHrZ9zOn9K4+MoaJjdgbmFv6CvnRHsksvXzN287QODpgGoSP3cABqJAaUcw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3cc7447b-8843-477e-a5dd-af69c9f34b3d",
+                            SecurityStamp = "7662dae2-45ba-43d9-b2d3-6f2b79f06e5d",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "mohammad"
@@ -931,20 +994,21 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 5,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d1e597b3-3761-4e43-afc3-ea666ba4dbdf",
+                            ConcurrencyStamp = "e68e66de-bbaa-4fc2-9732-6534f139e27d",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "majid@gmail.com",
                             EmailConfirmed = false,
                             ExpertId = 2,
                             FirstName = "مجید",
+                            IsDeleted = false,
                             LastName = "بیگی",
                             LockoutEnabled = false,
                             NormalizedEmail = "MAJID@GMAIL.COM",
                             NormalizedUserName = "MAJID",
-                            PasswordHash = "AQAAAAIAAYagAAAAELYx236vCdi/aKgDZdGe1BA7Yk2gFk6iq9gEpUqXsYEX1lq1roeWfbtJjlHjK7LhMA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAgzkx4EqDT3wVKfmnuErMJnB3cu+CVtSJ0NIkfbwEYKCDFdrTq9iF1TZFlnW8zu9Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "565034a7-7d45-4d3d-9323-28e76fa76702",
+                            SecurityStamp = "bd9234d7-3d94-419d-afe7-d3fbe61589e6",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "majid"
@@ -953,20 +1017,21 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 6,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "25cb5acc-d239-43d9-9bb1-45214c8f35a2",
+                            ConcurrencyStamp = "14700e12-ce2d-4176-b798-541f8a814f99",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "meysam@gmail.com",
                             EmailConfirmed = false,
                             ExpertId = 3,
                             FirstName = "میثم",
+                            IsDeleted = false,
                             LastName = "محسنی",
                             LockoutEnabled = false,
                             NormalizedEmail = "MEYSAM@GMAIL.COM",
                             NormalizedUserName = "MEYSAM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELbzX4Qc/tZYgyWIJspYZz8fO+VvBY7OO/i9lvi10bnw7jHI4Rr7Lpl2SX9m1J0MxA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECcpMC+I+KYgRRM2tXdRfynipO8unGtGXuMyLh38eV3Ni4Hc+zLvjmoitYiE9TUVKA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4ff5b95a-9b61-4f4f-a704-40c61e6bcac6",
+                            SecurityStamp = "a46b0a82-ae8d-427a-8cde-18a6d6084f0d",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "meysam"
@@ -975,20 +1040,21 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 7,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "96ef1e9b-6dca-421e-91a9-014b10254dbc",
+                            ConcurrencyStamp = "7d537abe-12d0-4b3d-aaa6-3802c39ff046",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "saman@gmail.com",
                             EmailConfirmed = false,
                             ExpertId = 4,
                             FirstName = "سامان",
+                            IsDeleted = false,
                             LastName = "جلیلی",
                             LockoutEnabled = false,
                             NormalizedEmail = "SAMAN@GMAIL.COM",
                             NormalizedUserName = "SAMAN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEImJX7x4yMhrIkzUSK3RBDt21GjjfWv/LEiwCLbODMi/C4xrZHW/oM99brLwWZU8Sw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL8ueGAhW8qoJAKPD7xe7YUnxeH1W+WhxYAQO9OYQ6IrL3/veKI0fm+wpdsTVLJabA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "06fd5c8c-1c20-4a2c-bd77-d4e5bd46bacd",
+                            SecurityStamp = "2e436978-686b-4126-af0f-7c7e8ce0971c",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "saman"
@@ -997,20 +1063,21 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 8,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2a0d648d-0d41-4a26-9426-71061f7d2004",
+                            ConcurrencyStamp = "506b42e9-b121-41f1-b587-649be2064ef3",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedUserId = 0,
                             Email = "sara@gmail.com",
                             EmailConfirmed = false,
                             ExpertId = 5,
                             FirstName = "سارا",
+                            IsDeleted = false,
                             LastName = "دلشاد",
                             LockoutEnabled = false,
                             NormalizedEmail = "SARA@GMAIL.COM",
                             NormalizedUserName = "SARA",
-                            PasswordHash = "AQAAAAIAAYagAAAAENGlCdWGd+kzPdwW+L/wHF1XJfjdA19ZW3PSGA50J+4driKjTr1Ryh1I6xDfy3mjdg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL2+O/TOh3Fw9SKp1wIyrlZSXn3R59QdmjXjg7ID2E7PbCnoQ4a2OSsM2HeqWAsSOQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a70e16a9-37c5-49db-b148-a476ac2818c3",
+                            SecurityStamp = "330ef795-395f-4de8-896a-8d5987fc54fc",
                             TwoFactorEnabled = false,
                             UpdatedUserId = 0,
                             UserName = "sara"
@@ -1025,6 +1092,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1037,76 +1107,91 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         new
                         {
                             Id = 1,
+                            IsDeleted = false,
                             Name = "تهران"
                         },
                         new
                         {
                             Id = 2,
+                            IsDeleted = false,
                             Name = "مشهد"
                         },
                         new
                         {
                             Id = 3,
+                            IsDeleted = false,
                             Name = "اصفهان"
                         },
                         new
                         {
                             Id = 4,
+                            IsDeleted = false,
                             Name = "شیراز"
                         },
                         new
                         {
                             Id = 5,
+                            IsDeleted = false,
                             Name = "تبریز"
                         },
                         new
                         {
                             Id = 6,
+                            IsDeleted = false,
                             Name = "کرج"
                         },
                         new
                         {
                             Id = 7,
+                            IsDeleted = false,
                             Name = "قم"
                         },
                         new
                         {
                             Id = 8,
+                            IsDeleted = false,
                             Name = "اهواز"
                         },
                         new
                         {
                             Id = 9,
+                            IsDeleted = false,
                             Name = "کرمانشاه"
                         },
                         new
                         {
                             Id = 10,
+                            IsDeleted = false,
                             Name = "رشت"
                         },
                         new
                         {
                             Id = 11,
+                            IsDeleted = false,
                             Name = "یزد"
                         },
                         new
                         {
                             Id = 12,
+                            IsDeleted = false,
                             Name = "کرمان"
                         },
                         new
                         {
                             Id = 13,
+                            IsDeleted = false,
                             Name = "ارومیه"
                         },
                         new
                         {
                             Id = 14,
+                            IsDeleted = false,
                             Name = "زاهدان"
                         },
                         new
                         {
                             Id = 15,
+                            IsDeleted = false,
                             Name = "ساری"
                         });
                 });
@@ -1129,6 +1214,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     b.Property<int?>("ImageId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -1147,6 +1235,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             Id = 1,
                             Address = "تهران خیابان ایت الله کاشانی کوچه بهنام پلاک 4 واحد1",
                             CityId = 1,
+                            IsDeleted = false,
                             UserId = 2
                         },
                         new
@@ -1154,6 +1243,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                             Id = 2,
                             Address = "شیراز بلوار سعدی کوچه پرستو پلاک 12 واحد 2 ",
                             CityId = 4,
+                            IsDeleted = false,
                             UserId = 3
                         });
                 });
@@ -1172,6 +1262,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     b.Property<int?>("ImageId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -1189,30 +1282,35 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         {
                             Id = 1,
                             CityId = 1,
+                            IsDeleted = false,
                             UserId = 4
                         },
                         new
                         {
                             Id = 2,
                             CityId = 4,
+                            IsDeleted = false,
                             UserId = 5
                         },
                         new
                         {
                             Id = 3,
                             CityId = 1,
+                            IsDeleted = false,
                             UserId = 6
                         },
                         new
                         {
                             Id = 4,
                             CityId = 4,
+                            IsDeleted = false,
                             UserId = 7
                         },
                         new
                         {
                             Id = 5,
                             CityId = 1,
+                            IsDeleted = false,
                             UserId = 8
                         });
                 });
@@ -1447,11 +1545,19 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("Asistant_Domain_Core.RequestAgg.Entity.Request", "Request")
+                        .WithOne("Comment")
+                        .HasForeignKey("Asistant_Domain_Core.CommentAgg.Entity.Comment", "RequestId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Customer");
 
                     b.Navigation("Expert");
 
                     b.Navigation("HomeService");
+
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("Asistant_Domain_Core.HomeServiceAgg.Entities.HomeService", b =>
@@ -1537,11 +1643,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Asistant_Domain_Core.HomeServiceAgg.Entities.HomeService", "HomeService")
+                    b.HasOne("Asistant_Domain_Core.HomeServiceAgg.Entities.HomeService", null)
                         .WithMany("Suggestions")
-                        .HasForeignKey("HomeServiceId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("HomeServiceId");
 
                     b.HasOne("Asistant_Domain_Core.RequestAgg.Entity.Request", "Request")
                         .WithMany("Suggestions")
@@ -1550,8 +1654,6 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         .IsRequired();
 
                     b.Navigation("Expert");
-
-                    b.Navigation("HomeService");
 
                     b.Navigation("Request");
                 });
@@ -1680,6 +1782,9 @@ namespace Asistant_Infra_Db_Sql.Migrations
 
             modelBuilder.Entity("Asistant_Domain_Core.RequestAgg.Entity.Request", b =>
                 {
+                    b.Navigation("Comment")
+                        .IsRequired();
+
                     b.Navigation("Images");
 
                     b.Navigation("Suggestions");

@@ -37,6 +37,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true),
                     Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: true),
                     ExpertId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
@@ -70,6 +71,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     ImageId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -83,7 +85,8 @@ namespace Asistant_Infra_Db_Sql.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -205,6 +208,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     ImageId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -225,6 +229,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Address = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: true),
                     ImageId = table.Column<int>(type: "int", nullable: true)
@@ -250,6 +255,7 @@ namespace Asistant_Infra_Db_Sql.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: true),
                     ImageId = table.Column<int>(type: "int", nullable: true)
@@ -282,8 +288,10 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     VerifyExpertDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CompletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    HomeServiceId = table.Column<int>(type: "int", nullable: false)
+                    HomeServiceId = table.Column<int>(type: "int", nullable: false),
+                    CommentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -295,41 +303,6 @@ namespace Asistant_Infra_Db_Sql.Migrations
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Requests_HomeServices_HomeServiceId",
-                        column: x => x.HomeServiceId,
-                        principalTable: "HomeServices",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
-                    Rate = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    ExpertId = table.Column<int>(type: "int", nullable: false),
-                    HomeServiceId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comments_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Comments_Experts_ExpertId",
-                        column: x => x.ExpertId,
-                        principalTable: "Experts",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Comments_HomeServices_HomeServiceId",
                         column: x => x.HomeServiceId,
                         principalTable: "HomeServices",
                         principalColumn: "Id");
@@ -358,6 +331,48 @@ namespace Asistant_Infra_Db_Sql.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
+                    Rate = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    ExpertId = table.Column<int>(type: "int", nullable: false),
+                    RequestId = table.Column<int>(type: "int", nullable: false),
+                    HomeServiceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comments_Experts_ExpertId",
+                        column: x => x.ExpertId,
+                        principalTable: "Experts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comments_HomeServices_HomeServiceId",
+                        column: x => x.HomeServiceId,
+                        principalTable: "HomeServices",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comments_Requests_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "Requests",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Suggestions",
                 columns: table => new
                 {
@@ -367,10 +382,11 @@ namespace Asistant_Infra_Db_Sql.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     ExpertId = table.Column<int>(type: "int", nullable: false),
-                    HomeServiceId = table.Column<int>(type: "int", nullable: false),
-                    RequestId = table.Column<int>(type: "int", nullable: false)
+                    RequestId = table.Column<int>(type: "int", nullable: false),
+                    HomeServiceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -454,56 +470,56 @@ namespace Asistant_Infra_Db_Sql.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Balance", "ConcurrencyStamp", "CreatedUserId", "CustomerId", "Email", "EmailConfirmed", "ExpertId", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UpdatedUserId", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Balance", "ConcurrencyStamp", "CreatedUserId", "CustomerId", "Email", "EmailConfirmed", "ExpertId", "FirstName", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UpdatedUserId", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, null, "b9ede448-60b1-4291-9d37-8aea803d523e", 0, null, "admin@admin.com", false, null, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "09351650512", "AQAAAAIAAYagAAAAEOJ1i4H5k22QaBkR+f97qHp8W0La09ReuO0C0xaByE0bXwtdLlnERGs4b9bY+UaiEA==", null, false, "1b5e57fc-c0bd-4afb-90ce-f414421271b0", false, null, 0, "09351650512" },
-                    { 2, 0, 6000000m, "56db7a36-3bd7-4fc3-8271-e23513491617", 0, 1, "behnaz@gmail.com", false, null, "بهناز", "بیاتلو", false, null, "BEHNAZ@GMAIL.COM", "BEHNAZ", "AQAAAAIAAYagAAAAEJd4pA3edA7vB8LqlKrHzK6T40JhhI3hzo+Cdyi7WJ0orvnKoR0nAgg1DzN1SkWJ2g==", null, false, "191382ef-a618-40e4-b7e7-70558c9dc70e", false, null, 0, "behnaz" },
-                    { 3, 0, 4000000m, "2e5d6979-9803-45cb-bf21-b7777bab9bfa", 0, 2, "hasan@gmail.com", false, null, "حسن", "اسدی", false, null, "HASAN@GMAIL.COM", "HASAN", "AQAAAAIAAYagAAAAEJwLz25oIpmYtcQRb28X5KJvq5lWVswhrvfYsFWgfzUOEXSIDIjAwrvcIFMWFbWwnA==", null, false, "3a24a440-c2c5-4245-9d1d-b2d21f2fdaa1", false, null, 0, "hasan" },
-                    { 4, 0, null, "2968360d-8b3c-4416-9d8c-0f8dd79321c1", 0, null, "mohammad@gmail.com", false, 1, "محمد", "اکبری", false, null, "MOHAMMAD@GMAIL.COM", "MOHAMMAD", "AQAAAAIAAYagAAAAENhRdlp9eCvM6Lcc/xm+ieZ/RCfGJivZToMrbyb4bMSmSwUJawvmpkCZjF7/3qPpIg==", null, false, "3cc7447b-8843-477e-a5dd-af69c9f34b3d", false, null, 0, "mohammad" },
-                    { 5, 0, null, "d1e597b3-3761-4e43-afc3-ea666ba4dbdf", 0, null, "majid@gmail.com", false, 2, "مجید", "بیگی", false, null, "MAJID@GMAIL.COM", "MAJID", "AQAAAAIAAYagAAAAELYx236vCdi/aKgDZdGe1BA7Yk2gFk6iq9gEpUqXsYEX1lq1roeWfbtJjlHjK7LhMA==", null, false, "565034a7-7d45-4d3d-9323-28e76fa76702", false, null, 0, "majid" },
-                    { 6, 0, null, "25cb5acc-d239-43d9-9bb1-45214c8f35a2", 0, null, "meysam@gmail.com", false, 3, "میثم", "محسنی", false, null, "MEYSAM@GMAIL.COM", "MEYSAM", "AQAAAAIAAYagAAAAELbzX4Qc/tZYgyWIJspYZz8fO+VvBY7OO/i9lvi10bnw7jHI4Rr7Lpl2SX9m1J0MxA==", null, false, "4ff5b95a-9b61-4f4f-a704-40c61e6bcac6", false, null, 0, "meysam" },
-                    { 7, 0, null, "96ef1e9b-6dca-421e-91a9-014b10254dbc", 0, null, "saman@gmail.com", false, 4, "سامان", "جلیلی", false, null, "SAMAN@GMAIL.COM", "SAMAN", "AQAAAAIAAYagAAAAEImJX7x4yMhrIkzUSK3RBDt21GjjfWv/LEiwCLbODMi/C4xrZHW/oM99brLwWZU8Sw==", null, false, "06fd5c8c-1c20-4a2c-bd77-d4e5bd46bacd", false, null, 0, "saman" },
-                    { 8, 0, null, "2a0d648d-0d41-4a26-9426-71061f7d2004", 0, null, "sara@gmail.com", false, 5, "سارا", "دلشاد", false, null, "SARA@GMAIL.COM", "SARA", "AQAAAAIAAYagAAAAENGlCdWGd+kzPdwW+L/wHF1XJfjdA19ZW3PSGA50J+4driKjTr1Ryh1I6xDfy3mjdg==", null, false, "a70e16a9-37c5-49db-b148-a476ac2818c3", false, null, 0, "sara" }
+                    { 1, 0, null, "54f3dc0a-7e64-425d-8e5f-2e5ef2f35d07", 0, null, "admin@admin.com", false, null, "Admin", false, "Admin", false, null, "ADMIN@ADMIN.COM", "09351650512", "AQAAAAIAAYagAAAAENFSZkKleJsOLkD9z6W2lEPF2n15D7N8TyhEU4kKBSRW++R5xV36K6eY5cUTllid8A==", null, false, "6ddc4d08-c6bc-4a7f-bf1c-b0ef15922b65", false, null, 0, "09351650512" },
+                    { 2, 0, 6000000m, "8b8e1d78-025c-42b5-a01d-1d614faf6223", 0, 1, "behnaz@gmail.com", false, null, "بهناز", false, "بیاتلو", false, null, "BEHNAZ@GMAIL.COM", "BEHNAZ", "AQAAAAIAAYagAAAAEPbKebXeTQDv9BG1em4+VYpB59MtNU2BiMVdviXXkaIvY6LqCzD305fUKCvnwnq1yw==", null, false, "e748bf26-917f-44c9-8146-bae8c25aaf1c", false, null, 0, "behnaz" },
+                    { 3, 0, 4000000m, "70eb6bdf-ae54-47b4-bbd5-ebd1f44e9225", 0, 2, "hasan@gmail.com", false, null, "حسن", false, "اسدی", false, null, "HASAN@GMAIL.COM", "HASAN", "AQAAAAIAAYagAAAAEKWDlJUEtEVufhQ7rQidFJlblu8ZlJ+DxGgmEQAUt3R6GIuIGHwg8WslOa480APTxw==", null, false, "e79f467d-5286-46de-baf5-3d2bc1fad309", false, null, 0, "hasan" },
+                    { 4, 0, null, "665be6c9-9fa8-44ad-ba16-ff884e7d5646", 0, null, "mohammad@gmail.com", false, 1, "محمد", false, "اکبری", false, null, "MOHAMMAD@GMAIL.COM", "MOHAMMAD", "AQAAAAIAAYagAAAAENt9TO6JHrZ9zOn9K4+MoaJjdgbmFv6CvnRHsksvXzN287QODpgGoSP3cABqJAaUcw==", null, false, "7662dae2-45ba-43d9-b2d3-6f2b79f06e5d", false, null, 0, "mohammad" },
+                    { 5, 0, null, "e68e66de-bbaa-4fc2-9732-6534f139e27d", 0, null, "majid@gmail.com", false, 2, "مجید", false, "بیگی", false, null, "MAJID@GMAIL.COM", "MAJID", "AQAAAAIAAYagAAAAEAgzkx4EqDT3wVKfmnuErMJnB3cu+CVtSJ0NIkfbwEYKCDFdrTq9iF1TZFlnW8zu9Q==", null, false, "bd9234d7-3d94-419d-afe7-d3fbe61589e6", false, null, 0, "majid" },
+                    { 6, 0, null, "14700e12-ce2d-4176-b798-541f8a814f99", 0, null, "meysam@gmail.com", false, 3, "میثم", false, "محسنی", false, null, "MEYSAM@GMAIL.COM", "MEYSAM", "AQAAAAIAAYagAAAAECcpMC+I+KYgRRM2tXdRfynipO8unGtGXuMyLh38eV3Ni4Hc+zLvjmoitYiE9TUVKA==", null, false, "a46b0a82-ae8d-427a-8cde-18a6d6084f0d", false, null, 0, "meysam" },
+                    { 7, 0, null, "7d537abe-12d0-4b3d-aaa6-3802c39ff046", 0, null, "saman@gmail.com", false, 4, "سامان", false, "جلیلی", false, null, "SAMAN@GMAIL.COM", "SAMAN", "AQAAAAIAAYagAAAAEL8ueGAhW8qoJAKPD7xe7YUnxeH1W+WhxYAQO9OYQ6IrL3/veKI0fm+wpdsTVLJabA==", null, false, "2e436978-686b-4126-af0f-7c7e8ce0971c", false, null, 0, "saman" },
+                    { 8, 0, null, "506b42e9-b121-41f1-b587-649be2064ef3", 0, null, "sara@gmail.com", false, 5, "سارا", false, "دلشاد", false, null, "SARA@GMAIL.COM", "SARA", "AQAAAAIAAYagAAAAEL2+O/TOh3Fw9SKp1wIyrlZSXn3R59QdmjXjg7ID2E7PbCnoQ4a2OSsM2HeqWAsSOQ==", null, false, "330ef795-395f-4de8-896a-8d5987fc54fc", false, null, 0, "sara" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "ImageId", "Name" },
+                columns: new[] { "Id", "ImageId", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { 1, 1, "نظافت منزل" },
-                    { 2, 2, "تعمیرات لوازم خانگی" },
-                    { 3, 3, "خدمات برقکاری" },
-                    { 4, 4, "خدمات لوله‌کشی" },
-                    { 5, 5, "خدمات نقاشی و دکوراسیون" },
-                    { 6, 6, "خدمات باغبانی" },
-                    { 7, 7, "خدمات کامپیوتر و شبکه" },
-                    { 8, 8, "خدمات خودرو" },
-                    { 9, 9, "خدمات آموزشی" },
-                    { 10, 10, "خدمات پزشکی و پرستاری" }
+                    { 1, 1, false, "نظافت منزل" },
+                    { 2, 2, false, "تعمیرات لوازم خانگی" },
+                    { 3, 3, false, "خدمات برقکاری" },
+                    { 4, 4, false, "خدمات لوله‌کشی" },
+                    { 5, 5, false, "خدمات نقاشی و دکوراسیون" },
+                    { 6, 6, false, "خدمات باغبانی" },
+                    { 7, 7, false, "خدمات کامپیوتر و شبکه" },
+                    { 8, 8, false, "خدمات خودرو" },
+                    { 9, 9, false, "خدمات آموزشی" },
+                    { 10, 10, false, "خدمات پزشکی و پرستاری" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Cities",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { 1, "تهران" },
-                    { 2, "مشهد" },
-                    { 3, "اصفهان" },
-                    { 4, "شیراز" },
-                    { 5, "تبریز" },
-                    { 6, "کرج" },
-                    { 7, "قم" },
-                    { 8, "اهواز" },
-                    { 9, "کرمانشاه" },
-                    { 10, "رشت" },
-                    { 11, "یزد" },
-                    { 12, "کرمان" },
-                    { 13, "ارومیه" },
-                    { 14, "زاهدان" },
-                    { 15, "ساری" }
+                    { 1, false, "تهران" },
+                    { 2, false, "مشهد" },
+                    { 3, false, "اصفهان" },
+                    { 4, false, "شیراز" },
+                    { 5, false, "تبریز" },
+                    { 6, false, "کرج" },
+                    { 7, false, "قم" },
+                    { 8, false, "اهواز" },
+                    { 9, false, "کرمانشاه" },
+                    { 10, false, "رشت" },
+                    { 11, false, "یزد" },
+                    { 12, false, "کرمان" },
+                    { 13, false, "ارومیه" },
+                    { 14, false, "زاهدان" },
+                    { 15, false, "ساری" }
                 });
 
             migrationBuilder.InsertData(
@@ -523,51 +539,51 @@ namespace Asistant_Infra_Db_Sql.Migrations
 
             migrationBuilder.InsertData(
                 table: "Customers",
-                columns: new[] { "Id", "Address", "CityId", "ImageId", "UserId" },
+                columns: new[] { "Id", "Address", "CityId", "ImageId", "IsDeleted", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "تهران خیابان ایت الله کاشانی کوچه بهنام پلاک 4 واحد1", 1, null, 2 },
-                    { 2, "شیراز بلوار سعدی کوچه پرستو پلاک 12 واحد 2 ", 4, null, 3 }
+                    { 1, "تهران خیابان ایت الله کاشانی کوچه بهنام پلاک 4 واحد1", 1, null, false, 2 },
+                    { 2, "شیراز بلوار سعدی کوچه پرستو پلاک 12 واحد 2 ", 4, null, false, 3 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Experts",
-                columns: new[] { "Id", "CityId", "ImageId", "UserId" },
+                columns: new[] { "Id", "CityId", "ImageId", "IsDeleted", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, null, 4 },
-                    { 2, 4, null, 5 },
-                    { 3, 1, null, 6 },
-                    { 4, 4, null, 7 },
-                    { 5, 1, null, 8 }
+                    { 1, 1, null, false, 4 },
+                    { 2, 4, null, false, 5 },
+                    { 3, 1, null, false, 6 },
+                    { 4, 4, null, false, 7 },
+                    { 5, 1, null, false, 8 }
                 });
 
             migrationBuilder.InsertData(
                 table: "HomeServices",
-                columns: new[] { "Id", "BasePrice", "CategoryId", "Description", "ImageId", "Name" },
+                columns: new[] { "Id", "BasePrice", "CategoryId", "Description", "ImageId", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { 1, 300000m, 1, "تمیزکاری کامل کابینت‌ها، کف و دیوارها", 11, "نظافت آشپزخانه" },
-                    { 2, 200000m, 1, "گردگیری و جاروکشی اتاق‌ها", 12, "نظافت اتاق‌ها" },
-                    { 3, 250000m, 1, "شستشو و ضدعفونی سرویس‌ها", 13, "نظافت سرویس بهداشتی" },
-                    { 4, 500000m, 2, "عیب‌یابی و تعمیر انواع ماشین لباسشویی", 14, "تعمیر ماشین لباسشویی" },
-                    { 5, 600000m, 2, "سرویس و تعمیر یخچال و فریزر", 15, "تعمیر یخچال" },
-                    { 6, 150000m, 3, "نصب و تعویض کلید و پریز برق", 16, "نصب کلید و پریز" },
-                    { 7, 800000m, 3, "اجرای سیم‌کشی برق داخلی", 17, "سیم‌کشی ساختمان" },
-                    { 8, 250000m, 4, "باز کردن لوله‌های فاضلاب و آب", 18, "رفع گرفتگی لوله" },
-                    { 9, 200000m, 4, "نصب و تعویض شیرآلات آشپزخانه و حمام", 19, "نصب شیرآلات" },
-                    { 10, 400000m, 5, "رنگ‌آمیزی دیوارهای داخلی", 20, "نقاشی دیوار" },
-                    { 11, 700000m, 5, "نصب انواع کاغذ دیواری", 21, "کاغذ دیواری" },
-                    { 12, 350000m, 6, "هرس و مرتب‌سازی درختان باغ و حیاط", 22, "هرس درختان" },
-                    { 13, 300000m, 6, "کاشت و نگهداری گل‌ها و گیاهان", 23, "کاشت گل و گیاه" },
-                    { 14, 200000m, 7, "نصب و راه‌اندازی سیستم عامل ویندوز", 24, "نصب ویندوز" },
-                    { 15, 400000m, 7, "نصب مودم و تنظیم شبکه داخلی", 25, "راه‌اندازی شبکه خانگی" },
-                    { 16, 150000m, 8, "تعویض روغن موتور خودرو", 26, "تعویض روغن" },
-                    { 17, 250000m, 8, "نصب و تعمیر باتری خودرو", 27, "باتری‌سازی" },
-                    { 18, 500000m, 9, "کلاس خصوصی زبان انگلیسی", 28, "آموزش زبان انگلیسی" },
-                    { 19, 400000m, 9, "کلاس تقویتی ریاضی", 29, "آموزش ریاضی" },
-                    { 20, 700000m, 10, "مراقبت از بیمار در منزل", 30, "پرستاری در منزل" },
-                    { 21, 800000m, 10, "ویزیت پزشک در منزل", 31, "ویزیت پزشک عمومی" }
+                    { 1, 300000m, 1, "تمیزکاری کامل کابینت‌ها، کف و دیوارها", 11, false, "نظافت آشپزخانه" },
+                    { 2, 200000m, 1, "گردگیری و جاروکشی اتاق‌ها", 12, false, "نظافت اتاق‌ها" },
+                    { 3, 250000m, 1, "شستشو و ضدعفونی سرویس‌ها", 13, false, "نظافت سرویس بهداشتی" },
+                    { 4, 500000m, 2, "عیب‌یابی و تعمیر انواع ماشین لباسشویی", 14, false, "تعمیر ماشین لباسشویی" },
+                    { 5, 600000m, 2, "سرویس و تعمیر یخچال و فریزر", 15, false, "تعمیر یخچال" },
+                    { 6, 150000m, 3, "نصب و تعویض کلید و پریز برق", 16, false, "نصب کلید و پریز" },
+                    { 7, 800000m, 3, "اجرای سیم‌کشی برق داخلی", 17, false, "سیم‌کشی ساختمان" },
+                    { 8, 250000m, 4, "باز کردن لوله‌های فاضلاب و آب", 18, false, "رفع گرفتگی لوله" },
+                    { 9, 200000m, 4, "نصب و تعویض شیرآلات آشپزخانه و حمام", 19, false, "نصب شیرآلات" },
+                    { 10, 400000m, 5, "رنگ‌آمیزی دیوارهای داخلی", 20, false, "نقاشی دیوار" },
+                    { 11, 700000m, 5, "نصب انواع کاغذ دیواری", 21, false, "کاغذ دیواری" },
+                    { 12, 350000m, 6, "هرس و مرتب‌سازی درختان باغ و حیاط", 22, false, "هرس درختان" },
+                    { 13, 300000m, 6, "کاشت و نگهداری گل‌ها و گیاهان", 23, false, "کاشت گل و گیاه" },
+                    { 14, 200000m, 7, "نصب و راه‌اندازی سیستم عامل ویندوز", 24, false, "نصب ویندوز" },
+                    { 15, 400000m, 7, "نصب مودم و تنظیم شبکه داخلی", 25, false, "راه‌اندازی شبکه خانگی" },
+                    { 16, 150000m, 8, "تعویض روغن موتور خودرو", 26, false, "تعویض روغن" },
+                    { 17, 250000m, 8, "نصب و تعمیر باتری خودرو", 27, false, "باتری‌سازی" },
+                    { 18, 500000m, 9, "کلاس خصوصی زبان انگلیسی", 28, false, "آموزش زبان انگلیسی" },
+                    { 19, 400000m, 9, "کلاس تقویتی ریاضی", 29, false, "آموزش ریاضی" },
+                    { 20, 700000m, 10, "مراقبت از بیمار در منزل", 30, false, "پرستاری در منزل" },
+                    { 21, 800000m, 10, "ویزیت پزشک در منزل", 31, false, "ویزیت پزشک عمومی" }
                 });
 
             migrationBuilder.InsertData(
@@ -663,6 +679,12 @@ namespace Asistant_Infra_Db_Sql.Migrations
                 column: "HomeServiceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_RequestId",
+                table: "Comments",
+                column: "RequestId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Customers_CityId",
                 table: "Customers",
                 column: "CityId");
@@ -753,9 +775,10 @@ namespace Asistant_Infra_Db_Sql.Migrations
                 column: "HomeServiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Suggestions_RequestId",
+                name: "IX_Suggestions_RequestId_ExpertId",
                 table: "Suggestions",
-                column: "RequestId");
+                columns: new[] { "RequestId", "ExpertId" },
+                unique: true);
         }
 
         /// <inheritdoc />
