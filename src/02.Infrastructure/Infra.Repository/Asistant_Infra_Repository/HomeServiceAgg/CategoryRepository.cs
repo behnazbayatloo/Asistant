@@ -13,14 +13,14 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
 {
     public class CategoryRepository(ApplicationDbContext _dbcontext):ICategoryRepository
     {
-        public async Task<int> CreateCategory(string name)
+        public async Task<int> CreateCategory(string name,CancellationToken ct)
         {
             var category = new Category
             {
                 Name = name,
             };
-            await _dbcontext.Categories.AddAsync(category);
-            await _dbcontext.SaveChangesAsync();
+            await _dbcontext.Categories.AddAsync(category,ct);
+            await _dbcontext.SaveChangesAsync(ct);
             return category.Id;
         }
 

@@ -1,0 +1,21 @@
+﻿@model List<CategoryHomeViewModel>
+
+<div class="dropdown">
+    <a href="#" class="dropdown-toggle">خدمات <i class="fas fa-chevron-down"></i></a>
+
+    <div class="dropdown-menu">
+        <div class="mega-menu">
+            @foreach (var category in Model)
+            {
+                <div class="mega-column">
+                    <h4>@category.Name</h4>
+                    @foreach (var service in category.HomeServices)
+                    {
+                        <a href="/services/@service.Id">@service.Name</a>
+                   
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

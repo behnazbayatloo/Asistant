@@ -13,7 +13,7 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
 {
     public class HomeServiceRepository(ApplicationDbContext _dbcontext):IHomeServiceRepository
     {
-        public async Task<int> CreateHomeService(InputHomeServiceDTO homeServiceDto)
+        public async Task<int> CreateHomeService(InputHomeServiceDTO homeServiceDto,CancellationToken ct)
         {
             var homeService = new HomeService
             {
@@ -23,8 +23,8 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
                 ImageId = homeServiceDto.ImageId,
                 Description = homeServiceDto.Description,
             };
-            await _dbcontext.HomeServices.AddAsync(homeService);
-            await _dbcontext.SaveChangesAsync();
+            await _dbcontext.HomeServices.AddAsync(homeService,ct);
+            await _dbcontext.SaveChangesAsync(ct);
             return homeService.Id;
 
         }

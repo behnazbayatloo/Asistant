@@ -1,0 +1,15 @@
+﻿using Asistant_Domain_Core.ImageAgg.AppService;
+using Asistant_Domain_Core.ImageAgg.Service;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Asistant_Domain_AppService
+{
+    public class ImageAppService(IImageService _imgsrv,ILogger<ImageAppService> logger):IImageAppService
+    {
+    }
+}

@@ -1,21 +1,32 @@
 using Asistant.Models;
+using Asistant_Domain_Core.HomeServiceAgg.AppServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Asistant.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(ICategoryAppService _catapp,ILogger<HomeController> logger) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+      
 
-        public HomeController(ILogger<HomeController> logger)
+        public async Task<IActionResult> Index(CancellationToken ct)
         {
-            _logger = logger;
-        }
+         var categories=   await _catapp.GetAllCategories(ct);
 
-        public IActionResult Index()
-        {
-            return View();
+            var categoryList = categories.Select(c => new CategoryHomeViewModel
+            {
+                Id = c.Id,
+                Name = c.Name,
+                ImagePath = c.ImagePath,
+                HomeServices = c.HomeServices.Select(hs => new HomeServiceHomeViewModel
+                {
+                    Id=hs.Id,
+                    Name=hs.Name,
+
+                }).ToList()
+            }).ToList();
+            return View(categoryList);
         }
 
         public IActionResult Privacy()

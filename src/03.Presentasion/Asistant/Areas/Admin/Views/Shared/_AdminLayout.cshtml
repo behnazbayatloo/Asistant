@@ -1,0 +1,424 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پنل مدیریت - خدمات من</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .admin-header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .menu-toggle {
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #0066cc;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            right: 0;
+            width: 260px;
+            height: calc(100vh - 70px);
+            background: #fff;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            padding: 20px 0;
+            transition: all 0.3s;
+            overflow-y: auto;
+            z-index: 999;
+        }
+
+            .sidebar.collapsed {
+                width: 70px;
+            }
+
+                .sidebar.collapsed .menu-text {
+                    display: none;
+                }
+
+                .sidebar.collapsed .menu-item i {
+                    font-size: 1.5rem;
+                }
+
+        .menu-item {
+
+        {
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #444;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: #e6f0ff;
+            color: #0066cc;
+        }
+
+        .menu-item i {
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-right: 260px;
+            margin-top: 70px;
+            padding: 30px;
+            transition: all 0.3s;
+        }
+
+            .main-content.expanded {
+                margin-right: 70px;
+            }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #0066cc;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+            .stat-icon.orders {
+                background: #0066cc;
+            }
+
+            .stat-icon.users {
+                background: #00aaff;
+            }
+
+            .stat-icon.revenue {
+                background: #28a745;
+            }
+
+            .stat-icon.pending {
+                background: #ffc107;
+            }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Recent Orders Table */
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .table-container {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: right;
+            font-weight: 600;
+            color: #333;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+            .status.completed {
+                background: #d4edda;
+                color: #155724;
+            }
+
+            .status.pending {
+                background: #fff3cd;
+                color: #856404;
+            }
+
+            .status.cancelled {
+                background: #f8d7da;
+                color: #721c24;
+            }
+
+        /* Responsive */
+       
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="header-left">
+            <i class="fas fa-bars menu-toggle" id="menuToggle"></i>
+            <div class="logo">خدمات من - ادمین</div>
+        </div>
+        <div class="header-right">
+            <i class="fas fa-bell" style="font-size: 1.3rem; cursor: pointer;"></i>
+            <div class="user-info">
+                <span>ادمین عزیز</span>
+                <div class="user-avatar">A</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="menu-item active">
+            <i class="fas fa-tachometer-alt"></i>
+            <span class="menu-text">داشبورد</span>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="menu-text">سفارشات</span>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-users"></i>
+            <span class="menu-text">کاربران</span>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-user-tie"></i>
+            <span class="menu-text">متخصصین</span>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-tags"></i>
+            <span class="menu-text">خدمات</span>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-chart-bar"></i>
+            <span class="menu-text">گزارشات</span>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-cog"></i>
+            <span class="menu-text">تنظیمات</span>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="menu-text">خروج</span>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <h1 class="page-title">داشبورد مدیریت</h1>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon orders">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>۱۲,۴۵۰</h3>
+                    <p>کل سفارشات</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon users">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>۸,۷۲۰</h3>
+                    <p>کاربران فعال</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon revenue">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>۴۵۶ میلیون</h3>
+                    <p>درآمد ماهانه</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>۱۲۳</h3>
+                    <p>سفارشات در انتظار</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="section-title">سفارشات اخیر</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>شماره سفارش</th>
+                        <th>کاربر</th>
+                        <th>خدمت</th>
+                        <th>مبلغ</th>
+                        <th>وضعیت</th>
+                        <th>تاریخ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#ORD-۸۴۲۱</td>
+                        <td>علی رضایی</td>
+                        <td>نظافت منزل</td>
+                        <td>۴۵۰,۰۰۰ تومان</td>
+                        <td><span class="status completed">تکمیل شده</span></td>
+                        <td>۱۴۰۴/۱۰/۰۹</td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-۸۴۲۰</td>
+                        <td>مریم احمدی</td>
+                        <td>تعمیر یخچال</td>
+                        <td>۱,۲۰۰,۰۰۰ تومان</td>
+                        <td><span class="status pending">در انتظار</span></td>
+                        <td>۱۴۰۴/۱۰/۰۹</td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-۸۴۱۹</td>
+                        <td>حسین محمدی</td>
+                        <td>اسباب‌کشی</td>
+                        <td>۳,۵۰۰,۰۰۰ تومان</td>
+                        <td><span class="status completed">تکمیل شده</span></td>
+                        <td>۱۴۰۴/۱۰/۰۸</td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-۸۴۱۸</td>
+                        <td>زهرا حسینی</td>
+                        <td>لوله‌کشی</td>
+                        <td>۸۰۰,۰۰۰ تومان</td>
+                        <td><span class="status cancelled">لغو شده</span></td>
+                        <td>۱۴۰۴/۱۰/۰۸</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+
+        menuToggle.addEventListener('click', () => {
+          sidebar.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>

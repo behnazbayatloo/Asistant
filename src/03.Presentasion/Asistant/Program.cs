@@ -1,14 +1,68 @@
 
+using Asistant_Domain_AppService;
+using Asistant_Domain_Core.CommentAgg.AppService;
+using Asistant_Domain_Core.CommentAgg.Data;
+using Asistant_Domain_Core.CommentAgg.Service;
+using Asistant_Domain_Core.HomeServiceAgg.AppServices;
+using Asistant_Domain_Core.HomeServiceAgg.Data;
+using Asistant_Domain_Core.HomeServiceAgg.Services;
+using Asistant_Domain_Core.ImageAgg.AppService;
+using Asistant_Domain_Core.ImageAgg.Data;
+using Asistant_Domain_Core.ImageAgg.Service;
+using Asistant_Domain_Core.RequestAgg.AppServices;
+using Asistant_Domain_Core.RequestAgg.Data;
+using Asistant_Domain_Core.RequestAgg.Services;
+using Asistant_Domain_Core.SuggestionAgg.AppServices;
+using Asistant_Domain_Core.SuggestionAgg.Data;
+using Asistant_Domain_Core.SuggestionAgg.Services;
+using Asistant_Domain_Core.UserAgg.AppServices;
+using Asistant_Domain_Core.UserAgg.Data;
 using Asistant_Domain_Core.UserAgg.Entities;
+using Asistant_Domain_Core.UserAgg.Services;
+using Asistant_Domain_Service;
 using Asistant_FrameWork.UIExtensions;
 using Asistant_Infra_Db_Sql.DbContext;
+using Asistant_Infra_Repository.CommentAgg;
+using Asistant_Infra_Repository.HomeServiceAgg;
+using Asistant_Infra_Repository.ImageAgg;
+using Asistant_Infra_Repository.RequestAgg;
+using Asistant_Infra_Repository.SuggestionAgg;
+using Asistant_Infra_Repository.UserAgg;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
-
+#region AddServices 
+builder.Services.AddScoped<ICommentRepository, CommentRepository> ();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ICommentAppService, CommentAppService>();
+builder.Services.AddScoped<IRequestRepository, RequestRepository>();
+builder.Services.AddScoped<IRequestService,RequestService>();
+builder.Services.AddScoped<IRequestAppService, RequestAppService>();
+builder.Services.AddScoped<ISuggestionRepository, SuggestionRepository>();
+builder.Services.AddScoped<ISuggestionService,SuggestionService>();
+builder.Services.AddScoped<ISuggestionAppService,SuggestionAppService>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService,CustomerService>();
+builder.Services.AddScoped<ICustomerAppService, CustomerAppService>();
+builder.Services.AddScoped<IExpertRepository, ExpertRepository>();
+builder.Services.AddScoped<IExpertService, ExpertService>();
+builder.Services.AddScoped<IExpertAppService,ExpertAppService>();
+builder.Services.AddScoped<ICityRepository,CityRepository>();
+builder.Services.AddScoped<ICityService,CityService>();
+builder.Services.AddScoped<ICityAppService,CityAppService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
+builder.Services.AddScoped<IHomeServiceRepository, HomeServiceRepository>();
+builder.Services.AddScoped<IHomeServiceService, HomeServiceService>();
+builder.Services.AddScoped<IHomeServiceAppService, HomeServiceAppService>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IImageAppService, ImageAppService>();
+#endregion
 // Add services to the container.
 #region DataBaseConfig
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -24,14 +24,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\00.FrameWork\Asistant_FrameWork\Asistant_FrameWork.csproj" />
+    <ProjectReference Include="..\..\01.Domain\Services\Asistant_Domain_AppService\Asistant_Domain_AppService.csproj" />
+    <ProjectReference Include="..\..\01.Domain\Services\Asistant_Domain_Service\Asistant_Domain_Service.csproj" />
     <ProjectReference Include="..\..\02.Infrastructure\Infra.Db.Sql\Asistant_Infra_Db_Sql\Asistant_Infra_Db_Sql.csproj" />
+    <ProjectReference Include="..\..\02.Infrastructure\Infra.Repository\Asistant_Infra_Repository\Asistant_Infra_Repository.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\" />
     <Folder Include="Areas\Customer\Controllers\" />
     <Folder Include="Areas\Customer\Models\" />
     <Folder Include="Areas\Customer\Views\" />
