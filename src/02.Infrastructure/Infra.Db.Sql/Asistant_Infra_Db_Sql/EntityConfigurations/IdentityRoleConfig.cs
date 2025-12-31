@@ -34,6 +34,7 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
                     NormalizedName = "EXPERT"
                 }
                 );
-            }
+           
+        }
     }
 }

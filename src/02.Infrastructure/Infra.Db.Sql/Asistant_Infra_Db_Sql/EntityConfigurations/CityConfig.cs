@@ -88,6 +88,7 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
                     Id = 15,
                     Name = "ساری"
                 });
+            builder.HasQueryFilter(ap => !ap.IsDeleted);
         }
 
     }

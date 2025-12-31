@@ -49,8 +49,13 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
             builder.HasData(expert1,expert2, expert3, expert4,expert5);
 
 
-            builder.HasOne(e => e.City).WithMany(c => c.Experts).HasForeignKey(c => c.CityId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasMany(e => e.HomeServices).WithMany(hs => hs.Experts)
+            builder.HasOne(e => e.City)
+                .WithMany(c => c.Experts)
+                .HasForeignKey(c => c.CityId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(e => e.HomeServices)
+                .WithMany(hs => hs.Experts)
                      .UsingEntity<Dictionary<string, object>>
                      ("ExpertHomeService",
                      j => j.HasOne<HomeService>().WithMany().HasForeignKey("HomeServiceId").OnDelete(DeleteBehavior.NoAction),
@@ -59,10 +64,28 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
                      {
                          j.HasKey("ExpertId", "HomeServiceId"); j.ToTable("ExpertHomeServices");
                      });
-            builder.HasOne(e => e.Image).WithOne(i => i.Expert).HasForeignKey<Image>(i => i.ExpertId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasMany(e => e.Suggestions).WithOne(s => s.Expert).HasForeignKey(s => s.ExpertId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasMany(e => e.Comments).WithOne(c => c.Expert).HasForeignKey(c => c.ExpertId).OnDelete(DeleteBehavior.NoAction);
-        builder.HasOne(e=>e.User).WithOne(au=>au.Expert).HasForeignKey<Expert>(e=>e.UserId).OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(e => e.Image)
+                .WithOne(i => i.Expert)
+                .HasForeignKey<Image>(i => i.ExpertId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(e => e.Suggestions)
+                .WithOne(s => s.Expert)
+                .HasForeignKey(s => s.ExpertId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(e => e.Comments)
+                .WithOne(c => c.Expert)
+                .HasForeignKey(c => c.ExpertId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(e=>e.User)
+                .WithOne(au=>au.Expert)
+                .HasForeignKey<Expert>(e=>e.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasQueryFilter(ap => !ap.IsDeleted);
         }
     }
 }

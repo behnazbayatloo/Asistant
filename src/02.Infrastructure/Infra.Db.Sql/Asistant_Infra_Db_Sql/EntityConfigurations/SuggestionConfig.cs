@@ -14,8 +14,13 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Suggestion> builder)
         {
-            builder.HasMany(s => s.Images).WithOne(i => i.Suggestion).HasForeignKey(i => i.SuggestionId).OnDelete(DeleteBehavior.NoAction);
-           
+            builder.HasIndex(s => new { s.RequestId, s.ExpertId })
+                .IsUnique();
+            builder.HasMany(s => s.Images).
+                WithOne(i => i.Suggestion).
+                HasForeignKey(i => i.SuggestionId).
+                OnDelete(DeleteBehavior.NoAction);
+            builder.HasQueryFilter(ap => !ap.IsDeleted);
         }
     }
 }

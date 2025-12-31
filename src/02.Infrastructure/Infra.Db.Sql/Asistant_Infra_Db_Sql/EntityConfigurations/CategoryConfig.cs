@@ -80,6 +80,7 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
                     Name = "خدمات پزشکی و پرستاری",
                     ImageId=10
                 });
+            builder.HasQueryFilter(ap => !ap.IsDeleted);
         }
     }
 }

@@ -15,16 +15,16 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
         public void Configure(EntityTypeBuilder<HomeService> builder)
         {
             builder.HasOne(hs=>hs.Image).WithOne(i=>i.HomeService).HasForeignKey<Image>(i=>i.HomeServiceId).OnDelete(DeleteBehavior.NoAction);
-       
-                new HomeService
-                {
-                    Id = 1,
-                    Name = "نظافت آشپزخانه",
-                    Description = "تمیزکاری کامل کابینت‌ها، کف و دیوارها", 
-                    BasePrice = 300000,
-                    CategoryId = 1 ,
-                    ImageId= 11 ,
-                },
+            builder.HasData(
+            new HomeService
+            {
+                Id = 1,
+                Name = "نظافت آشپزخانه",
+                Description = "تمیزکاری کامل کابینت‌ها، کف و دیوارها",
+                BasePrice = 300000,
+                CategoryId = 1,
+                ImageId = 11,
+            },
                 new HomeService
                 { 
                     Id = 2,
@@ -203,6 +203,7 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
                     ImageId = 31
                 }
                 );
+            builder.HasQueryFilter(ap => !ap.IsDeleted);
         }
     }
 }

@@ -146,10 +146,13 @@ namespace Asistant_Infra_Db_Sql.EntityConfigurations
 
 
             builder.HasData(user ,customer1,customer2,expert1,expert2,expert3,expert4,expert5);
-           
-            builder.Property(au => au.FirstName).HasMaxLength(400);
-            builder.Property(au => au.LastName).HasMaxLength(400);
-            builder.Property(au => au.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            builder.HasQueryFilter(ap => !ap.IsDeleted);
+            builder.Property(au => au.FirstName)
+                .HasMaxLength(400);
+            builder.Property(au => au.LastName)
+                .HasMaxLength(400);
+            builder.Property(au => au.CreatedAt)
+                .HasDefaultValueSql("GETUTCDATE()");
             
 
         }
