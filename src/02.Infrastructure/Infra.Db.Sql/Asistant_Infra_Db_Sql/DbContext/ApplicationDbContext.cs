@@ -31,13 +31,7 @@ namespace Asistant_Infra_Db_Sql.DbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppUser>(entity => { entity.ToTable(name: "AspNetUsers", schema: "user"); });
-            modelBuilder.Entity<IdentityRole<int>>(entity => { entity.ToTable(name: "AspNetRoles", schema: "user"); });
-            modelBuilder.Entity<IdentityUserRole<int>>(entity => { entity.ToTable(name: "AspNetUserRoles", schema: "user"); });
-            modelBuilder.Entity<IdentityUserClaim<int>>(entity => { entity.ToTable(name: "AspNetUserClaims", schema: "user"); });
-            modelBuilder.Entity<IdentityUserLogin<int>>(entity => { entity.ToTable(name: "AspNetUserLogins", schema: "user"); });
-            modelBuilder.Entity<IdentityRoleClaim<int>>(entity => { entity.ToTable(name: "AspNetRoleClaims", schema: "user"); });
-            modelBuilder.Entity<IdentityUserToken<int>>(entity => { entity.ToTable(name: "AspNetUserTokens", schema: "user"); });
+          
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);
