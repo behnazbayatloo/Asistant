@@ -4,6 +4,7 @@ using Asistant_FrameWork.UIExtensions;
 using Asistant_Infra_Db_Sql.DbContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +21,12 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>()
       .AddDefaultTokenProviders();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-  
 
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
