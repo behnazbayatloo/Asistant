@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\00.FrameWork\Asistant_FrameWork\Asistant_FrameWork.csproj" />
+    <ProjectReference Include="..\..\02.Infrastructure\Infra.Db.Sql\Asistant_Infra_Db_Sql\Asistant_Infra_Db_Sql.csproj" />
+  </ItemGroup>
+
 </Project>
