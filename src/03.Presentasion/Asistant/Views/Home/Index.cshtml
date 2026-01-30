@@ -38,7 +38,9 @@
         @foreach(var item in Model)
         {
             <div class="cat-card">
+                <a asp-action="Index" asp-controller="HomeServices" asp-route-categoryId="@item.Id">
                 <img src=@item.ImagePath width="150" alt=@item.Name />
+                </a>
                 <h3>@item.Name</h3>
             </div>
         }

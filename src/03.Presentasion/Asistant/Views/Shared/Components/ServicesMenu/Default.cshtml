@@ -8,10 +8,13 @@
             @foreach (var category in Model)
             {
                 <div class="mega-column">
-                    <h4>@category.Name</h4>
+                    <a asp-area ="" asp-action="Index" asp-controller="HomeServices" asp-route-categoryId="@category.Id">
+                       <h4>@category.Name</h4>
+                       </a>
                     @foreach (var service in category.HomeServices)
                     {
-                        <a href="/services/@service.Id">@service.Name</a>
+                        <a asp-area=""  asp-action="Index" asp-controller="HomeService" asp-route-id="@service.Id">
+                            @service.Name</a>
                    
                     }
                 </div>

@@ -1,0 +1,23 @@
+﻿@model HomeServiceHomeViewModel
+@{
+    ViewData["Title"] = $"{Model.Name}";
+}
+<h1>@Model.Name</h1>
+<div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+        <img src="@Model.ImagePath" class="card-img-top" alt="@Model.Name" style="height:200px; object-fit:cover;" />
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text text-muted">@Model.Description</p>
+            <p class="card-text">
+                <strong>قیمت:</strong> @Model.BasePrice.ToString("N0") ریال
+            </p>
+            <p class="card-text">
+                <strong>دسته‌بندی:</strong> @Model.CategoryName
+            </p>
+            <form asp-area="Customer" asp-controller="Request" asp-action="CheckoutRequest" asp-route-homeServiceId="@Model.Id"   method="post" class="mt-auto">
+                <button type="submit" class="btn btn-primary w-100">ثبت سفارش</button>
+            </form>
+        </div>
+    </div>
+</div>
