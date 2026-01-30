@@ -1,8 +1,11 @@
-﻿using Asistant_Domain_Core.UserAgg.Entities;
+﻿using Asistant_Domain_Core.UserAgg.AppServices;
+using Asistant_Domain_Core.UserAgg.DTOs;
+using Asistant_Domain_Core.UserAgg.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace Asistant.Areas.Identity.Pages.Account
@@ -19,13 +22,19 @@ namespace Asistant.Areas.Identity.Pages.Account
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "رمز عبور و تکرار آن یکسان نیست.")]
         public string ConfirmPassword { get; set; }
+        [Required(ErrorMessage = " یک نقش انتخاب کنید ")]
+        public string Role { get; set; }
     }
+    [Area("Identity")]
     [AllowAnonymous]
-    public class RegisterModel(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<RegisterModel> logger) : PageModel
+    [ValidateAntiForgeryToken]
+    public class RegisterModel(IAppUserAppService appUserApp, ILogger<RegisterModel> logger) : PageModel
     {
         [BindProperty]
         public InputModel Input { get; set; }
         public string ReturnUrl { get; set; }
+   
+    
         public IActionResult OnGet(string returnUrl = null)
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
@@ -33,34 +42,36 @@ namespace Asistant.Areas.Identity.Pages.Account
                 return RedirectToPage("/Index", new { area = "" });
             }
             ReturnUrl = returnUrl ?? Url.Content("~/");
+          
             return Page();
         }
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> OnPost(string returnUrl = null)
+      
+        public async Task<IActionResult> OnPost(CancellationToken ct,string returnUrl = null)
         {
             ReturnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new AppUser
+                var user = new RegisterDTO
                 {
-                    UserName = Input.Email,
-                    Email = Input.Email,
-                    CreatedAt = DateTime.Now
+                    Email=Input.Email,
+                Password=Input.Password,
+                Role=Input.Role
 
                 };
-                var result = await userManager.CreateAsync(user, Input.Password);
+                
+                var result = await appUserApp.Register(ct,user);
                 if (result.Succeeded)
                 {
-                    logger.LogInformation("کاربر جدید ساخته شد.");
-                    await userManager.AddToRoleAsync(user, "Customer");
-                    await signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(ReturnUrl);
+                    TempData["Succeed"] = "ثبت نام موفقیت آمیز بود";
+                    return RedirectToPage("/Account/Login",new  { area ="Identity" });
                 }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+           
+           
             return Page();
 
         }

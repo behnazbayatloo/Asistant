@@ -1,4 +1,6 @@
-﻿using Asistant_Domain_Core.UserAgg.Entities;
+﻿using Asistant_Domain_Core.UserAgg.AppServices;
+using Asistant_Domain_Core.UserAgg.DTOs;
+using Asistant_Domain_Core.UserAgg.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +23,9 @@ namespace Asistant.Areas.Identity.Pages.Account
 
 
     }
+ 
     [AllowAnonymous]
-    public class LoginModel(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ILogger<LoginModel> _logger) : PageModel
+    public class LoginModel(IAppUserAppService appUserApp, ILogger<LoginModel> _logger) : PageModel
     {
       
         
@@ -47,55 +50,61 @@ namespace Asistant.Areas.Identity.Pages.Account
                 {
                     return Page();
                 }
-                var user = await userManager.FindByEmailAsync(Input.Email);
-                if (user == null)
+            var result = await appUserApp.Login(
+                new LoginDTO { 
+                    Email=Input.Email,
+                    Password=Input.Password,
+                    RememberMe=Input.RememberMe
+                });
+
+                if (result.Result && result.Role=="Admin")
                 {
-                    ModelState.AddModelError(string.Empty, "اطلاعات ورود نامعتبر است.");
-                    return Page();
+                return RedirectToAction("Index", "AdminDashboard", new { area = "Admin" });
+                
                 }
-                var result = await signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: true);
-                if (result.Succeeded)
+            if (result.Result && result.Role == "Customer")
+            {
+                if (!string.IsNullOrEmpty(ReturnUrl))
                 {
-                    _logger.LogInformation("کاربر {UserId} وارد شد.", user.Id);
-                    var roles = await userManager.GetRolesAsync(user);
-                    if (roles.Contains("Admin"))
-                    {
-                        return RedirectToPage("/Index", new { area = "" }/* "Dashboard", new { area = "Admin" }*/);
-                    }
-                   if (roles.Contains("Customer"))
-                    {
-                        if (!string.IsNullOrEmpty(ReturnUrl))
-                        {
-                            return LocalRedirect(ReturnUrl);
-                        }
-                        else
-                        {
-                            return RedirectToPage("/Index", new { area = "" } /*"Profil", new { area = "Customer" }*/);
-                        }
-                    }
-                   if (roles.Contains("Expert"))
+                    return LocalRedirect(ReturnUrl);
+                }
+                else
                 {
+                    return RedirectToAction("Index", "Home", new { area = "" });
 
                 }
-                }
+               
+            }
+            if (result.Result && result.Role == "Expert")
+            {
+                return RedirectToAction("Index", "Home", new { area = "" });
+
+            }
+           
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl, Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("کاربر {UserId} قفل شد.", user.Id);
+                   
                     return RedirectToPage("./Lockout");
                 }
+            if (!string.IsNullOrEmpty(result.Message))
+            { 
+                ModelState.AddModelError(string.Empty, result.Message);
+            }
+            else
+            {
                 ModelState.AddModelError(string.Empty, "ورود ناموفق بود.");
-                return Page();
+            }
+            return Page();
             }
 
-            [Authorize]
+            
             public async Task<IActionResult> OnPostLogout()
             {
-                await signInManager.SignOutAsync();
-                _logger.LogInformation("کاربر خارج شد.");
+                  await appUserApp.Logout();
                 return RedirectToAction("Index", "Home", new { area = "" });
 
 
