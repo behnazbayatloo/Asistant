@@ -1,0 +1,117 @@
+﻿/* استایل کلی پنل مدیریت */
+body {
+    text-align: right;
+    font-family: "IRANSans", Tahoma, Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* نوار بالای مدیریت */
+.navbar {
+    background-color: #343a40;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-brand {
+    color: #fff;
+    font-weight: bold;
+}
+
+    .navbar-brand:hover {
+        color: #ffc107;
+    }
+
+/* دکمه خروج */
+.btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #fff;
+}
+
+    .btn-outline-light:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+    }
+
+/* سایدبار سمت چپ */
+.sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #dee2e6;
+    min-height: 100vh;
+    padding-top: 1rem;
+}
+
+    .sidebar .nav-link {
+        color: #333;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: all 0.2s ease-in-out;
+    }
+
+        .sidebar .nav-link:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+/* محتوای اصلی */
+.main-content {
+    padding: 1.5rem;
+}
+
+/* کارت‌های مدیریتی */
+.card {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: 500;
+}
+
+.card-body {
+    background-color: #fff;
+}
+
+/* فوتر */
+footer {
+    background-color: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 0.5rem;
+    margin-top: 1rem;
+}
+.flex-right {
+    display: flex;
+    justify-content: flex-end;
+}
+/*pagination*/
+.pagination {
+    justify-content: center; /* وسط‌چین کردن دکمه‌ها */
+    margin-top: 20px;
+}
+
+.page-item .page-link {
+    color: #007bff;
+    border: 1px solid #007bff;
+    margin: 0 3px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+    .page-item .page-link:hover {
+        background-color: #007bff;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
