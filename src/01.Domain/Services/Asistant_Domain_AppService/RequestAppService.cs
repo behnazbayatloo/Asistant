@@ -1,5 +1,9 @@
-﻿using Asistant_Domain_Core.RequestAgg.AppServices;
+﻿using Asistant_Domain_Core.ImageAgg.DTOs;
+using Asistant_Domain_Core.ImageAgg.Service;
+using Asistant_Domain_Core.RequestAgg.AppServices;
+using Asistant_Domain_Core.RequestAgg.DTOs;
 using Asistant_Domain_Core.RequestAgg.Services;
+using Asistant_Infra_File.Contract;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,7 +13,25 @@ using System.Threading.Tasks;
 
 namespace Asistant_Domain_AppService
 {
-    public class RequestAppService(IRequestService _rqsrv,ILogger<RequestAppService> logger):IRequestAppService
+    public class RequestAppService(IRequestService _rqsrv,IFileService fileService,IImageService _imageService,ILogger<RequestAppService> logger):IRequestAppService
     {
+        public async Task<bool> CreateRequest(CancellationToken ct, InputRequestDTO requestDTO)
+        {
+            var requestId= await _rqsrv.CreateRequest(ct, requestDTO);
+
+            if (requestDTO.Images != null && requestDTO.Images.Any())
+            {
+                var images = new List<RequestImageDTO>();
+                foreach (var image in requestDTO.Images) 
+                { 
+                var imageDTO= new RequestImageDTO();
+                    imageDTO.ImagePath = await fileService.Upload(image, "Request", ct);
+                    imageDTO.RequestId = requestId;
+                    images.Add(imageDTO);   
+                }
+                await _imageService.SetRequestImage(images, ct);
+            }
+            return requestId > 0;
+        }
     }
 }

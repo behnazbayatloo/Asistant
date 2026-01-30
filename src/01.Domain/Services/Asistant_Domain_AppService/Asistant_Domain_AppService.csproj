@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\02.Infrastructure\Infra.File\Asistant_Infra_File\Asistant_Infra_File.csproj" />
     <ProjectReference Include="..\..\Core\Asistant_Domain_Core\Asistant_Domain_Core.csproj" />
   </ItemGroup>
 

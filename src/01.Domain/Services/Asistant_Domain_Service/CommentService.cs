@@ -11,5 +11,12 @@ namespace Asistant_Domain_Service
 {
     public class CommentService(ICommentRepository _cmtrepo,ILogger<CommentService> logger):ICommentService
     {
+        public async Task<bool> DeleteByCustumerId(CancellationToken ct, int id)
+            => await _cmtrepo.DeleteByCustumerId(ct, id);
+        
+        public async Task<bool> DeleteByExpertId(CancellationToken ct, int id)
+            => await _cmtrepo.DeleteByExpertId(ct,id);
+       
+
     }
 }
