@@ -1,0 +1,80 @@
+﻿@using Asistant.Areas.Admin.Models
+@model EditHomeServiceViewModel
+@{
+    ViewData["Title"] = "ویرایش سرویس";
+}
+<h4>ویرایش سرویس</h4>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+@if (ViewBag.Succeed != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Succeed
+    </div>
+}
+<form asp-area="Admin" asp-action="EditHomeService" asp-controller="HomeServiceManagement" enctype="multipart/form-data" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="text-danger"></div>
+    }
+    <input type="hidden" asp-for="@Model.Id" />
+    
+    <div class="mb-3">
+
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Url.Content(Model.ImagePath)"
+                 alt="عکس @Model.Name"
+                 class="img-thumbnail"
+                 style="max-width:150px;" />
+        }
+
+        else
+        {
+
+            <p>عکسی ثبت نشده است</p>
+        }
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Image" class="form-label">آپلود عکس جدید</label>
+        <input asp-for="@Model.Image" type="file" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.Name" class="form-label">نام سرویس</label>
+        <input asp-for="@Model.Name" class="form-control" />
+        
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.Description" class="form-label">توضیحات</label>
+        <input asp-for="@Model.Description" class="form-control" />
+        
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.BasePrice" class="form-label">قیمت پایه</label>
+        <input asp-for="@Model.BasePrice" class="form-control" />
+
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.CategoryId" class="form-label">دسته بندی</label>
+        <select asp-for="@Model.CategoryId" asp-items="Model.Categories" class="form-select" option-label="یک دسته بندی انتخاب کنید"></select>
+
+    </div>
+
+   
+
+    
+
+    <button type="submit" class="btn btn-success">ذخیره تغییرات</button>
+    <a asp-area="Admin" asp-action="Index" asp-controller="HomeServiceManagement" class="btn btn-secondary">بازگشت</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

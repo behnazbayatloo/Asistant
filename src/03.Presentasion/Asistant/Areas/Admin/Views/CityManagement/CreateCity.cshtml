@@ -1,0 +1,38 @@
+﻿@using Asistant.Areas.Admin.Models
+@model CityViewModel
+@{
+    ViewData["Title"] = "ساخت شهر جدید";
+}
+
+<h4>ساخت شهر جدید</h4>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+@if (TempData["Succeed"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Succeed"]
+    </div>
+}
+<form asp-area="Admin" asp-action="CreateCity" asp-controller="CityManagement"  method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="text-danger"></div>
+    }
+    
+   
+    <div class="mb-3">
+        <label asp-for="@Model.Name" class="form-label">نام شهر</label>
+        <input asp-for="@Model.Name" class="form-control" />
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+    </div>
+       <button type="submit" class="btn btn-success">ثبت شهر</button>
+    <a asp-area="Admin" asp-action="Index" asp-controller="CityManagement" class="btn btn-secondary">بازگشت</a>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />}

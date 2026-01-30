@@ -1,0 +1,62 @@
+﻿@using Asistant.Areas.Admin.Models
+@model EditCategoryViewModel
+@{
+    ViewData["Title"] = "ویرایش دسته بندی";
+}
+<h4>ویرایش دسته بندی</h4>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+@if (ViewBag.Succeed != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Succeed
+    </div>
+}
+<form asp-area="Admin" asp-action="EditCategory" asp-controller="CategoryManagement" enctype="multipart/form-data" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="text-danger"></div>
+    }
+    <input type="hidden" asp-for="@Model.Id" />
+   
+    <div class="mb-3">
+
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Url.Content(Model.ImagePath)"
+                 alt="عکس @Model.Name"
+                 class="img-thumbnail"
+                 style="max-width:150px;" />
+        }
+
+        else
+        {
+
+            <p>عکسی ثبت نشده است</p>
+        }
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Image" class="form-label">آپلود عکس جدید</label>
+        <input asp-for="@Model.Image" type="file" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.Name" class="form-label">نام </label>
+        <input asp-for="@Model.Name" class="form-control" />
+      
+    </div>
+
+    
+
+    <button type="submit" class="btn btn-success">ذخیره تغییرات</button>
+    <a asp-area="Admin" asp-action="Index" asp-controller="CategoryManagement" class="btn btn-secondary">بازگشت</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

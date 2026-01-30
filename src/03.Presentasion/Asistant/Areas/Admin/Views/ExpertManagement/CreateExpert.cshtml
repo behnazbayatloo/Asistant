@@ -1,0 +1,83 @@
+﻿@using Asistant.Areas.Admin.Models
+@model CreateExpertViewModel
+@{
+    ViewData["Title"] = "ساخت کارشناس جدید";
+}
+
+<h4>ساخت کارشناس جدید</h4>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+@if (ViewBag.Succeed != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Succeed
+    </div>
+}
+<form asp-area="Admin" asp-action="CreateExpert" asp-controller="ExpertManagement" enctype="multipart/form-data" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="text-danger"></div>
+    }
+
+    
+    <div class="mb-3">
+        <label asp-for="@Model.Image" class="form-label">آپلود عکس </label>
+        <input asp-for="@Model.Image" type="file" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Email" class="form-label"></label>
+        <input asp-for="@Model.Email" class="form-control" />
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Password" class="form-label"></label>
+        <input asp-for="@Model.Password" class="form-control" />
+        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+    </div>
+
+   
+
+    <div class="mb-3">
+        <label asp-for="@Model.FirstName" class="form-label"></label>
+        <input asp-for="@Model.FirstName" class="form-control" />
+        <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.LastName" class="form-label"></label>
+        <input asp-for="@Model.LastName" class="form-control" />
+        <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.HomeServices">تخصص‌ها</label>
+        <select id="skills" asp-for="@Model.HomeServicesIds" asp-items="@Model.HomeServices" multiple="multiple" class="form-select"></select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.CityId" class="form-label">شهر</label>
+        <select asp-for="@Model.CityId" asp-items="@Model.Cities" class="form-select"></select>
+        <span asp-validation-for="@Model.CityId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">ثبت کارشناس</button>
+    <a asp-area="Admin" asp-action="ShowExperts" asp-controller="ExpertManagement" class="btn btn-secondary">بازگشت</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('#skills').select2({
+                placeholder: "انتخاب مهارت‌ها",
+                allowClear: true
+            });
+        });
+    </script>
+}
