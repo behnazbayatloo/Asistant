@@ -8,5 +8,7 @@ namespace Asistant_Domain_Core.CommentAgg.Data
 {
     public interface ICommentRepository
     {
+        Task<bool> DeleteByCustumerId(CancellationToken ct, int id);
+        Task<bool> DeleteByExpertId(CancellationToken ct, int id);
     }
 }
