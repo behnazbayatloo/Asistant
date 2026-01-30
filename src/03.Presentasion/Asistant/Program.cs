@@ -22,6 +22,8 @@ using Asistant_Domain_Core.UserAgg.Services;
 using Asistant_Domain_Service;
 using Asistant_FrameWork.UIExtensions;
 using Asistant_Infra_Db_Sql.DbContext;
+using Asistant_Infra_File.Contract;
+using Asistant_Infra_File.Service;
 using Asistant_Infra_Repository.CommentAgg;
 using Asistant_Infra_Repository.HomeServiceAgg;
 using Asistant_Infra_Repository.ImageAgg;
@@ -62,6 +64,9 @@ builder.Services.AddScoped<IHomeServiceAppService, HomeServiceAppService>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IImageAppService, ImageAppService>();
+builder.Services.AddScoped<IAppUserService,AppUserService>();
+builder.Services.AddScoped<IAppUserAppService,AppUserAppService>();
+builder.Services.AddScoped<IFileService, FileService>();
 #endregion
 // Add services to the container.
 #region DataBaseConfig
