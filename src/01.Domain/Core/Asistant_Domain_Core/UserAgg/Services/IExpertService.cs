@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Asistant_Domain_Core._commonEntities;
+using Asistant_Domain_Core.HomeServiceAgg.Entities;
+using Asistant_Domain_Core.UserAgg.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +11,15 @@ namespace Asistant_Domain_Core.UserAgg.Services
 {
     public interface IExpertService
     {
+        Task<int> CreateExpert(int userId, CancellationToken ct);
+        Task<int> CreateExpertByAdmin(CreateExpertDTO expertDTO, CancellationToken ct);
+        Task<bool> DeleteExpert(CancellationToken ct, int id);
+        Task<OutputExpertDTO?> GetExpertById(CancellationToken ct, int id);
+        Task<List<int>?> GetHomeServiceIdByExpertId(int expertId, CancellationToken ct);
+        Task<PagedResult<OutputExpertDTO>> GetPagedExperts(int pageNumber, int pageSize, CancellationToken ct);
+      
+        Task<bool> UpdateExpert(CancellationToken ct, UpdateExpertDTO updateExpert);
+        Task<bool> UpdateHomeServicesForExpert(int expertId, List<HomeService> list, CancellationToken ct);
+        Task<bool> UpdateImageId(int id, int imageId, CancellationToken ct);
     }
 }

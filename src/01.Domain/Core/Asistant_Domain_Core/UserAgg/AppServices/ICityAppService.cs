@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Asistant_Domain_Core._commonEntities;
+using Asistant_Domain_Core.UserAgg.DTOs;
+using Asistant_Domain_Core.UserAgg.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +11,9 @@ namespace Asistant_Domain_Core.UserAgg.AppServices
 {
     public interface ICityAppService
     {
+        Task<Result<bool>> CreateCity(CityDTO cityDTO, CancellationToken ct);
+        Task<bool> DeleteCity(int id, CancellationToken ct);
+        Task<List<City>> GetAllCities(CancellationToken ct);
+        Task<PagedResult<CityDTO>> GetPagedCities(int pageNumber, int pageSize, CancellationToken ct);
     }
 }
