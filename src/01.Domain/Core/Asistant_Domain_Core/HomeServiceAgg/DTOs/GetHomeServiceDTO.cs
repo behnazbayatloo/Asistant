@@ -14,5 +14,7 @@ namespace Asistant_Domain_Core.HomeServiceAgg.DTOs
         public decimal BasePrice { get; set; }
         public int CategoryId { get; set; }
         public int ImageId { get; set; }
+        public string ImagePath { get; set; }
+        public string CategoryName { get; set; }
     }
 }
