@@ -98,7 +98,32 @@ namespace Asistant_FrameWork.UIExtensions
                 .Replace("M", month.ToString())
                 .Replace("d", day.ToString());
         }
+        public static string ToPersianDateString2(this DateTime date, string format = "yyyy/MM/dd")
+        {
+            var persianCalendar = new PersianCalendar();
 
+            // تاریخ میلادی را مستقیماً به شمسی تبدیل نمی‌توان کرد
+            // PersianCalendar روی DateTime میلادی عمل می‌کند
+            var year = persianCalendar.GetYear(date);
+            var month = persianCalendar.GetMonth(date);
+            var day = persianCalendar.GetDayOfMonth(date);
+
+            // ساعت‌ها از DateTime اصلی گرفته می‌شوند (چون تقویم شمسی روی ساعت تاثیری ندارد)
+            var hour = date.Hour;
+            var minute = date.Minute;
+            var second = date.Second;
+
+            return format
+                .Replace("yyyy", year.ToString("0000"))
+                .Replace("MM", month.ToString("00"))
+                .Replace("dd", day.ToString("00"))
+                .Replace("HH", hour.ToString("00"))
+                .Replace("mm", minute.ToString("00"))
+                .Replace("ss", second.ToString("00"))
+                .Replace("yy", year.ToString().Substring(Math.Max(0, year.ToString().Length - 2)))
+                .Replace("M", month.ToString())
+                .Replace("d", day.ToString());
+        }
         // اعتبارسنجی تاریخ شمسی
         public static bool IsValidPersianDate(this string persianDate)
         {

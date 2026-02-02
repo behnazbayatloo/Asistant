@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CommentAgg\DTOs\" />
     <Folder Include="SuggestionAgg\DTOs\" />
     <Folder Include="UserAgg\Enums\" />
     <Folder Include="HomeServiceAgg\Enums\" />

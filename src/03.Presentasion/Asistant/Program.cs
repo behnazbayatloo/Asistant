@@ -1,4 +1,5 @@
 
+using Asistant.Middleware;
 using Asistant_Domain_AppService;
 using Asistant_Domain_Core.CommentAgg.AppService;
 using Asistant_Domain_Core.CommentAgg.Data;
@@ -142,12 +143,13 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
+
 
 
 app.MapControllerRoute(
