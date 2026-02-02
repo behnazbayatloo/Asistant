@@ -10,5 +10,6 @@
         public int UserId { get; set; }
         public string? CityName { get; set; }
         public List<int>? HomeServiceIds { get; set; }
+        public decimal? Ballance { get; set; }
     }
 }

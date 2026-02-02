@@ -10,6 +10,7 @@
             public string? Adress { get; set; }
             public int UserId { get; set; }
         public string? CityName { get; set; }
+        public decimal? Ballance { get; set; }
 
 
     }

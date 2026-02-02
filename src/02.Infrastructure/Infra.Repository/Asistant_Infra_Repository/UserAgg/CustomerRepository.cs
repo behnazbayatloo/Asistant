@@ -29,7 +29,8 @@ namespace Asistant_Infra_Repository.UserAgg
               Email=c.User.Email,
               FirstName=c.User.FirstName,
               LastName=c.User.LastName,
-              CityName=c.City.Name
+              CityName=c.City.Name,
+              Balance=c.User.Balance
           });
             
             return await query.ToPaginatedResult<OutputCustomerDTO>(pageNumber,pageSize,ct);
@@ -52,7 +53,8 @@ namespace Asistant_Infra_Repository.UserAgg
                     LastName=c.User.LastName,
                     UserId=c.UserId,
                     CityName=c.City.Name,
-                    ImagePath=c.Image.ImagePath
+                    ImagePath=c.Image.ImagePath,
+                    Balance=c.User.Balance
                 
                 }).FirstOrDefaultAsync(ct);
         }

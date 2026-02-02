@@ -67,7 +67,8 @@ namespace Asistant_Domain_AppService
                 Email = updateCustomerDTO.Email,
                 FirstName = updateCustomerDTO.FirstName,
                 Id = updateCustomerDTO.UserId,
-                LastName = updateCustomerDTO.LastName
+                LastName = updateCustomerDTO.LastName,
+                Ballance=updateCustomerDTO.Balance
             });
             if (updateCustomerDTO.Image is not null)
             {
@@ -104,7 +105,8 @@ namespace Asistant_Domain_AppService
                 Email = customerDTO.Email,
                 CreatedAt = DateTime.Now,
                 FirstName=customerDTO.FirstName,
-                LastName=customerDTO.LastName
+                LastName=customerDTO.LastName,
+                Balance=customerDTO.Balance,
 
             };
             var result = await _userManager.CreateAsync(user, customerDTO.Password);

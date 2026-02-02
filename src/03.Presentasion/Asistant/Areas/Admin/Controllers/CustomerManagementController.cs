@@ -26,7 +26,8 @@ namespace Asistant.Areas.Admin.Controllers
                 ,
                 FirstName = c.FirstName,
                 LastName = c.LastName,
-                CityName=c.CityName
+                CityName=c.CityName,
+                Ballance=c.Balance
             }).ToList();
             pagedResult.TotalCount = result.TotalCount;
             pagedResult.PageNumber = result.PageNumber;
@@ -75,7 +76,8 @@ namespace Asistant.Areas.Admin.Controllers
                 UserId = customer.UserId,
                 CityId = customer.CityId == null ?  null :customer.CityId.Value,
                 Cities = cities,
-                ImagePath = customer.ImagePath
+                ImagePath = customer.ImagePath,
+                Ballance=customer.Balance
 
 
             };
@@ -113,7 +115,8 @@ namespace Asistant.Areas.Admin.Controllers
                 LastName = model.LastName,
                 Password = model.Password,
                 UserId = model.UserId,
-                Image = model.Image
+                Image = model.Image,
+                Balance=model.Ballance
             };
             var result = await _cstapp.UpdateCustomer(ct, editCustomer);
             if (result)
@@ -181,7 +184,8 @@ namespace Asistant.Areas.Admin.Controllers
                 ,
                 Image = model.Image,
                 LastName = model.LastName,
-                Password = model.Password
+                Password = model.Password,
+                Balance=model.Ballance
             };
             var result = await _cstapp.CreateCustomerByAdmin(customer, ct);
             if (result.Succeeded)

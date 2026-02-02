@@ -21,7 +21,7 @@ namespace Asistant.Areas.Admin.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? Adress { get; set; }
-      
+      public decimal? Ballance { get; set; }
         public IFormFile? Image { get; set; }
         public int? CityId { get; set; }
         public IEnumerable<SelectListItem>? Cities { get; set; }

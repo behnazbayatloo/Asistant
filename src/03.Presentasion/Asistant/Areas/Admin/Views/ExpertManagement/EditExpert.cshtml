@@ -46,27 +46,33 @@
         <input asp-for="@Model.Image" type="file" class="form-control" />
     </div>
     <div class="mb-3">
-        <label asp-for="@Model.Password" class="form-label"></label>
+        <label asp-for="@Model.Email" class="form-label">ایمیل</label>
+        <input asp-for="@Model.Email" class="form-control" />
+
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Password" class="form-label">رمز عبور</label>
         <input asp-for="@Model.Password" class="form-control" />
         
     </div>
 
-    <div class="mb-3">
-        <label asp-for="@Model.Email" class="form-label"></label>
-        <input asp-for="@Model.Email" class="form-control" />
-     
-    </div>
+   
 
     <div class="mb-3">
-        <label asp-for="@Model.FirstName" class="form-label"></label>
+        <label asp-for="@Model.FirstName" class="form-label">نام</label>
         <input asp-for="@Model.FirstName" class="form-control" />
       
     </div>
 
     <div class="mb-3">
-        <label asp-for="@Model.LastName" class="form-label"></label>
+        <label asp-for="@Model.LastName" class="form-label">نام خانوادگی</label>
         <input asp-for="@Model.LastName" class="form-control" />
     
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Ballance" class="form-label">موجودی</label>
+        <input asp-for="@Model.Ballance" class="form-control" />
+
     </div>
 
     <div class="mb-3">

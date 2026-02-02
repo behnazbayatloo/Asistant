@@ -29,7 +29,8 @@ namespace Asistant.Areas.Admin.Controllers
                 Id = e.Id,
                 LastName = e.LastName,
                 UserId = e.UserId,
-                CityName=e.CityName
+                CityName=e.CityName,
+                Ballance=e.Balance
             }).ToList();
             pagedResult.PageNumber = pageNumber;
             pagedResult.PageSize = pageSize;
@@ -86,7 +87,8 @@ namespace Asistant.Areas.Admin.Controllers
                 HomeServices = homeServices
                 ,
                 HomeServicesIds = expert.HomeServicesId ?? new List<int>() ,
-                ImagePath = expert.ImagePath
+                ImagePath = expert.ImagePath,
+                Ballance=expert.Balance
 
 
             }; 
@@ -132,7 +134,8 @@ namespace Asistant.Areas.Admin.Controllers
                 Password = model.Password,
                 UserId = model.UserId,
                 Image = model.Image,
-                HomeServicesId= model.HomeServicesIds
+                HomeServicesId= model.HomeServicesIds,
+                Balance=model.Ballance
 
             };
             var result = await _expapp.UpdateExpert(ct, editExpert);
@@ -219,6 +222,7 @@ namespace Asistant.Areas.Admin.Controllers
                 Image = model.Image,
                 LastName = model.LastName,
                 Password = model.Password,
+                Balance=model.Ballance
 
             };
             var result = await _expapp.CreateExpertByAdmin(expert, ct);

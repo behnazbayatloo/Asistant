@@ -70,7 +70,8 @@ namespace Asistant_Domain_AppService
                 Id= updateExpert.UserId,
                 Email=updateExpert.Email,
                 FirstName=updateExpert.FirstName,
-                LastName=updateExpert.LastName
+                LastName=updateExpert.LastName,
+                Ballance=updateExpert.Balance
              
             });
             if (updateExpert.Image is not null)
@@ -141,7 +142,8 @@ namespace Asistant_Domain_AppService
                 Email = expertDTO.Email,
                 CreatedAt = DateTime.Now,
                 FirstName = expertDTO.FirstName,
-                LastName = expertDTO.LastName
+                LastName = expertDTO.LastName,
+                Balance=expertDTO.Balance,
 
             };
             var result = await _userManager.CreateAsync(user, expertDTO.Password);

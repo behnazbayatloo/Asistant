@@ -19,7 +19,7 @@ namespace Asistant.Areas.Admin.Models
         public int? CityId { get; set; }
         public string? ImagePath { get; set; }
         public IFormFile? Image { get; set; }
-      
+        public decimal? Ballance { get; set; }
         public IEnumerable<SelectListItem>? Cities { get; set; }
         public List<int>? HomeServicesIds { get; set; }
         public IEnumerable<SelectListItem>? HomeServices {  get; set; }
