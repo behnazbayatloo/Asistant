@@ -20,6 +20,8 @@ namespace Asistant_Domain_AppService
         RoleManager<IdentityRole<int>> _roleManager,
         IExpertService _expertsrv,
         ICustomerService _customersrv,
+        IAppUserService _appUserService
+        ,
         ILogger<AppUserAppService> logger) : IAppUserAppService
     {
         public async Task<IdentityResult> Register(CancellationToken ct, RegisterDTO registerDTO)
@@ -149,7 +151,48 @@ namespace Asistant_Domain_AppService
             await _signInManager.SignOutAsync();
             logger.LogInformation("کاربر خارج شد.");
         }
+        public async Task<PagedResult<AdminDTO>> GetAdminsPagedResult(int pageNumber, int pageSize,CancellationToken ct) 
+        => await _appUserService.GetPagedAdmins(pageNumber, pageSize, ct);
+        public async Task<bool> DeleteAdmin(CancellationToken ct, int id)
+        {
+            var result= await _appUserService.DeleteAppUserById(id, ct);
+            if (result.Succeeded)  return result.Succeeded;
+            else return false;
+        }
+        public async Task<AdminDTO?> GetAdminById(int id, CancellationToken ct)=> await _appUserService.GetAdminById(id, ct);
+        public async Task<bool> UpdateAdmin(AppUserFieldsDTO adminDTO)
+        {
+
+            var result = await _appUserService.UpdateAppUserFields(adminDTO);
+            if(adminDTO.Password is not null)
+            {
+                await _appUserService.ChangePassword(adminDTO.Id, adminDTO.Password);
+            }
+            return result.Succeeded;
+
+        }
+        public async Task<IdentityResult> CreateAdmin(CancellationToken ct, CreateAdminDTO admin)
+        {
+            var user = new AppUser
+            {
+                UserName = admin.Email,
+                Email = admin.Email,
+                CreatedAt = DateTime.Now
+                ,FirstName = admin.FirstName,
+                LastName = admin.LastName,
+                Balance = admin.Balance,
+            };
+            var result = await _userManager.CreateAsync(user, admin.Password);
+            if (result.Succeeded)
+            {
+                logger.LogInformation("کاربر جدید با ایمیل {Email} و نقش ادمین ساخته شد.",
+                    user.Email);
+
+                    await _userManager.AddToRoleAsync(user, "Admin");
 
 
+            }
+            return result;
+        }
     }
 }

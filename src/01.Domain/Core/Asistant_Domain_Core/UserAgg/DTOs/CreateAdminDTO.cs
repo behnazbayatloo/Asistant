@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Asistant_Domain_Core.UserAgg.DTOs
 {
-    public class AppUserFieldsDTO
+    public class CreateAdminDTO
     {
-        public int Id { get; set; }
+        
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string? Email { get; set; }
-        public string? Password { get; set; }
-        public decimal? Ballance { get; set; }  
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public decimal? Balance { get; set; }
     }
 }

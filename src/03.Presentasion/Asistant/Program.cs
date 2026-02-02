@@ -64,6 +64,7 @@ builder.Services.AddScoped<IHomeServiceAppService, HomeServiceAppService>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IImageAppService, ImageAppService>();
+builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
 builder.Services.AddScoped<IAppUserService,AppUserService>();
 builder.Services.AddScoped<IAppUserAppService,AppUserAppService>();
 builder.Services.AddScoped<IFileService, FileService>();

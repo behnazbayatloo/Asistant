@@ -52,26 +52,27 @@ namespace Asistant.Areas.Customer.Controllers
             }).ToList();
             cities.Insert(0, new SelectListItem { Value = "", Text = "یک شهر انتخاب کنید" });
             var userId = Int32.Parse(_userManager.GetUserId(User));
-            var model = new CustomerViewModel();
+            var model = new EditCustomerViewModel();
             if (userId >0)
             {
                 var customer = await customerApp.GetCustomerByUserId(userId, ct);
-                model = new CustomerViewModel
+                model = new EditCustomerViewModel
                 {
                     Id = customer.Id,
                     UserId = userId,
                     Adress = customer.Adress,
                     CityId = customer.CityId,
-                    CityName = customer.CityName,
+
                     Email = customer.Email,
                     FirstName = customer.FirstName,
                     ImagePath = customer.ImagePath
-                    ,
+                     ,
                     LastName = customer.LastName
-
                 };
             }
-            return View(model);
+          
+
+                return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> EditProfile(EditCustomerViewModel model,CancellationToken ct)

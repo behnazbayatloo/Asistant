@@ -35,8 +35,8 @@ namespace Asistant_Domain_Core.RequestAgg.Entity
         public int HomeServiceId { get; set; }
         public List<Suggestion>? Suggestions { get; set; }
         public List<Image>? Images { get; set; }
-        public Comment Comment { get; set; }
-        public int CommentId { get; set; }
+        public Comment? Comment { get; set; }
+        public int? CommentId { get; set; }
         #endregion
     }
 }

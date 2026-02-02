@@ -18,5 +18,6 @@ namespace Asistant_Domain_Core.UserAgg.DTOs
         public int UserId { get; set; }
         public List<int>? HomeServicesId { get; set; }
         public string? ImagePath { get; set; }
+        public decimal? Balance { get; set; }
     }
 }

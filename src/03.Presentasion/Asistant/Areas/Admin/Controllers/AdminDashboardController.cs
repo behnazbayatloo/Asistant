@@ -14,18 +14,20 @@ namespace Asistant.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class AdminDashboardController(UserManager<AppUser> _userManager
+    public class AdminDashboardController(UserManager<AppUser> _userManager,IAppUserAppService _userApp
         ) : Controller
     {
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken ct)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var userId =  _userManager.GetUserId(User);
+            var result= await _userApp.GetAdminById(Int32.Parse(userId),ct);
             var admin = new AdminViewModel
             {
-                Id=user.Id,
-                Email=user.Email,
-                FirstName=user.FirstName,
-                LastName=user.LastName
+                Id= result.Id,
+                Email= result.Email,
+                FirstName= result.FirstName,
+                LastName= result.LastName,
+                Balance= result.Balance
             };
             return View(admin);
         }
