@@ -17,6 +17,7 @@ namespace Asistant_Domain_Core.UserAgg.DTOs
         public string? CityName { get; set; }    
         public int UserId { get; set; }
         public List<int>? HomeServicesId { get; set; }
+        public List<string>? HomeServicesNames { get; set; }
         public string? ImagePath { get; set; }
         public decimal? Balance { get; set; }
     }

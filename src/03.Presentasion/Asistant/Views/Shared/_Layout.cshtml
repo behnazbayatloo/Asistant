@@ -49,7 +49,9 @@
                     }
                     if (User.IsInRole("Expert"))
                     {
-
+                        <div class="nav-links">
+                            <a asp-area="Expert" asp-Controller="Profile" asp-action="Index">پروفایل</a>
+                        </div>
                     }
                     
                         <span class="navbar-text text-bg-light me-2">سلام، @User.Identity!.Name</span>

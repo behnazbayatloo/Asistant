@@ -173,6 +173,10 @@ namespace Asistant_Domain_AppService
             }
             return result;
         }
+        public async Task<OutputExpertDTO?> GetExpertByUserId(CancellationToken ct, int userId)
+=> await _expsrv.GetExpertByUserId(ct, userId);
         }
+          
+
 
     }

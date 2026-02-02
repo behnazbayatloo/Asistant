@@ -53,6 +53,7 @@ namespace Asistant_Infra_Repository.UserAgg
                 {
                     Id = e.Id,
                     HomeServicesId = e.HomeServices.Select(hs=> hs.Id).ToList(),
+                    HomeServicesNames=e.HomeServices.Select(hs=>hs.Name).ToList(),
                     CityId = e.CityId,
                     Email = e.User.Email,
                     FirstName = e.User.FirstName,
@@ -62,6 +63,27 @@ namespace Asistant_Infra_Repository.UserAgg
                     ImagePath= e.Image.ImagePath,
                     Balance=e.User.Balance
                     
+
+                }).FirstOrDefaultAsync(ct);
+        }
+        public async Task<OutputExpertDTO?> GetExpertByUserId(CancellationToken ct, int userId)
+        {
+            return await _dbcontext.Experts.AsNoTracking()
+                .Where(e => e.UserId == userId)
+                .Select(e => new OutputExpertDTO
+                {
+                    Id = e.Id,
+                    HomeServicesId = e.HomeServices.Select(hs => hs.Id).ToList(),
+                    HomeServicesNames = e.HomeServices.Select(hs => hs.Name).ToList(),
+                    CityId = e.CityId,
+                    Email = e.User.Email,
+                    FirstName = e.User.FirstName,
+                    LastName = e.User.LastName,
+                    UserId = e.UserId,
+                    CityName = e.City.Name,
+                    ImagePath = e.Image.ImagePath,
+                    Balance = e.User.Balance
+
 
                 }).FirstOrDefaultAsync(ct);
         }

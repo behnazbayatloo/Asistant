@@ -36,7 +36,10 @@ namespace Asistant_Domain_Service
         public async Task<List<int>?> GetHomeServiceIdByExpertId(int expertId, CancellationToken ct)
             => await _exprepo.GetHomeServicesIdByExpertId(expertId, ct);
         public async Task<bool> UpdateHomeServicesForExpert(int expertId, List<HomeService> list, CancellationToken ct)
-            => await _exprepo.UpdateHomeServicesForExpert(expertId, list, ct);  
-      
+            => await _exprepo.UpdateHomeServicesForExpert(expertId, list, ct);
+        public async Task<OutputExpertDTO?> GetExpertByUserId(CancellationToken ct, int userId)
+=> await _exprepo.GetExpertByUserId(ct, userId);
+
+
     }
 }

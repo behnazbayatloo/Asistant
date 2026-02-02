@@ -1,7 +1,8 @@
-﻿@using Asistant.Areas.Admin.Models
+﻿@using Asistant.Areas.Expert.Models
 
 @model EditExpertViewModel
 @{
+    Layout = "_ExpertLayout";
     ViewData["Title"] = "ویرایش اطلاعات کارشناس";
 }
 <h4>ویرایش اطلاعات کارشناس</h4>
@@ -17,7 +18,7 @@
         @ViewBag.Succeed
     </div>
 }
-<form asp-area="Admin" asp-action="EditExpert" asp-controller="ExpertManagement" enctype="multipart/form-data" method="post">
+<form asp-area="Expert" asp-action="EditProfile" asp-controller="Profile" enctype="multipart/form-data" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     @if (!ViewData.ModelState.IsValid)
     {
@@ -53,21 +54,21 @@
     <div class="mb-3">
         <label asp-for="@Model.Password" class="form-label">رمز عبور</label>
         <input asp-for="@Model.Password" class="form-control" />
-        
+
     </div>
 
-   
+
 
     <div class="mb-3">
         <label asp-for="@Model.FirstName" class="form-label">نام</label>
         <input asp-for="@Model.FirstName" class="form-control" />
-      
+
     </div>
 
     <div class="mb-3">
         <label asp-for="@Model.LastName" class="form-label">نام خانوادگی</label>
         <input asp-for="@Model.LastName" class="form-control" />
-    
+
     </div>
     <div class="mb-3">
         <label asp-for="@Model.Ballance" class="form-label">موجودی</label>
@@ -83,12 +84,12 @@
     <div class="mb-3">
         <label asp-for="@Model.CityId" class="form-label">شهر</label>
         <select asp-for="@Model.CityId" asp-items="@Model.Cities" class="form-select" option-label="یک شهر انتخاب کنید"></select>
-       
-        
+
+
     </div>
 
     <button type="submit" class="btn btn-success">ذخیره تغییرات</button>
-    <a asp-area="Admin" asp-action="ShowExperts" asp-controller="ExpertManagement" class="btn btn-secondary">بازگشت</a>
+    <a asp-area="Expert" asp-action="Index" asp-controller="Profile" class="btn btn-secondary">بازگشت</a>
 </form>
 
 @section Scripts {
