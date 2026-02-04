@@ -1,4 +1,4 @@
-
+﻿
 using Asistant.Middleware;
 using Asistant_Domain_AppService;
 using Asistant_Domain_Core.CommentAgg.AppService;
@@ -34,6 +34,9 @@ using Asistant_Infra_Repository.UserAgg;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+
+
+using Microsoft.Extensions.Caching.StackExchangeRedis; 
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -94,6 +97,7 @@ builder.Host.UseSerilog((context, configuration) =>
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddRazorPages();
+
 #region IdentityConfigs
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -128,6 +132,19 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 #endregion
 
+#region Redis Settings
+
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379"; // یا آدرس سرور ریدیس شما
+    options.InstanceName = "MyProject_";
+});
+#endregion
+
+#region InMemoryCache
+builder.Services.AddMemoryCache();
+#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

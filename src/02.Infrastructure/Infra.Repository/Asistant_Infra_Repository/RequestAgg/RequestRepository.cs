@@ -105,5 +105,69 @@ namespace Asistant_Infra_Repository.RequestAgg
 
                 }).FirstOrDefaultAsync(ct);
         }
+
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedDoneRequestByCustomerId(int id,int pageNumber, int pageSize, CancellationToken ct)
+        {
+            var query = _dbcontext.Requests
+                .AsNoTracking()
+                .Where(r => r.CustomerId == id && r.Status == StatusEnum.Completed)
+                .OrderBy(c => c.Id)
+                
+                .Select(c => new OutputRequestDTO
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    AppointmentReadyDate = c.AppointmentReadyDate,
+                    CommentId = c.CommentId,
+                    CompletedDate = c.CompletedDate,
+                    CreatedAt = c.CreatedAt,
+                    CustomerId = c.CustomerId,
+                    CustomerName = c.Customer.User.FirstName + " " + c.Customer.User.LastName,
+                    Description = c.Description,
+                    HomeServiceId = c.HomeServiceId,
+                    HomeServiceName = c.HomeService.Name,
+                    Status = c.Status.ToString(),
+                    VerifyExpertDate = c.VerifyExpertDate,
+                    SuggestionsId = c.Suggestions != null ? c.Suggestions.Select(s => s.Id).ToList() : new List<int>(),
+                    SuggesstionCount = c.Suggestions != null ? c.Suggestions.Count : 0,
+                    ImagesId = c.Images != null ? c.Images.Select(i => i.Id).ToList() : new List<int>()
+
+
+                });
+
+            return await query.ToPaginatedResult<OutputRequestDTO>(pageNumber, pageSize, ct);
+
+        }
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedInProgressRequestByCustomerId(int id,int pageNumber, int pageSize, CancellationToken ct)
+        {
+            var query = _dbcontext.Requests
+                .AsNoTracking()
+                  .Where(r => r.CustomerId == id && r.Status != StatusEnum.Completed)
+                .OrderBy(c => c.Id)
+                .Select(c => new OutputRequestDTO
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    AppointmentReadyDate = c.AppointmentReadyDate,
+                    CommentId = c.CommentId,
+                    CompletedDate = c.CompletedDate,
+                    CreatedAt = c.CreatedAt,
+                    CustomerId = c.CustomerId,
+                    CustomerName = c.Customer.User.FirstName + " " + c.Customer.User.LastName,
+                    Description = c.Description,
+                    HomeServiceId = c.HomeServiceId,
+                    HomeServiceName = c.HomeService.Name,
+                    Status = c.Status.ToString(),
+                    VerifyExpertDate = c.VerifyExpertDate,
+                    SuggestionsId = c.Suggestions != null ? c.Suggestions.Select(s => s.Id).ToList() : new List<int>(),
+                    SuggesstionCount = c.Suggestions != null ? c.Suggestions.Count : 0,
+                    ImagesId = c.Images != null ? c.Images.Select(i => i.Id).ToList() : new List<int>()
+
+
+                });
+
+            return await query.ToPaginatedResult<OutputRequestDTO>(pageNumber, pageSize, ct);
+
+        }
     }
 }
