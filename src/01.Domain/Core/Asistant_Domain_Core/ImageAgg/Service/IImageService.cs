@@ -14,8 +14,9 @@ namespace Asistant_Domain_Core.ImageAgg.Service
         Task<ProfileImageDTO?> GetImageByCustomerId(int userId, CancellationToken ct);
         Task<ProfileImageDTO?> GetImageByExpertId(int userId, CancellationToken ct);
         Task<ImageDTO?> GetImageByHomeServiceId(int id, CancellationToken ct);
-      
-    
+        Task<List<string>> GetRequestImagesByRequestId(int id, CancellationToken ct);
+        Task<List<string>> GetSuggestionImagesBySuggestionId(int id, CancellationToken ct);
+
         Task<int> SetCategoryImage(ImageDTO imageDTO, CancellationToken ct);
         Task<int> SetHomeServiceImage(ImageDTO imageDTO, CancellationToken ct);
         Task<int> SetImageProfile(ProfileImageDTO profileImageDTO, CancellationToken ct);

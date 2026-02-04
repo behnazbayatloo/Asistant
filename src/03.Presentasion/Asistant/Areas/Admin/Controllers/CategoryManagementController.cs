@@ -17,7 +17,7 @@ namespace Asistant.Areas.Admin.Controllers
         public async Task<IActionResult> Index(CancellationToken ct, int pageNumber = 1, int pageSize = 4)
         {
             var pagedCategory = await categoryApp.GetPagedCategories(pageNumber, pageSize, ct);
-            var pagedResult = new PagedViewModel<CategoryViewModel>();
+            var pagedResult = new PagedViewModel<CategoryViewModel,int>();
             pagedResult.Items = pagedCategory.Items.Select(c => new CategoryViewModel
             {
                 Id = c.Id,

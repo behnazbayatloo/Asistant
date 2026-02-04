@@ -1,4 +1,5 @@
-﻿using Asistant_Domain_Core.RequestAgg.Data;
+﻿using Asistant_Domain_Core._commonEntities;
+using Asistant_Domain_Core.RequestAgg.Data;
 using Asistant_Domain_Core.RequestAgg.DTOs;
 using Asistant_Domain_Core.RequestAgg.Services;
 using Microsoft.Extensions.Logging;
@@ -16,5 +17,13 @@ namespace Asistant_Domain_Service
             => await _reqrepo.DeleteRequestByCustomerId(ct, id);
         public async Task<int> CreateRequest(CancellationToken ct, InputRequestDTO requestDTO)
             => await _reqrepo.CreateRequest(ct, requestDTO);
-    }
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedRequest(int pageNumber, int pageSize, CancellationToken ct)
+   => await _reqrepo.GetPagedRequest(pageNumber, pageSize, ct);
+        public async Task<bool> RejectRequest(int id, CancellationToken ct)
+       => await _reqrepo.RejectRequest(id, ct);
+        public async Task<bool> DeleteRequest(int id, CancellationToken ct)
+            => await _reqrepo.DeleteRequest(id,ct);
+        public async Task<OutputRequestDTO?> GetRequestById(int id, CancellationToken ct)
+            => await _reqrepo.GetRequestById(id, ct);
+            }
 }

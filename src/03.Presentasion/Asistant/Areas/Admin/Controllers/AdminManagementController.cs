@@ -18,7 +18,7 @@ namespace Asistant.Areas.Admin.Controllers
              public async Task<IActionResult> ShowAdmins(CancellationToken ct, int pageNumber = 1, int pageSize = 2)
         {
             var result = await _appUserAppService.GetAdminsPagedResult(pageNumber, pageSize, ct);
-            var pagedResult = new PagedViewModel<AdminViewModel>();
+            var pagedResult = new PagedViewModel<AdminViewModel,int>();
             pagedResult.Items = result.Items.Select(a => new AdminViewModel
             {
                 Id = a.Id,

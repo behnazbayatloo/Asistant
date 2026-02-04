@@ -132,6 +132,20 @@ namespace Asistant_Infra_Repository.ImageAgg
             await _dbcontext.Images.AddRangeAsync(images, ct);
           return  await _dbcontext.SaveChangesAsync(ct)>0;
         }
+        public async Task<List<string>> GetSuggestionImagesBySuggestionId(int id,CancellationToken ct)
+        {
+            return await _dbcontext.Images
+                .Where(i => i.SuggestionId == id)
+                .Select(i => i.ImagePath)
+                .ToListAsync(ct);
+        }
+        public async Task<List<string>> GetRequestImagesByRequestId(int id, CancellationToken ct) 
+        {
+            return await _dbcontext.Images
+                    .Where(i => i.RequestId == id)
+                    .Select(i => i.ImagePath)
+                    .ToListAsync(ct);
+        }
 
        
     }

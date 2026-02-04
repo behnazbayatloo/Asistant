@@ -18,13 +18,13 @@ namespace Asistant.Areas.Admin.Controllers
             var result = await _commentApp.GetPagedComment(pageNumber, pageSize, ct, showAll);
 
             
-            var pagedResult = new PagedViewModel<CommentViewModel>();
+            var pagedResult = new PagedViewModel<CommentViewModel,int>();
 
            
             pagedResult.Items = result.Items.Select(r => new CommentViewModel
             {
                
-                CreatedAt = r.CreatedAt.ToPersianDateString2("yy/mm/dd"),
+                CreatedAt = r.CreatedAt.ToPeString("yyyy/mm/dd"),
 
                 CustomerId = r.CustomerId,
                 CustomerName = r.CustomerName,

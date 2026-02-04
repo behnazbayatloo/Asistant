@@ -22,5 +22,7 @@ namespace Asistant_Domain_Core.ImageAgg.Data
         Task<ImageDTO?> GetImageByHomeServiceId(int id, CancellationToken ct);
         Task<ProfileImageDTO?> GetImageByCustomerId(int userId, CancellationToken ct);
         Task<bool> SetRequestImage(List<RequestImageDTO> requestImages, CancellationToken ct);
+        Task<List<string>> GetSuggestionImagesBySuggestionId(int id, CancellationToken ct);
+        Task<List<string>> GetRequestImagesByRequestId(int id, CancellationToken ct);
     }
 }

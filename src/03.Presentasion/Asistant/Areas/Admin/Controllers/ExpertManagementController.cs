@@ -19,7 +19,7 @@ namespace Asistant.Areas.Admin.Controllers
         public async Task<IActionResult> ShowExperts(CancellationToken ct, int pageNumber = 1, int pageSize = 2)
         {
             var result = await _expapp.GetPagedExperts(pageNumber, pageSize, ct);
-            var pagedResult = new PagedViewModel<ExpertOutputViewModel>();
+            var pagedResult = new PagedViewModel<ExpertOutputViewModel,int>();
             pagedResult.Items = result.Items.Select(e => new ExpertOutputViewModel
             {
                 CityId = e.CityId,

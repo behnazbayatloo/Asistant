@@ -1,0 +1,172 @@
+﻿@using Asistant.Areas.Admin.Models
+@model PagedViewModel<SuggestionViewModel, RequestViewModel>
+
+@{
+   
+    ViewData["Title"] = "جزئیات درخواست و پیشنهادات";
+}
+
+<div class="container mt-4" dir="rtl">
+
+    @if (Model.MyProp != null)
+    {
+        var req = Model.MyProp;
+        <div class="card shadow-sm mb-5 border-0">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">اطلاعات درخواست: @req.Title</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>نام مشتری:</strong> @req.CustomerName</p>
+                        <p><strong>نام سرویس:</strong> @req.HomeServiceName</p>
+                        <p><strong>توضیحات:</strong> @req.Description</p>
+                        <p>
+                            <strong>وضعیت:</strong>
+                            @if (req.Status == "PendingExpertApproval")
+                            {
+                                <span class="badge bg-warning text-dark">در انتظار پیشنهاد از سوی اولین کارشناس</span>
+                            }
+                            else if (req.Status == "PendingSuggestionApproval")
+                            {
+                                <span class="badge bg-warning text-dark">در انتظار تایید پیشنهاد یکی از کارشناسان</span>
+                            }
+                            else if (req.Status == "AwaitingExpertArrivalOnSite")
+                            {
+                                <span class="badge bg-warning text-dark">در انتظار حاضر شدن کارشناس در محل</span>
+                            }
+                            else if (req.Status == "InProgress")
+                            {
+                                <span class="badge bg-warning text-dark">کارشناس در حال انجام حدمت</span>
+                            }
+                            else if (req.Status == "Completed")
+                            {
+                                <span class="badge bg-success">اتمام کار</span>
+                            }
+                            else if (req.Status == "RejectedByAdmin")
+                            {
+                                <span class="badge bg-danger">درخواست توسط ادمین رد شد</span>
+                            }
+                           
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>تاریخ ایجاد:</strong> @req.CreatedAt</p>
+                        <p><strong>تاریخ آماده‌سازی:</strong> @(req.AppointmentReadyDate?? "ثبت نشده")</p>
+                        <p><strong>تعداد پیشنهادات:</strong> @req.SuggesstionCount</p>
+                    </div>
+                </div>
+
+               
+                @if (req.ImagesPath != null && req.ImagesPath.Any())
+                {
+                    <div class="mt-3">
+                        <h6>تصاویر مربوط به درخواست:</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            @foreach (var imgPath in req.ImagesPath)
+                            {
+                                <img src="@imgPath" class="img-thumbnail" style="max-width: 100px; height: auto;" alt="Request Image" />
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">اطلاعاتی یافت نشد.</div>
+    }
+
+ 
+    <h4 class="mb-3 border-bottom pb-2">لیست پیشنهادات</h4>
+
+    @if (Model.Items != null && Model.Items.Any())
+    {
+        <div class="row">
+            @foreach (var item in Model.Items)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm hover-shadow transition">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title text-primary">@item.Title</h5>
+                                <span class="badge bg-info text-dark">@item.ExpertName</span>
+                            </div>
+
+                            <p class="card-text text-muted small">@item.Description</p>
+
+                            <ul class="list-unstyled list-group-flush">
+                                <li class="mb-1"><strong>قیمت:</strong> @item.Price.ToString("N0") تومان</li>
+                                <li class="mb-1"><strong>تاریخ ثبت:</strong> @item.CreatedAt</li>
+                                <li class="mb-1"><strong>وضعیت:</strong> 
+                                    @if(item.Status=="Pending")
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                        در انتظار تایید</span>
+                                    }
+                                    @if(item.Status=="Accept")
+                                    {
+                                         <span class="badge bg-success">پذیرفته شده</span>
+                                    }
+                                    @if (item.Status == "Reject")
+                                    {
+                                        <span class="badge bg-danger">رد شد</span>
+                                    }
+                                </li>
+                            </ul>
+
+                           
+                            @if (item.ImagesPath != null && item.ImagesPath.Any())
+                            {
+                                <div class="mt-3">
+                                    <div class="d-flex gap-1 overflow-auto">
+                                        @foreach (var img in item.ImagesPath.Take(3)) 
+                                        {
+                                            <img src="@img" class="rounded border" style="width: 60px; height: 60px; object-fit: cover;" />
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                       
+                    </div>
+                </div>
+            }
+        </div>
+
+       
+        <nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
+            <ul class="pagination">
+             
+                <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="?id=@Model.MyProp.Id&page=@(Model.PageNumber - 1)&pageSize=@Model.PageSize" aria-label="Previous">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(Model.PageNumber == i ? "active" : "")">
+                        <a class="page-link" href="?id=@Model.MyProp.Id&page=@i&pageSize=@Model.PageSize">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="?id=@Model.MyProp.Id&page=@(Model.PageNumber + 1)&pageSize=@Model.PageSize" aria-label="Next">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="text-center text-muted mt-2">
+            نمایش صفحه @Model.PageNumber از @Model.TotalPages (مجموع @Model.TotalCount رکورد)
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">هنوز پیشنهادی برای این درخواست ثبت نشده است.</div>
+    }
+
+</div>

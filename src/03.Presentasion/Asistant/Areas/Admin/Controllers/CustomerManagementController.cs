@@ -16,7 +16,7 @@ namespace Asistant.Areas.Admin.Controllers
         public async Task<IActionResult> ShowCustomers(CancellationToken ct, int pageNumber = 1, int pageSize = 2)
         {
             var result = await _cstapp.GetPagedCustomers(pageNumber, pageSize, ct);
-            var pagedResult = new PagedViewModel<CustomerOutputViewModel>();
+            var pagedResult = new PagedViewModel<CustomerOutputViewModel,int>();
             pagedResult.Items = result.Items.Select(c => new CustomerOutputViewModel
             {
                 Id = c.Id,

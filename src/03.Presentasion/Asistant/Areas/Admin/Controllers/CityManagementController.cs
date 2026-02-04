@@ -15,7 +15,7 @@ namespace Asistant.Areas.Admin.Controllers
         public async Task<IActionResult> Index(CancellationToken ct, int pageNumber = 1, int pageSize = 4)
         {
             var pagedCities = await _cityapp.GetPagedCities(pageNumber, pageSize, ct);
-            var pagedResult = new PagedViewModel<CityViewModel>();
+            var pagedResult = new PagedViewModel<CityViewModel,int>();
             pagedResult.Items = pagedCities.Items.Select (c=> new CityViewModel
             {
                 Id=c.Id,

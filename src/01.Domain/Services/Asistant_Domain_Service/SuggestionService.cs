@@ -1,4 +1,6 @@
-﻿using Asistant_Domain_Core.SuggestionAgg.Data;
+﻿using Asistant_Domain_Core._commonEntities;
+using Asistant_Domain_Core.SuggestionAgg.Data;
+using Asistant_Domain_Core.SuggestionAgg.DTOs;
 using Asistant_Domain_Core.SuggestionAgg.Services;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,5 +17,7 @@ namespace Asistant_Domain_Service
       => await _sugrepo.DeleteSuggestionByExpertId(ct, id);
         public async Task<bool> DeleteSuggestionByCustomerId(CancellationToken ct, int id)
        => await _sugrepo.DeleteSuggestionByCustomerId(ct, id);
+        public async Task<PagedResult<OutputSuggestionDTO>> GetPagedSuggestionByRequestId(int id, int pageNumber, int pageSize, CancellationToken ct)
+=> await _sugrepo.GetPagedSuggestionByRequestId(id, pageNumber, pageSize, ct);
     }
 }

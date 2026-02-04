@@ -35,5 +35,9 @@ namespace Asistant_Domain_Service
             => await _imgrepo.GetImageByCustomerId(userId, ct);
         public async Task<bool> SetRequestImage(List<RequestImageDTO> requestImages, CancellationToken ct)
             => await _imgrepo.SetRequestImage(requestImages, ct);
+        public async Task<List<string>> GetSuggestionImagesBySuggestionId(int id, CancellationToken ct)
+            => await _imgrepo.GetSuggestionImagesBySuggestionId(id, ct);
+        public async Task<List<string>> GetRequestImagesByRequestId(int id, CancellationToken ct)
+            => await _imgrepo.GetRequestImagesByRequestId(id, ct);
         }
 }
