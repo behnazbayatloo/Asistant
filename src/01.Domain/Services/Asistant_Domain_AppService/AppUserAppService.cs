@@ -3,6 +3,8 @@ using Asistant_Domain_Core.UserAgg.AppServices;
 using Asistant_Domain_Core.UserAgg.DTOs;
 using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UserAgg.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
@@ -10,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -72,81 +76,47 @@ namespace Asistant_Domain_AppService
             var user = await _userManager.FindByEmailAsync(loginDTO.Email);
             if (user == null)
             {
-                return new LoginResult
-                {
-                   Result = false,
-                    Message="اطلاعات ورود نامعتبر است.",
-                    Role=null
-                };
-              
+                return new LoginResult { Result = false, Message = "اطلاعات ورود نامعتبر است." };
             }
-            var result = await _signInManager
-                .PasswordSignInAsync(user, loginDTO.Password, loginDTO.RememberMe, lockoutOnFailure: true);
+
+            var result = await _signInManager.PasswordSignInAsync(user, loginDTO.Password, loginDTO.RememberMe, lockoutOnFailure: true);
+
             if (result.Succeeded)
             {
                 logger.LogInformation("کاربر {UserId} وارد شد.", user.Id);
+
+                
+                var claims = new List<Claim>
+        {
+            new Claim("CustomerId", user.CustomerId?.ToString() ?? ""),
+            new Claim("ExpertId", user.ExpertId?.ToString() ?? "")
+        };
+                await _userManager.AddClaimsAsync(user, claims);
+
+                
+                await _signInManager.SignInAsync(user, loginDTO.RememberMe);
+
                 var roles = await _userManager.GetRolesAsync(user);
-                if (roles.Contains("Admin"))
-                {
-                    return new LoginResult
-                    {
-                        Result = result.Succeeded,
-                        Message = "شما وارد شدید",
-                        Role="Admin"
+                var role = roles.FirstOrDefault();
 
-                    };
-                }
-                if (roles.Contains("Customer"))
+                return new LoginResult
                 {
-                    return new LoginResult
-                    {
-                        Result = result.Succeeded,
-                        Message = "شما وارد شدید",
-                        Role = "Customer"
-
-                    };
-                }
-                if (roles.Contains("Expert"))
-                {
-                    return new LoginResult
-                    {
-                        Result = result.Succeeded,
-                        Message = "شما وارد شدید",
-                        Role = "Expert"
-
-                    };
-                }
+                    Result = true,
+                    Message = "شما وارد شدید",
+                    Role = role
+                };
             }
+
             if (result.RequiresTwoFactor)
-            {
-                return new LoginResult
-                {
-                    Result = result.Succeeded,
-                    
-                    RequiresTwoFactor= result.RequiresTwoFactor,
-                    Message= "ورود نیاز به احراز هویت دومرحله‌ای دارد."
+                return new LoginResult { Result = false, RequiresTwoFactor = true, Message = "ورود نیاز به احراز هویت دومرحله‌ای دارد." };
 
-                };
-            }
             if (result.IsLockedOut)
-            {
-                logger.LogWarning("کاربر {UserId} قفل شد.", user.Id);
-                return new LoginResult
-                {
-                    Result = result.Succeeded,
-                 IsLockedOut= result.IsLockedOut,
-                    Message = "حساب کاربری شما قفل شده است."
+                return new LoginResult { Result = false, IsLockedOut = true, Message = "حساب کاربری شما قفل شده است." };
 
-                };
-            }
-            return new LoginResult
-            {
-                Result = result.Succeeded,
-                Message = "ورود ناموفق بود."
-
-            };
+            return new LoginResult { Result = false, Message = "ورود ناموفق بود." };
         }
-    public async Task Logout()
+
+        public async Task Logout()
         {
             await _signInManager.SignOutAsync();
             logger.LogInformation("کاربر خارج شد.");
