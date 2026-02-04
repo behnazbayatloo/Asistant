@@ -15,7 +15,7 @@ namespace Asistant_Domain_Core.HomeServiceAgg.Entities
         public bool IsDeleted { get; set; }
 
         #region Navigation Prop
-        public List<HomeService> HomeServices { get; set; }
+        public List<HomeService>? HomeServices { get; set; }
         public Image Image { get; set; }
         public int ImageId { get; set; }
         #endregion

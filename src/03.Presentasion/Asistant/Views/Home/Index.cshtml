@@ -1,8 +1,59 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model List<CategoryHomeViewModel>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@{
+    ViewData["Title"] = "خانه";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="hero">
+    <h1>خدمات آنلاین و تعمیرات در منزل</h1>
+    <p>با یک کلیک، متخصص مورد نظر خود را پیدا کنید</p>
+    <div class="search-bar">
+        <input type="text" placeholder="جستجو در خدمات (مثلاً نظافت منزل، تعمیر یخچال...)">
+        <button>جستجو</button>
+    </div>
+</section>
+<section class="steps">
+    <h2>سه قدم تا دریافت سرویس در محل</h2>
+    <div class="step-grid">
+        <div class="step-card">
+            <i class="fas fa-search"></i>
+            <h3>جستجو و انتخاب سرویس</h3>
+            <p>از بین صدها خدمت، مورد نیاز خود را پیدا کنید</p>
+        </div>
+        <div class="step-card">
+            <i class="fas fa-calendar-check"></i>
+            <h3>ثبت سفارش</h3>
+            <p>زمان و جزئیات را مشخص کنید</p>
+        </div>
+        <div class="step-card">
+            <i class="fas fa-user-check"></i>
+            <h3>دریافت سرویس</h3>
+            <p>متخصص در محل شما حاضر می‌شود</p>
+        </div>
+    </div>
+</section>
+<section class="categories">
+    <h2>همه خدمات</h2>
+    <div class="cat-grid">
+        @foreach(var item in Model)
+        {
+            <div class="cat-card">
+                <a asp-action="Index" asp-controller="HomeServices" asp-route-categoryId="@item.Id">
+                <img src=@item.ImagePath width="150" alt=@item.Name />
+                </a>
+                <h3>@item.Name</h3>
+            </div>
+        }
+      
+    </div>
+</section>
+
+<!-- App Download -->
+<section class="app-download">
+    <h2>اپلیکیشن خدمات من را نصب کنید</h2>
+    <p>بیش از ۱ میلیون نفر به ما اعتماد کرده‌اند</p>
+    <div class="app-buttons">
+        <a href="#" class="app-btn">دانلود برای اندروید</a>
+        <a href="#" class="app-btn">دانلود برای iOS</a>
+    </div>
+</section>

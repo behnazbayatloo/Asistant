@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\01.Domain\Core\Asistant_Domain_Core\Asistant_Domain_Core.csproj" />
     <ProjectReference Include="..\..\Infra.Db.Sql\Asistant_Infra_Db_Sql\Asistant_Infra_Db_Sql.csproj" />
+    <ProjectReference Include="..\..\Infra.Extensions\Asistant_Infra_Extensions\Asistant_Infra_Extensions.csproj" />
   </ItemGroup>
 
 </Project>

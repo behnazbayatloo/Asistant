@@ -1,0 +1,24 @@
+﻿@model List<CategoryHomeViewModel>
+
+<div class="dropdown">
+    <a href="#" class="dropdown-toggle">خدمات <i class="fas fa-chevron-down"></i></a>
+
+    <div class="dropdown-menu">
+        <div class="mega-menu">
+            @foreach (var category in Model)
+            {
+                <div class="mega-column">
+                    <a asp-area ="" asp-action="Index" asp-controller="HomeServices" asp-route-categoryId="@category.Id">
+                       <h4>@category.Name</h4>
+                       </a>
+                    @foreach (var service in category.HomeServices)
+                    {
+                        <a asp-area=""  asp-action="Index" asp-controller="HomeService" asp-route-id="@service.Id">
+                            @service.Name</a>
+                   
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

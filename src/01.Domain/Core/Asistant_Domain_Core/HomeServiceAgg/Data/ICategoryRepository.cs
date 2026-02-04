@@ -1,4 +1,5 @@
-﻿using Asistant_Domain_Core.HomeServiceAgg.DTOs;
+﻿using Asistant_Domain_Core._commonEntities;
+using Asistant_Domain_Core.HomeServiceAgg.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,14 @@ namespace Asistant_Domain_Core.HomeServiceAgg.Data
 {
     public interface ICategoryRepository
     {
-        Task<int> CreateCategory(string name);
+        Task<int> CreateCategory(string name, CancellationToken c);
+        Task<bool> DeleteCategory(int id, CancellationToken ct);
+        Task<bool> ExistCategoryName(string name, CancellationToken ct);
         Task<IEnumerable<GetCategoryDTO>> GetAllCtegories(CancellationToken ct);
         Task<GetCategoryDTO?> GetCategoryById(int id, CancellationToken ct);
-        Task<bool> UpdateImage(int id, string imagePath, CancellationToken ct);
+        Task<int?> GetCategoryImageId(int id, CancellationToken ct);
+        Task<PagedResult<GetCategoryDTO>> GetPagedCategory(int pageNumber, int pageSize, CancellationToken ct);
+        Task<bool> UpdateCategoryName(int id, string name, CancellationToken ct);
+        Task<bool> UpdateImageId(int id, int imageId, CancellationToken ct);
     }
 }

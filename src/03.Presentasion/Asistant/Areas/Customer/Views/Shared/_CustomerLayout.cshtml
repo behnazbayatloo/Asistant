@@ -1,0 +1,62 @@
+﻿
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - پروفایل</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/select2.min.css" />
+    <script src="~/lib/jquery/dist/jquery-3.6.0.min.js"></script>
+
+    <script src="~/lib/jquery/dist/select2.min.js"></script>
+
+
+    <link rel="stylesheet" href="~/css/admin.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand ms-3" href="/Admin/Dashboard">پروفایل کاربر</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" asp-area="Customer" asp-controller="Profile" asp-action="EditProfile">ویرایش اطلاعات </a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Customer" asp-controller="ExpertManagement" asp-action="ShowExperts">مدیریت سفارشات</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Customer" asp-controller="CategoryManagement" asp-action="Index">مشاهده سفارشات</a></li>
+        
+             
+                <li class="nav-item"><a class="nav-link" asp-area="" asp-action="Index" asp-controller="Home">خانه</a></li>
+            </ul>
+            <form method="post" asp-area="Identity" asp-page="/Account/Login" asp-page-handler="Logout">
+                <button class="btn btn-outline-light btn-sm">خروج</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-3 ">
+        <div class="row flex-right">
+            <div class="col-2 bg-light border-end " >
+                
+                <ul class="nav flex-column text-end ">
+                    <li class="nav-item"><a class="nav-link" asp-area="Customer" asp-controller="Profile" asp-action="EditProfile">👤 ویرایش اطلاعات</a></li>
+                    
+                    <li class="nav-item"><a class="nav-link" asp-area="Customer" asp-controller="CategoryManagement" asp-action="Index">📂 مدیریت سفارشات</a></li>
+                    
+                  
+                    <li class="nav-item"><a class="nav-link" asp-area="Customer" asp-controller="RequestManagement" asp-action="Index">📑 مشاهده سفارشات</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="Customer" asp-controller="CommentManagement" asp-action="Index">💬 کامنت‌ها</a></li>
+                   
+                </ul>
+            </div>
+            <div class="col-10">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light text-center py-2 mt-3">
+        <small>© 2026 پنل مدیریت</small>
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

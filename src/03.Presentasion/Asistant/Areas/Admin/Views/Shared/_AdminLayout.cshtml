@@ -1,0 +1,67 @@
+﻿@* Layout پنل مدیریت *@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - پنل مدیریت</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/select2.min.css" />
+    <script src="~/lib/jquery/dist/jquery-3.6.0.min.js" ></script>
+    
+    <script src="~/lib/jquery/dist/select2.min.js" ></script>
+   
+
+    <link rel="stylesheet" href="~/css/admin.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand ms-3" asp-area="Admin" asp-controller="AdminDashboard" asp-action="Index">پنل مدیریت</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="AdminManagement" asp-action="ShowAdmins">مدیریت ادمین‌ها</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="CustomerManagement" asp-action="ShowCustomers">مدیریت مشتریان</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="ExpertManagement" asp-action="ShowExperts">مدیریت کارشناسان</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="CategoryManagement" asp-action="Index">مدیریت دسته‌بندی‌ها</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="HomeServiceManagement" asp-action="Index">مدیریت خدمات</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="CityManagement" asp-action="Index">مدیریت شهرها</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="RequestManagement" asp-action="ShowRequests">مدیریت سفارش</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="CommentManagement" asp-action="Index">مدیریت کامنت‌ها</a></li>
+             
+                <li class="nav-item"><a class="nav-link" asp-area="" asp-action="Index" asp-controller="Home">خانه</a></li>
+            </ul>
+            <form method="post" asp-area="Identity" asp-page="/Account/Login" asp-page-handler="Logout">
+                <button class="btn btn-outline-light btn-sm">خروج</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-3 ">
+        <div class="row flex-right">
+            <div class="col-2 bg-light border-end " >
+                
+                <ul class="nav flex-column text-end ">
+                    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="AdminManagement" asp-action="ShowAdmins">👤 ادمین‌ها</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="CustomerManagement" asp-action="ShowCustomers">👤 مشتریان</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="ExpertManagement" asp-action="ShowExperts">👤 کارشناسان</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="CategoryManagement" asp-action="Index">📂 دسته‌بندی‌ها</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="HomeServiceManagement" asp-action="Index">🛠 خدمات</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="CityManagement" asp-action="Index">🌆 شهرها</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="RequestManagement" asp-action="ShowRequests">📑 سفارش‌ها</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="CommentManagement" asp-action="Index">💬 کامنت‌ها</a></li>
+                   
+                </ul>
+            </div>
+            <div class="col-10">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light text-center py-2 mt-3">
+        <small>© 2026 پنل مدیریت</small>
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

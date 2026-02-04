@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Asistant_Domain_Core.CommentAgg.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Asistant_Domain_Core.RequestAgg.Entity
 {
@@ -17,6 +18,8 @@ namespace Asistant_Domain_Core.RequestAgg.Entity
     {
         public int Id { get; set; }
         public string? Title { get; set; }
+
+       
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime AppointmentReadyDate { get; set; }
@@ -32,8 +35,8 @@ namespace Asistant_Domain_Core.RequestAgg.Entity
         public int HomeServiceId { get; set; }
         public List<Suggestion>? Suggestions { get; set; }
         public List<Image>? Images { get; set; }
-        public Comment Comment { get; set; }
-        public int CommentId { get; set; }
+        public Comment? Comment { get; set; }
+        public int? CommentId { get; set; }
         #endregion
     }
 }

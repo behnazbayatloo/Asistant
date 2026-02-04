@@ -1,4 +1,4 @@
-html {
+﻿/*html {
   font-size: 14px;
 }
 
@@ -6,26 +6,434 @@ html {
   html {
     font-size: 16px;
   }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+}*/
+/* ریست پایه و فونت فارسی */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Vazir', 'Tahoma', sans-serif;
+    direction: rtl;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* هدر و نوار ناوبری */
+header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.nav-links a {
+    margin-left: 2rem;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+    .nav-links a:hover {
+        color: #007bff;
+    }
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* فاصله بین دکمه‌ها */
+}
+
+    /* استایل مشترک برای هر دو لینک (دکمه) */
+    .auth-buttons a {
+        padding: 0.65rem 1.6rem;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        text-align: center;
+        min-width: 100px; /* حداقل عرض برای زیبایی */
+    }
+
+    /* دکمه ورود */
+    .auth-buttons .login {
+        background-color: transparent;
+        color: #007bff;
+        border: 2px solid #007bff;
+    }
+
+        .auth-buttons .login:hover {
+            background-color: #007bff;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+    /* دکمه ثبت‌نام */
+    .auth-buttons .signup {
+        background-color: #007bff;
+        color: white;
+        border: 2px solid #007bff;
+    }
+
+        .auth-buttons .signup:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 86, 179, 0.4);
+        }
+
+/* وقتی کاربر لاگین کرده - استایل سلام و خروج */
+    .auth-buttons .navbar-text {
+        color: #007bff;
+        font-weight: 500;
+    }
+
+    .auth-buttons .btn-outline-light {
+        background-color: transparent;
+        color: #007bff;
+        border: 2px solid #007bff;
+    }
+
+        .auth-buttons  .btn-outline-light:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 86, 179, 0.4);
+        }
+
+
+
+/* بخش Hero */
+.hero {
+    background: linear-gradient(135deg, #007bff, #00c6ff);
+    color: white;
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+    .hero h1 {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+    }
+
+.search-bar {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+    .search-bar input {
+        flex: 1;
+        padding: 1rem;
+        border: none;
+        border-radius: 6px 0 0 6px;
+        font-size: 1.1rem;
+    }
+
+    .search-bar button {
+        padding: 0 2rem;
+        background-color: #ffc107;
+        color: #333;
+        border: none;
+        border-radius: 0 6px 6px 0;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+        .search-bar button:hover {
+            background-color: #e0a800;
+        }
+
+/* کانتینر اصلی */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* مراحل (Steps) */
+.steps {
+    padding: 4rem 0;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+    .steps h2 {
+        font-size: 2.2rem;
+        margin-bottom: 3rem;
+        color: #333;
+    }
+
+.step-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.step-card {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+}
+
+    .step-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .step-card i {
+        font-size: 3rem;
+        color: #007bff;
+        margin-bottom: 1rem;
+    }
+
+    .step-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+/* دسته‌بندی‌ها (Categories) */
+.categories {
+    padding: 4rem 0;
+    background-color: #f1f3f5;
+    text-align: center;
+}
+
+    .categories h2 {
+        font-size: 2.2rem;
+        margin-bottom: 3rem;
+    }
+
+.cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.cat-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+    .cat-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .cat-card i {
+        font-size: 2.8rem;
+        color: #007bff;
+        margin-bottom: 1rem;
+    }
+
+    .cat-card h3 {
+        font-size: 1.3rem;
+    }
+
+/* دانلود اپلیکیشن */
+.app-download {
+    padding: 4rem 1rem;
+    text-align: center;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+    .app-download h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .app-download p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+.app-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.app-btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: white;
+    color: #333;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+}
+
+    .app-btn:hover {
+        transform: translateY(-5px);
+    }
+
+/* فوتر */
+footer {
+    background-color: #343a40;
+    color: #adb5bd;
+    padding: 3rem 1rem 1.5rem;
+    text-align: center;
+}
+
+.footer-links a {
+    color: #adb5bd;
+    text-decoration: none;
+    margin: 0 1rem;
+    transition: color 0.3s;
+}
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+footer p {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+}
+
+
+.nav-links a {
+    margin: 0 1rem;
+}
+
+.hero h1 {
+    font-size: 2.2rem;
+}
+
+.search-bar {
+    flex-direction: column;
+}
+
+    .search-bar input {
+        border-radius: 6px 6px 0 0;
+    }
+
+    .search-bar button {
+        border-radius: 0 0 6px 6px;
+    }
+/* استایل dropdown اصلی */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s;
+}
+
+    .dropdown-toggle:hover {
+        color: #007bff;
+    }
+
+    .dropdown-toggle i {
+        margin-right: 0.5rem;
+        font-size: 0.9rem;
+        transition: transform 0.3s;
+    }
+
+.dropdown:hover .dropdown-toggle i {
+    transform: rotate(180deg);
+}
+
+/* منوی اصلی - وسط‌چین زیر دکمه خدمات */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%; /* وسط قرار می‌ده */
+    transform: translateX(-50%); /* دقیقاً زیر دکمه وسط می‌شه */
+    background-color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    border-radius: 12px;
+    min-width: 900px; /* می‌تونی 800px یا 950px کنی */
+    width: max-content;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 2rem;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* مگامنو */
+.mega-menu {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    text-align: right; /* برای RTL */
+}
+
+.mega-column h4 {
+    font-size: 1.1rem;
+    color: #007bff;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.mega-column a {
+    display: block;
+    color: #444;
+    text-decoration: none;
+    padding: 0.65rem 0;
+    font-size: 0.98rem;
+    transition: all 0.2s;
+}
+
+    .mega-column a:hover {
+        color: #007bff;
+        padding-right: 8px;
+        background-color: #f8fbff;
+        border-radius: 6px;
+    }
+

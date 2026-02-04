@@ -1,0 +1,97 @@
+﻿@using Asistant.Areas.Admin.Models
+@model PagedViewModel<CategoryViewModel,int>
+@{
+    ViewData["Title"] = "نمایش لیست دسته بندی‌ها";
+}
+
+<h4>نمایش لیست دسته بندی‌ها</h4>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+@if (TempData["Succeed"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Succeed"]
+    </div>
+}
+<a class="btn btn-primary mb-3"
+   asp-area="Admin"
+   asp-controller="CategoryManagement"
+   asp-action="CreateCategory">
+    ایجاد دسته بندی جدید
+</a>
+
+@if (Model.Items is not null && Model.Items.Any())
+{
+    <table class="table table-striped table-hover text-center">
+        <thead class="table-light">
+            <tr>
+                <th>شناسه</th>
+                <th> نام دسته بندی</th>
+                <th>تصویر </th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model.Items)
+            {
+                <tr>
+                    <td>@c.Id</td>
+                    <td>@c.Name</td>
+                    <td>
+                        <img src="@Url.Content(c.ImagePath)"
+                             alt="تصویر @c.Name"
+                             class="img-thumbnail"
+                             style="width:100px; height:auto;" />
+                    </td>
+
+                    <td>
+                        <a class="btn btn-warning btn-sm"
+                           asp-area="Admin"
+                           asp-controller="CategoryManagement"
+                           asp-action="EditCategory"
+                           asp-route-id="@c.Id"
+                           >ویرایش</a>
+                        <form method="post" class="d-inline"
+                              asp-area="Admin"
+                              asp-controller="CategoryManagement"
+                              asp-action="DeleteCategory"
+                              asp-route-id="@c.Id"
+                              onsubmit="return confirm('آیا مطمئن هستید؟');">
+                            <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav>
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link"
+                       asp-area="Admin"
+                       asp-controller="CategoryManagement"
+                       asp-action="Index"
+                       asp-route-pageNumber="@i"
+                       asp-route-pageSize="@Model.PageSize">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+
+else
+{
+    <div class="alert alert-info ">
+        لیستی برای نمایش موجود نیست
+    </div>
+}
