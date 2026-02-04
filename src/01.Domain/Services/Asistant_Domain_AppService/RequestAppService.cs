@@ -52,6 +52,12 @@ namespace Asistant_Domain_AppService
             
             return result;
         }
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedInProgressRequestByCustomerId(int id, int pageNumber, int pageSize, CancellationToken ct)
+          => await _rqsrv.GetPagedInProgressRequestByCustomerId(id, pageNumber, pageSize, ct);
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedDoneRequestByCustomerId(int id, int pageNumber, int pageSize, CancellationToken ct)
+            => await _rqsrv.GetPagedDoneRequestByCustomerId(id, pageNumber, pageSize, ct);
+        public async Task<bool> DeleteRequestByRequestId(int requestId, CancellationToken ct)
+           => await _rqsrv.DeleteRequestByRequestId(requestId, ct);
 
     }
 }

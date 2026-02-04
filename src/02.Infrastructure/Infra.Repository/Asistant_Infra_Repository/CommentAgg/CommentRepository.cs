@@ -1,6 +1,7 @@
 ﻿using Asistant_Domain_Core._commonEntities;
 using Asistant_Domain_Core.CommentAgg.Data;
 using Asistant_Domain_Core.CommentAgg.DTOs;
+using Asistant_Domain_Core.CommentAgg.Entity;
 using Asistant_Domain_Core.CommentAgg.Enum;
 using Asistant_Domain_Core.UserAgg.DTOs;
 using Asistant_Infra_Db_Sql.DbContext;
@@ -92,6 +93,46 @@ namespace Asistant_Infra_Repository.CommentAgg
         {
             return await _dbcontext.Comments.Where(c => c.Id == id)
                 .ExecuteUpdateAsync(set => set.SetProperty(c => c.IsDeleted, true), ct) > 0;
+        }
+        public async Task<bool> CreateComment(InputCommentDTO commentDTO,CancellationToken ct)
+        {
+            var comment = new Comment
+            {
+                Rate=commentDTO.Rate,
+                HomeServiceId=commentDTO.HomeServiceId,
+                ExpertId=commentDTO.ExpertId,
+                RequestId= commentDTO.RequestId,
+                Title= commentDTO.Title,
+                Status=StatusEnum.Pending,
+                CustomerId= commentDTO.CustomerId
+                ,Description= commentDTO.Description,
+                CreatedAt=commentDTO.CreatedAt,
+                
+            };
+            await _dbcontext.Comments.AddAsync(comment);
+           return await _dbcontext.SaveChangesAsync(ct)>0;
+
+        }
+        public async Task<CommentDTO?> GetCommentByRequestId(int requestId,CancellationToken ct)
+        {
+            return await _dbcontext.Comments.AsNoTracking()
+                .Where(c => c.RequestId == requestId)
+                .Select(c => new CommentDTO
+                {
+                    Id = c.Id,
+                    CreatedAt = c.CreatedAt,
+                    CustomerId = c.CustomerId,
+                    CustomerName = c.Customer.User.FirstName + " " + c.Customer.User.LastName,
+                    Description = c.Description,
+                    ExpertId = c.ExpertId,
+                    ExpertName = c.Expert.User.FirstName + " " + c.Expert.User.LastName,
+                    HomeServiceId = c.HomeServiceId,
+                    HomeServiceName = c.HomeService.Name,
+                    Rate = c.Rate,
+                    RequestId = c.RequestId,
+                    Status = c.Status.ToString(),
+                    Title = c.Title
+                }).FirstOrDefaultAsync(ct);
         }
     }
 }

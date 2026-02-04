@@ -110,7 +110,8 @@ namespace Asistant_Infra_Repository.RequestAgg
         {
             var query = _dbcontext.Requests
                 .AsNoTracking()
-                .Where(r => r.CustomerId == id && r.Status == StatusEnum.Completed)
+                .Where(r => r.CustomerId == id && ( r.Status == StatusEnum.Completed || r.Status==StatusEnum.RejectedByAdmin))
+              
                 .OrderBy(c => c.Id)
                 
                 .Select(c => new OutputRequestDTO
@@ -142,7 +143,11 @@ namespace Asistant_Infra_Repository.RequestAgg
         {
             var query = _dbcontext.Requests
                 .AsNoTracking()
-                  .Where(r => r.CustomerId == id && r.Status != StatusEnum.Completed)
+                  .Where(r => r.CustomerId == id &&
+                  (r.Status != StatusEnum.InProgress || r.Status!= StatusEnum.AwaitingExpertArrivalOnSite 
+                  || r.Status==StatusEnum.PendingSuggestionApproval
+                  || r.Status == StatusEnum.PendingExpertApproval
+                 ))
                 .OrderBy(c => c.Id)
                 .Select(c => new OutputRequestDTO
                 {
@@ -168,6 +173,13 @@ namespace Asistant_Infra_Repository.RequestAgg
 
             return await query.ToPaginatedResult<OutputRequestDTO>(pageNumber, pageSize, ct);
 
+        }
+        public async Task<bool> DeleteRequestByRequestId(int requestId,CancellationToken ct)
+        {
+            return await _dbcontext.Requests
+                .Where(r => r.Id == requestId &&
+                (r.Status == StatusEnum.PendingSuggestionApproval || r.Status == StatusEnum.PendingExpertApproval))
+                .ExecuteUpdateAsync(set => set.SetProperty(r => r.IsDeleted, true), ct) > 0;
         }
     }
 }

@@ -19,5 +19,7 @@ namespace Asistant_Domain_Service
        => await _sugrepo.DeleteSuggestionByCustomerId(ct, id);
         public async Task<PagedResult<OutputSuggestionDTO>> GetPagedSuggestionByRequestId(int id, int pageNumber, int pageSize, CancellationToken ct)
 => await _sugrepo.GetPagedSuggestionByRequestId(id, pageNumber, pageSize, ct);
+        public async Task<OutputSuggestionDTO?> GetApproveSuggestionByRequestId(int requestId, CancellationToken ct)
+            => await _sugrepo.GetApproveSuggestionByRequestId(requestId, ct);
     }
 }

@@ -25,5 +25,11 @@ namespace Asistant_Domain_Service
             => await _reqrepo.DeleteRequest(id,ct);
         public async Task<OutputRequestDTO?> GetRequestById(int id, CancellationToken ct)
             => await _reqrepo.GetRequestById(id, ct);
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedInProgressRequestByCustomerId(int id, int pageNumber, int pageSize, CancellationToken ct)
+            => await _reqrepo.GetPagedInProgressRequestByCustomerId(id, pageNumber, pageSize, ct);
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedDoneRequestByCustomerId(int id, int pageNumber, int pageSize, CancellationToken ct)
+            => await _reqrepo.GetPagedDoneRequestByCustomerId(id,pageNumber, pageSize, ct);
+        public async Task<bool> DeleteRequestByRequestId(int requestId, CancellationToken ct)
+            => await _reqrepo.DeleteRequestByRequestId(requestId, ct);
             }
 }

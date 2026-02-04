@@ -28,5 +28,9 @@ namespace Asistant_Domain_AppService
              => await _cmtserv.RejectComment(id, ct);
         public async Task<bool> DeleteComment(int id, CancellationToken ct)
             => await _cmtserv.DeleteComment(id, ct);
+        public async Task<bool> CreateComment(InputCommentDTO commentDTO, CancellationToken ct)
+            => await _cmtserv.CreateComment(commentDTO, ct);
+        public async Task<CommentDTO?> GetCommentByRequestId(int requestId, CancellationToken ct)
+            => await _cmtserv.GetCommentByRequestId(requestId, ct);
     }
 }

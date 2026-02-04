@@ -1,8 +1,8 @@
-﻿@using Asistant.Areas.Admin.Models
+﻿@using Asistant.Areas.Customer.Models
 @model PagedViewModel<SuggestionViewModel, RequestViewModel>
 
 @{
-   
+
     ViewData["Title"] = "جزئیات درخواست و پیشنهادات";
 }
 
@@ -31,33 +31,19 @@
                             {
                                 <span class="badge bg-warning text-dark">در انتظار تایید پیشنهاد یکی از کارشناسان</span>
                             }
-                            else if (req.Status == "AwaitingExpertArrivalOnSite")
-                            {
-                                <span class="badge bg-warning text-dark">در انتظار حاضر شدن کارشناس در محل</span>
-                            }
-                            else if (req.Status == "InProgress")
-                            {
-                                <span class="badge bg-warning text-dark">کارشناس در حال انجام حدمت</span>
-                            }
-                            else if (req.Status == "Completed")
-                            {
-                                <span class="badge bg-success">اتمام کار</span>
-                            }
-                            else if (req.Status == "RejectedByAdmin")
-                            {
-                                <span class="badge bg-danger">درخواست توسط ادمین رد شد</span>
-                            }
-                           
+                            
+                          
+
                         </p>
                     </div>
                     <div class="col-md-6">
                         <p><strong>تاریخ ایجاد:</strong> @req.CreatedAt</p>
-                        <p><strong>تاریخ آماده‌سازی:</strong> @(req.AppointmentReadyDate?? "ثبت نشده")</p>
+                        <p><strong>تاریخ آماده‌سازی:</strong> @(req.AppointmentReadyDate ?? "ثبت نشده")</p>
                         <p><strong>تعداد پیشنهادات:</strong> @req.SuggesstionCount</p>
                     </div>
                 </div>
 
-               
+
                 @if (req.ImagesPath != null && req.ImagesPath.Any())
                 {
                     <div class="mt-3">
@@ -78,7 +64,7 @@
         <div class="alert alert-warning">اطلاعاتی یافت نشد.</div>
     }
 
- 
+
     <h4 class="mb-3 border-bottom pb-2">لیست پیشنهادات</h4>
 
     @if (Model.Items != null && Model.Items.Any())
@@ -99,29 +85,33 @@
                             <ul class="list-unstyled list-group-flush">
                                 <li class="mb-1"><strong>قیمت:</strong> @item.Price.ToString("N0") تومان</li>
                                 <li class="mb-1"><strong>تاریخ ثبت:</strong> @item.CreatedAt</li>
-                                <li class="mb-1"><strong>وضعیت:</strong> 
-                                    @if(item.Status=="Pending")
+                                <li class="mb-1">
+                                    <strong>وضعیت:</strong>
+                                    @if (item.Status == "Pending")
                                     {
                                         <span class="badge bg-warning text-dark">
-                                        در انتظار تایید</span>
+                                            در انتظار تایید
+                                        </span>
                                     }
-                                    @if(item.Status=="Accept")
-                                    {
-                                         <span class="badge bg-success">پذیرفته شده</span>
-                                    }
-                                    @if (item.Status == "Reject")
-                                    {
-                                        <span class="badge bg-danger">رد شد</span>
-                                    }
+                                   
                                 </li>
                             </ul>
+                            <form asp-area="Customer"
+                                  asp-controller="Request"
+                                  asp-action="ApproveSuggestion"
+                                  asp-route-suggestionId="@item.Id"
+                                  method="post"
+                                  class="mt-3">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    ✅ تایید پیشنهاد
+                                </button>
+                            </form>
 
-                           
                             @if (item.ImagesPath != null && item.ImagesPath.Any())
                             {
                                 <div class="mt-3">
                                     <div class="d-flex gap-1 overflow-auto">
-                                        @foreach (var img in item.ImagesPath.Take(3)) 
+                                        @foreach (var img in item.ImagesPath.Take(3))
                                         {
                                             <img src="@img" class="rounded border" style="width: 60px; height: 60px; object-fit: cover;" />
                                         }
@@ -129,18 +119,18 @@
                                 </div>
                             }
                         </div>
-                       
+
                     </div>
                 </div>
             }
         </div>
 
-       
+
         <nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
             <ul class="pagination">
-             
+
                 <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
-                    <a class="page-link" asp-area="Admin" asp-controller="RequestManagement" asp-action="ShowSuggestions" asp-route-requestId="@Model.MyProp.Id" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-pageSize="@Model.PageSize" aria-label="Previous">
+                    <a class="page-link" asp-area="Customer" asp-controller="Request" asp-action="ShowSuggestions" asp-route-requestId="@Model.MyProp.Id" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-pageSize="@Model.PageSize" aria-label="Previous">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -148,12 +138,12 @@
                 @for (int i = 1; i <= Model.TotalPages; i++)
                 {
                     <li class="page-item @(Model.PageNumber == i ? "active" : "")">
-                        <a class="page-link" asp-area="Admin" asp-controller="RequestManagement" asp-action="ShowSuggestions" asp-route-requestId="@Model.MyProp.Id" asp-route-pageNumber="@i" asp-route-pageSize="@Model.PageSize">@i</a>
+                        <a class="page-link" asp-area="Customer" asp-controller="Request" asp-action="ShowSuggestions" asp-route-requestId="@Model.MyProp.Id" asp-route-pageNumber="@i" asp-route-pageSize="@Model.PageSize">@i</a>
                     </li>
                 }
 
                 <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
-                    <a class="page-link" asp-area="Admin" asp-controller="RequestManagement" asp-action="ShowSuggestions" asp-route-requestId="@Model.MyProp.Id" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-pageSize="@Model.PageSize" aria-label="Next">
+                    <a class="page-link" asp-area="Customer" asp-controller="Request" asp-action="ShowSuggestions" asp-route-requestId="@Model.MyProp.Id" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-pageSize="@Model.PageSize" aria-label="Next">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>

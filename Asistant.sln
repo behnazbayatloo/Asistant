@@ -45,6 +45,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra.Extension", "Infra.Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asistant_Infra_Extensions", "src\02.Infrastructure\Infra.Extensions\Asistant_Infra_Extensions\Asistant_Infra_Extensions.csproj", "{9AC961BF-1DEC-4060-A3C5-BF2B57FAFFE1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra.Cache", "Infra.Cache", "{3B952E24-D5AD-418A-9224-24FF12E62D51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asistant_Infra_Cache", "src\02.Infrastructure\Infra.Cache\Asistant_Infra_Cache\Asistant_Infra_Cache.csproj", "{9A5E2BA1-5D32-491E-A20D-C22ABA22A3B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,10 @@ Global
 		{9AC961BF-1DEC-4060-A3C5-BF2B57FAFFE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AC961BF-1DEC-4060-A3C5-BF2B57FAFFE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AC961BF-1DEC-4060-A3C5-BF2B57FAFFE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A5E2BA1-5D32-491E-A20D-C22ABA22A3B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A5E2BA1-5D32-491E-A20D-C22ABA22A3B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A5E2BA1-5D32-491E-A20D-C22ABA22A3B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A5E2BA1-5D32-491E-A20D-C22ABA22A3B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +120,8 @@ Global
 		{2270D9FF-E342-4EDD-B0BD-DC0AF7325656} = {B67E3CEF-4E29-4752-AFDE-B09202124F02}
 		{E9535A2D-6C64-4E8A-90FC-E46A12861DDA} = {116602BF-CECA-4F46-A72C-7BD81AB7056C}
 		{9AC961BF-1DEC-4060-A3C5-BF2B57FAFFE1} = {E9535A2D-6C64-4E8A-90FC-E46A12861DDA}
+		{3B952E24-D5AD-418A-9224-24FF12E62D51} = {116602BF-CECA-4F46-A72C-7BD81AB7056C}
+		{9A5E2BA1-5D32-491E-A20D-C22ABA22A3B5} = {3B952E24-D5AD-418A-9224-24FF12E62D51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4515A8E0-8481-4B98-B0EF-91E3AB18232A}
