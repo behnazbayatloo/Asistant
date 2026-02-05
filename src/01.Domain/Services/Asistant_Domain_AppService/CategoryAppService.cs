@@ -1,9 +1,11 @@
 ﻿using Asistant_Domain_Core._commonEntities;
 using Asistant_Domain_Core.HomeServiceAgg.AppServices;
 using Asistant_Domain_Core.HomeServiceAgg.DTOs;
+using Asistant_Domain_Core.HomeServiceAgg.Entities;
 using Asistant_Domain_Core.HomeServiceAgg.Services;
 using Asistant_Domain_Core.ImageAgg.DTOs;
 using Asistant_Domain_Core.ImageAgg.Service;
+using Asistant_Infra_Cache.Contract;
 using Asistant_Infra_File.Contract;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.FileIO;
@@ -15,13 +17,30 @@ using System.Threading.Tasks;
 
 namespace Asistant_Domain_AppService
 {
-    public class CategoryAppService(ICategoryService _catserv,ILogger<CategoryAppService> logger
+    public class CategoryAppService(ICacheService cacheService,ICategoryService _catserv,ILogger<CategoryAppService> logger
         ,IFileService fileService
         ,IImageService _imageService, IHomeServiceService _hmService):ICategoryAppService
     {
-        public async Task<IEnumerable<GetCategoryDTO>> GetAllCategories(CancellationToken ct) => await _catserv.GetAllCategories(ct);
+        public async Task<IEnumerable<GetCategoryDTO>> GetAllCategories(CancellationToken ct)
+        {
+            var cacheKey = "GetAllCategories";
+            var cached = cacheService.Get<IEnumerable<GetCategoryDTO>>(cacheKey);
+            if (cached != null)
+                return cached;
+           var category= await _catserv.GetAllCategories(ct);
+            cacheService.SetSliding(cacheKey, category, 30);
+            return category;
+        }
         public async Task<PagedResult<GetCategoryDTO>> GetPagedCategories(int pageNumber, int pageSize, CancellationToken ct)
-            => await _catserv.GetPagedCategories(pageNumber, pageSize, ct);
+        {
+            var cacheKey = "GetPagedCategories";
+            var cached = cacheService.Get<PagedResult<GetCategoryDTO>>(cacheKey);
+            if (cached != null)
+                return cached;
+            var category = await _catserv.GetPagedCategories(pageNumber, pageSize, ct);
+            cacheService.SetSliding(cacheKey, category, 30);
+            return category;
+        }
         public async Task<bool> DeleteCategory(int id,CancellationToken ct)
         {
             var imageId = await _catserv.GetCategoryImageId(id, ct);
@@ -32,7 +51,13 @@ namespace Asistant_Domain_AppService
                 await _imageService.DeleteImage(image.Id, ct);
             }
             await _hmService.DeleteHomeServicesByCategoryId(id, ct);
-            return await _catserv.DeleteCategory(id, ct);
+           var deleted= await _catserv.DeleteCategory(id, ct);
+            if(deleted)
+            {
+                cacheService.Remove("GetAllCategories");
+                cacheService.Remove("GetPagedCategories");
+            }
+            return deleted;
         }
 
         public async Task<Result<bool>> CreateCategory(InputCategoryDTO categoryDTO,CancellationToken ct)
@@ -53,6 +78,8 @@ namespace Asistant_Domain_AppService
                     await _catserv.UpdateImageId(categoryId, imageId, ct);
 
                 }
+                cacheService.Remove("GetAllCategories");
+                cacheService.Remove("GetPagedCategories");
                 return Result<bool>.Success(true, "دسته بندی با موفقیت ثبت شد");
             }
             return Result<bool>.Failure("عملیات با مشکلی مواجه شد");
@@ -85,6 +112,8 @@ namespace Asistant_Domain_AppService
             }
             if (result)
             {
+                cacheService.Remove("GetAllCategories");
+                cacheService.Remove("GetPagedCategories");
                 return Result<bool>.Success(result, "تغییرات با موفقیت ثبت شد");
             }
             return Result<bool>.Failure("ثبت تغییرات با مشکلی مواجه شد");

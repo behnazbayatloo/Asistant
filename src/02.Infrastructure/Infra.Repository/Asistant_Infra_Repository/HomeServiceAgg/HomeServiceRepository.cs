@@ -142,6 +142,11 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
         {
             return await _dbcontext.HomeServices.Where(hs=>list.Contains(hs.Id)).ToListAsync(ct);
         }
-         
+         public async Task<int?> GetCategoryId(int id, CancellationToken ct)
+        {
+            return await _dbcontext.HomeServices.Where(hs => hs.Id == id)
+                .Select(hs => hs.CategoryId)
+                .FirstOrDefaultAsync(ct);
+        }
     }
 }
