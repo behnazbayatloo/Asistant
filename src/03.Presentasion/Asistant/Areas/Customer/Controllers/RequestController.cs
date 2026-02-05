@@ -348,11 +348,26 @@ HomeServiceId=model.HomeServiceId
             }
             return View (inputComment);
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteComment(int commentId,int id,CancellationToken ct)
+        {
+            var result =await commentApp.DeleteComment(commentId,ct) ;
+            if (result)
+            {
+                TempData["Succeed"] = "درخواست با موفقیت حذف گردید";
+            }
+            else
+            {
+                TempData["Error"] = "عملیات موفقیت آمیز نبود";
+            }
+            return RedirectToAction("ShowComment",new { requestId= id });
+        }
         public async Task<IActionResult> ShowComment(int requestId,CancellationToken ct)
         {
             var comment = await commentApp.GetCommentByRequestId(requestId, ct);
             var model = new CommentViewModel
             {
+                Id=comment.Id,
                     CreatedAt=comment.CreatedAt.ToPeString("yyyy/mm/dd"),
                     CustomerName=comment.CustomerName,
                     Description=comment.Description,
@@ -360,7 +375,8 @@ HomeServiceId=model.HomeServiceId
                     HomeServiceName=comment.HomeServiceName,
                     Rate=comment.Rate,
                     Status=comment.Status,
-                    Title=comment.Title
+                    Title=comment.Title,
+                    RequestId=requestId
 
             };
             return View(model);
