@@ -10,6 +10,7 @@ namespace Asistant_Domain_Core.RequestAgg.Services
 {
     public interface IRequestService
     {
+        Task<bool> ChangeRequestToAwaitingExpertArrivalOnSite(int requestId, CancellationToken ct);
         Task<int> CreateRequest(CancellationToken ct, InputRequestDTO requestDTO);
         Task<bool> DeleteRequest(int id, CancellationToken ct);
         Task<bool> DeleteRequestByCustomerId(CancellationToken ct, int id);

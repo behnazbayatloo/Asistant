@@ -181,5 +181,11 @@ namespace Asistant_Infra_Repository.RequestAgg
                 (r.Status == StatusEnum.PendingSuggestionApproval || r.Status == StatusEnum.PendingExpertApproval))
                 .ExecuteUpdateAsync(set => set.SetProperty(r => r.IsDeleted, true), ct) > 0;
         }
+        public async Task<bool> ChangeRequestToAwaitingExpertArrivalOnSite(int requestId,CancellationToken ct)
+        {
+            return await _dbcontext.Requests.Where(r => r.Id == requestId)
+                .ExecuteUpdateAsync(set => 
+                set.SetProperty(r => r.Status, StatusEnum.AwaitingExpertArrivalOnSite), ct) > 0;
+        }
     }
 }

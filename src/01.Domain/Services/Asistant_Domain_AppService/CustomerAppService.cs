@@ -4,6 +4,7 @@ using Asistant_Domain_Core.CommentAgg.Service;
 using Asistant_Domain_Core.ImageAgg.DTOs;
 using Asistant_Domain_Core.ImageAgg.Service;
 using Asistant_Domain_Core.RequestAgg.Services;
+using Asistant_Domain_Core.SuggestionAgg.DTOs;
 using Asistant_Domain_Core.SuggestionAgg.Services;
 using Asistant_Domain_Core.UserAgg.AppServices;
 using Asistant_Domain_Core.UserAgg.DTOs;
@@ -135,7 +136,57 @@ namespace Asistant_Domain_AppService
         }
         public async Task<OutputCustomerDTO?> GetCustomerByUserId(int userId, CancellationToken ct)
             => await _cutsrv.GetCustomerByUserId(userId, ct);
+        public async Task<Result<bool>> ApproveSuggestion(ApproveSuggestionDTO approveSuggestion,CancellationToken ct)
+        {
+            var result = await Transaction(approveSuggestion.CustomerId,
+                approveSuggestion.ExpertId, approveSuggestion.Price, ct);
+            if(result.IsSuccess)
+            {
+                await _sgsrv.RejectOtherSuggestionByRequestId(approveSuggestion.RequestId, approveSuggestion.SuggestionId, ct);
 
+
+                await _sgsrv.AcceptSuggestion(approveSuggestion.SuggestionId, ct);
+                await _rqsrv.ChangeRequestToAwaitingExpertArrivalOnSite(approveSuggestion.RequestId, ct);
+                return result;
+            }
+            return result;
+            
+        }
+
+
+        private async Task<Result<bool>> Transaction(int customerId,int expertId,decimal price, CancellationToken ct)
+        {
+            
+              var customerBalance = await _appsrv.GetBallanceByCustomerId(customerId, ct);
+                if (customerBalance == null || customerBalance < price)
+                {
+
+                return Result<bool>.Failure("موجودی حساب شما کافی نیست");
+                }
+                 var expertBalance = await _appsrv.GetBallanceByExpertId(expertId, ct);
+                if (expertBalance == null)
+                {
+                return Result<bool>.Failure("کارشناس وجود ندارد");
+
+                }
+                var updatedCustomer = await _appsrv.UpdateBallanceForCustomer(customerId, customerBalance.Value - price, ct); 
+                if (!updatedCustomer)
+                { 
+                   
+                    return Result<bool>.Failure("عملیات با مشکل مواجه شد!");
+                  }
+             
+                var updatedExpert = await _appsrv.UpdateBallanceForExpert(expertId, expertBalance.Value + price, ct); 
+                if (!updatedExpert)
+                {
+                await _appsrv.UpdateBallanceForCustomer(customerId, customerBalance.Value, ct);
+                return Result<bool>.Failure("عملیات با مشکل مواجه شد!");
+
+                  }
+
+            return Result<bool>.Success(updatedExpert, $" از حساب شما کسر گردید{price}مبلغ ");
+
+            }
 
     }
 

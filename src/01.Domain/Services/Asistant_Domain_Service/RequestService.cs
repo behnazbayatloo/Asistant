@@ -31,5 +31,7 @@ namespace Asistant_Domain_Service
             => await _reqrepo.GetPagedDoneRequestByCustomerId(id,pageNumber, pageSize, ct);
         public async Task<bool> DeleteRequestByRequestId(int requestId, CancellationToken ct)
             => await _reqrepo.DeleteRequestByRequestId(requestId, ct);
+        public async Task<bool> ChangeRequestToAwaitingExpertArrivalOnSite(int requestId, CancellationToken ct)
+            => await _reqrepo.ChangeRequestToAwaitingExpertArrivalOnSite(requestId, ct);
             }
 }

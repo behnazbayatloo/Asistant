@@ -6,6 +6,8 @@ using Asistant_Domain_Core.HomeServiceAgg.Entities;
 using Asistant_Domain_Core.RequestAgg.AppServices;
 using Asistant_Domain_Core.RequestAgg.DTOs;
 using Asistant_Domain_Core.SuggestionAgg.AppServices;
+using Asistant_Domain_Core.SuggestionAgg.DTOs;
+using Asistant_Domain_Core.UserAgg.AppServices;
 using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_FrameWork.UIExtensions;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +24,7 @@ namespace Asistant.Areas.Customer.Controllers
         IRequestAppService requsetApp, IHomeServiceAppService homeServiceApp,
         ISuggestionAppService suggestionApp,
         ICommentAppService commentApp,
+        ICustomerAppService customerApp,
         UserManager<AppUser> _userManager) : Controller
     {
         public async Task<IActionResult> CheckoutRequest(int homeServiceId,CancellationToken ct)
@@ -209,7 +212,8 @@ HomeServiceId=model.HomeServiceId
                     Status = request.Status,
                     SuggesstionCount = request.SuggesstionCount,
                     SuggestionsId = request.SuggestionsId,
-                    VerifyExpertDate = request.VerifyExpertDate.ToPeString("yyyy/MM/dd")
+                    VerifyExpertDate = request.VerifyExpertDate.ToPeString("yyyy/MM/dd"),
+                 Id = request.Id
 
                 };
             }
@@ -238,11 +242,29 @@ HomeServiceId=model.HomeServiceId
 
             return View(model);
         }
-        //public async Task<IActionResult> ApproveSuggestion(int suggestionId, CancellationToken ct)
-        //{
-            
-
-        //}
+        [HttpPost]
+        public async Task<IActionResult> ApproveSuggestion(int suggestionId, int requestId,int expertId,decimal price, CancellationToken ct)
+        {
+            var customerId= Int32.Parse(User.FindFirst("CustomerId")?.Value);
+            var approveSuggestion = new ApproveSuggestionDTO
+            {
+                CustomerId = customerId,
+                ExpertId=expertId,
+                RequestId=requestId,
+                Price=price,
+                SuggestionId=suggestionId
+            };
+            var result = await customerApp.ApproveSuggestion(approveSuggestion, ct);
+            if (result.IsSuccess)
+            {
+                TempData["Succeed"] =result.Message;
+            }
+            else
+            {
+                TempData["Error"] = result.Message;
+            }
+            return RedirectToAction("ShowInProgressRequests");
+        }
 
         public async Task<IActionResult> AddComment(int requestId, CancellationToken ct)
         {

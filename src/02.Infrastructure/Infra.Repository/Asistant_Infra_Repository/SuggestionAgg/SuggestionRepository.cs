@@ -71,5 +71,16 @@ namespace Asistant_Infra_Repository.SuggestionAgg
 
                 }).FirstOrDefaultAsync(ct);
         }
+        public async Task<bool> RejectOtherSuggestionByRequestId(int requestId,int suggestionId ,CancellationToken ct)
+        {
+            return await _dbcontext.Suggestions
+                .Where(s=>s.RequestId==requestId && s.Id!=suggestionId)
+                .ExecuteUpdateAsync(set=>set.SetProperty(s=>s.Status, StatusEnum.Reject),ct)>0;
+        }
+        public async Task<bool> AcceptSuggestion(int id,CancellationToken ct)
+        {
+            return await _dbcontext.Suggestions.Where(s=>s.Id==id)
+                .ExecuteUpdateAsync(set=>set.SetProperty(s=>s.Status,StatusEnum.Accept),ct)>0;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Asistant_Domain_Core._commonEntities;
+using Asistant_Domain_Core.SuggestionAgg.DTOs;
 using Asistant_Domain_Core.UserAgg.DTOs;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -11,6 +12,7 @@ namespace Asistant_Domain_Core.UserAgg.AppServices
 {
     public interface ICustomerAppService
     {
+        Task<Result<bool>> ApproveSuggestion(ApproveSuggestionDTO approveSuggestion, CancellationToken ct);
         Task<IdentityResult> CreateCustomerByAdmin(CreateCustomerDTO customerDTO, CancellationToken ct);
         Task<bool> DeleteCustomer(CancellationToken ct, int id, int userId);
         Task<OutputCustomerDTO?> GetCustomerById(CancellationToken ct, int id);
