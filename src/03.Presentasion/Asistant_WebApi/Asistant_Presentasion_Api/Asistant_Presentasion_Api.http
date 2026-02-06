@@ -1,0 +1,6 @@
+@Asistant_Presentasion_Api_HostAddress = http://localhost:5278
+
+GET {{Asistant_Presentasion_Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
