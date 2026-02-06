@@ -32,16 +32,33 @@ namespace Asistant_Domain_AppService
                 }
                 await _imageService.SetRequestImage(images, ct);
             }
-            return requestId > 0;
+            if (requestId <= 0) 
+            {
+                logger.LogWarning("Failed to create request for CustomerId={CustomerId}", requestDTO.CustomerId); 
+            }
+           
+                return requestId > 0;
         }
 
 
         public async Task<PagedResult<OutputRequestDTO>> GetPagedRequest(int pageNumber, int pageSize, CancellationToken ct)
         => await _rqsrv.GetPagedRequest(pageNumber, pageSize, ct);
         public async Task<bool> RejectRequest(int id, CancellationToken ct)
-      => await _rqsrv.RejectRequest(id, ct);
+        {
+           
+            var success = await _rqsrv.RejectRequest(id, ct);
+            if (!success)
+            { logger.LogWarning("RejectRequest failed for RequestId={RequestId}", id); }
+            return success;
+        }
         public async Task<bool> DeleteRequest(int id, CancellationToken ct)
-            => await _rqsrv.DeleteRequest(id, ct);
+        {
+          
+            var success = await _rqsrv.DeleteRequest(id, ct);
+            if (!success)
+            { logger.LogWarning("DeleteRequest failed for RequestId={RequestId}", id); }
+            return success;
+        }
         public async Task<OutputRequestDTO?> GetRequestById(int id, CancellationToken ct)
         {
             var result = await _rqsrv.GetRequestById(id, ct);
@@ -49,7 +66,8 @@ namespace Asistant_Domain_AppService
             {
                 result.ImagesPath = await _imageService.GetRequestImagesByRequestId(id, ct);
             }
-            
+            if (result is null)
+            { logger.LogWarning("Request with Id={RequestId} not found.", id); }
             return result;
         }
         public async Task<PagedResult<OutputRequestDTO>> GetPagedInProgressRequestByCustomerId(int id, int pageNumber, int pageSize, CancellationToken ct)

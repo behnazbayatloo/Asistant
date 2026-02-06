@@ -144,7 +144,7 @@ namespace Asistant_Infra_Repository.RequestAgg
             var query = _dbcontext.Requests
                 .AsNoTracking()
                   .Where(r => r.CustomerId == id &&
-                  (r.Status != StatusEnum.InProgress || r.Status!= StatusEnum.AwaitingExpertArrivalOnSite 
+                  (r.Status == StatusEnum.InProgress || r.Status== StatusEnum.AwaitingExpertArrivalOnSite 
                   || r.Status==StatusEnum.PendingSuggestionApproval
                   || r.Status == StatusEnum.PendingExpertApproval
                  ))

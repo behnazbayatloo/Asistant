@@ -24,8 +24,18 @@
                         <p class="card-text">
                             <strong>دسته‌بندی:</strong> @item.CategoryName
                         </p>
-                        <form asp-area="Customer" asp-controller="Request" asp-action="CheckoutRequest" asp-route-homeServiceId="@item.Id" method="post" class="mt-auto">
-                            <button type="submit" class="btn btn-primary w-100">ثبت سفارش</button>
+                        <form
+                            asp-area="Customer" 
+                            asp-controller="Request" 
+                            asp-action="CheckoutRequest"
+                            
+                           method="get"
+                            class="mt-auto">
+                            <input type="hidden" name="homeServiceId" value="@item.Id" />
+                            <button type="submit" class="btn btn-primary w-100">
+                                ثبت سفارش
+                            </button>
+
                         </form>
                     </div>
                 </div>

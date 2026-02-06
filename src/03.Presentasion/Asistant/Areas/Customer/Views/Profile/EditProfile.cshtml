@@ -45,6 +45,11 @@
         <label asp-for="@Model.Image" class="form-label">آپلود عکس جدید</label>
         <input asp-for="@Model.Image" type="file" class="form-control" />
     </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Email" class="form-label"></label>
+        <input asp-for="@Model.Email" class="form-control" />
+
+    </div>
 
     <div class="mb-3">
         <label asp-for="@Model.Password" class="form-label"></label>
@@ -52,11 +57,7 @@
 
     </div>
 
-    <div class="mb-3">
-        <label asp-for="@Model.Email" class="form-label"></label>
-        <input asp-for="@Model.Email" class="form-control" />
-
-    </div>
+  
 
     <div class="mb-3">
         <label asp-for="@Model.FirstName" class="form-label"></label>
@@ -67,6 +68,11 @@
     <div class="mb-3">
         <label asp-for="@Model.LastName" class="form-label"></label>
         <input asp-for="@Model.LastName" class="form-control" />
+
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Ballance" class="form-label">موجودی</label>
+        <input asp-for="@Model.Ballance" type="number" class="form-control" />
 
     </div>
 

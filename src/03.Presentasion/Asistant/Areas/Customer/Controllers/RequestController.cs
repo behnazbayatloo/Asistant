@@ -27,25 +27,29 @@ namespace Asistant.Areas.Customer.Controllers
         ICustomerAppService customerApp,
         UserManager<AppUser> _userManager) : Controller
     {
-        public async Task<IActionResult> CheckoutRequest(int homeServiceId,CancellationToken ct)
+        [HttpGet]
+        public async Task<IActionResult> CheckoutRequest(int homeServiceId, CancellationToken ct)
         {
-            ModelState.Clear();
-            var homeService =await homeServiceApp.GetHomeServiceById(homeServiceId,ct);
+
+
+            var homeService = await homeServiceApp.GetHomeServiceById(homeServiceId, ct);
+
             var model = new CreateRequestViewModel();
-            model.HomeService=new HomeServiceViewModel
+            model.HomeService = new HomeServiceViewModel
             {
                 Id = homeServiceId,
-                BasePrice=homeService.BasePrice,
-                CategoryName=homeService.CategoryName,
+                BasePrice = homeService.BasePrice,
+                CategoryName = homeService.CategoryName,
                 Description = homeService.Description
-                ,ImagePath = homeService.ImagePath,
+                ,
+                ImagePath = homeService.ImagePath,
                 Name = homeService.Name
             };
-            model.HomeServiceId=homeServiceId;
-            if(homeService == null)
-    return NotFound();
+            model.HomeServiceId = homeServiceId;
+
             return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> CheckoutRequest(CreateRequestViewModel model,CancellationToken ct)
         {
@@ -64,7 +68,8 @@ namespace Asistant.Areas.Customer.Controllers
             {
                 return View(model);
             }
-            var userId = Int32.Parse(_userManager.GetUserId(User));
+           
+            var customerId = Int32.Parse(User.FindFirst("CustomerId")?.Value);
             var request = new InputRequestDTO
             {
 Title=model.Title,
@@ -72,26 +77,33 @@ Description=model.Description,
 Images=model.Images,
 CreatedAt=DateTime.Now,
 AppointmentReadyDate=model.PersianDate.ConvertToGregorian(),
-CustomerId= userId,
+CustomerId= customerId,
 HomeServiceId=model.HomeServiceId
 
             };
-
-            var result = await requsetApp.CreateRequest(ct, request);
-            if (result)
+            if(request.AppointmentReadyDate<=DateTime.Now)
             {
-                TempData["Success"] = "درخواست شما با موفقیت ثبت شد. \nمنتظر پیشنهادات کارشناسان باشید.";
-
-                return RedirectToAction("CheckoutRequest","Request" ,new { area = "Customer" , homeServiceId = model.HomeServiceId });
-
+                ViewBag.Error = "تاریخ ورودی نباید پیش از امروز باشد";
             }
             else
             {
-                ViewBag.Error = "متاسفانه درخواست شما ثبت نشد";
+                var result = await requsetApp.CreateRequest(ct, request);
+                if (result)
+                {
+                    TempData["Success"] = "درخواست شما با موفقیت ثبت شد. \nمنتظر پیشنهادات کارشناسان باشید.";
+
+                    return RedirectToAction("CheckoutRequest", "Request", new { area = "Customer", homeServiceId = model.HomeServiceId });
+
+                }
+                else
+                {
+                    ViewBag.Error = "متاسفانه درخواست شما ثبت نشد";
 
 
 
-                ModelState.AddModelError("", "ثبت درخواست ناموفق بود");
+                    ModelState.AddModelError("", "ثبت درخواست ناموفق بود");
+
+                }
 
             }
 
