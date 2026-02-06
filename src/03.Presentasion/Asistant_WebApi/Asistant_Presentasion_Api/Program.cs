@@ -19,10 +19,10 @@ using Asistant_Domain_Core.UserAgg.Data;
 using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UserAgg.Services;
 using Asistant_Domain_Service;
-using Asistant_Infra_Cache.Contract;
+
 using Asistant_Infra_Cache.InMemoryCache;
 using Asistant_Infra_Db_Sql.DbContext;
-using Asistant_Infra_File.Contract;
+
 using Asistant_Infra_File.Service;
 using Asistant_Infra_Repository.CommentAgg;
 using Asistant_Infra_Repository.HomeServiceAgg;
@@ -34,6 +34,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Asistant_Domain_Core.InfraContracts;
 
 
 var builder = WebApplication.CreateBuilder(args);

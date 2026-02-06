@@ -3,6 +3,7 @@ using Asistant_Domain_Core.CommentAgg.AppService;
 using Asistant_Domain_Core.CommentAgg.Service;
 using Asistant_Domain_Core.ImageAgg.DTOs;
 using Asistant_Domain_Core.ImageAgg.Service;
+using Asistant_Domain_Core.InfraContracts;
 using Asistant_Domain_Core.RequestAgg.Services;
 using Asistant_Domain_Core.SuggestionAgg.DTOs;
 using Asistant_Domain_Core.SuggestionAgg.Services;
@@ -10,7 +11,7 @@ using Asistant_Domain_Core.UserAgg.AppServices;
 using Asistant_Domain_Core.UserAgg.DTOs;
 using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UserAgg.Services;
-using Asistant_Infra_File.Contract;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;

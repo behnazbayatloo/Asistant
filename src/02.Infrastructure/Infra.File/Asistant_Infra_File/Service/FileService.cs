@@ -1,4 +1,5 @@
-﻿using Asistant_Infra_File.Contract;
+﻿
+using Asistant_Domain_Core.InfraContracts;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

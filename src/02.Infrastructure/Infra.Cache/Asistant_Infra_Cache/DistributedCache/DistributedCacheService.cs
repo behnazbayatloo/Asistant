@@ -1,4 +1,5 @@
-﻿using Asistant_Infra_Cache.Contract;
+﻿
+using Asistant_Domain_Core.InfraContracts;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Asistant_Infra_File.Contract
+namespace Asistant_Domain_Core.InfraContracts
 {
     public interface IFileService
     {

@@ -10,6 +10,7 @@ using Asistant_Domain_Core.HomeServiceAgg.Services;
 using Asistant_Domain_Core.ImageAgg.AppService;
 using Asistant_Domain_Core.ImageAgg.Data;
 using Asistant_Domain_Core.ImageAgg.Service;
+using Asistant_Domain_Core.InfraContracts;
 using Asistant_Domain_Core.RequestAgg.AppServices;
 using Asistant_Domain_Core.RequestAgg.Data;
 using Asistant_Domain_Core.RequestAgg.Services;
@@ -22,10 +23,10 @@ using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UserAgg.Services;
 using Asistant_Domain_Service;
 using Asistant_FrameWork.UIExtensions;
-using Asistant_Infra_Cache.Contract;
+
 using Asistant_Infra_Cache.InMemoryCache;
 using Asistant_Infra_Db_Sql.DbContext;
-using Asistant_Infra_File.Contract;
+
 using Asistant_Infra_File.Service;
 using Asistant_Infra_Repository.CommentAgg;
 using Asistant_Infra_Repository.HomeServiceAgg;

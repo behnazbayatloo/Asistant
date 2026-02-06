@@ -1,10 +1,11 @@
 ﻿using Asistant_Domain_Core._commonEntities;
 using Asistant_Domain_Core.ImageAgg.DTOs;
 using Asistant_Domain_Core.ImageAgg.Service;
+using Asistant_Domain_Core.InfraContracts;
 using Asistant_Domain_Core.RequestAgg.AppServices;
 using Asistant_Domain_Core.RequestAgg.DTOs;
 using Asistant_Domain_Core.RequestAgg.Services;
-using Asistant_Infra_File.Contract;
+
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Asistant_Infra_Cache.Contract
+namespace Asistant_Domain_Core.InfraContracts
 {
     public interface ICacheService
     {
