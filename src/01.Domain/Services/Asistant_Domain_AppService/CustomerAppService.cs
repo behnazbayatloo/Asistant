@@ -143,6 +143,7 @@ namespace Asistant_Domain_AppService
                 approveSuggestion.ExpertId, approveSuggestion.Price, ct);
             if(result.IsSuccess)
             {
+                await _rqsrv.UpdateVerifyExpertDate(approveSuggestion.RequestId, approveSuggestion.VerifyExpertDate, ct);
                 await _sgsrv.RejectOtherSuggestionByRequestId(approveSuggestion.RequestId, approveSuggestion.SuggestionId, ct);
 
 

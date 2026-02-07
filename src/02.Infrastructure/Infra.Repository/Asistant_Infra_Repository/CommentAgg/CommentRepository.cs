@@ -94,7 +94,7 @@ namespace Asistant_Infra_Repository.CommentAgg
             return await _dbcontext.Comments.Where(c => c.Id == id)
                 .ExecuteUpdateAsync(set => set.SetProperty(c => c.IsDeleted, true), ct) > 0;
         }
-        public async Task<bool> CreateComment(InputCommentDTO commentDTO,CancellationToken ct)
+        public async Task<int> CreateComment(InputCommentDTO commentDTO,CancellationToken ct)
         {
             var comment = new Comment
             {
@@ -110,7 +110,8 @@ namespace Asistant_Infra_Repository.CommentAgg
                 
             };
             await _dbcontext.Comments.AddAsync(comment);
-           return await _dbcontext.SaveChangesAsync(ct)>0;
+            await _dbcontext.SaveChangesAsync(ct);
+            return comment.Id;
 
         }
         public async Task<CommentDTO?> GetCommentByRequestId(int requestId,CancellationToken ct)

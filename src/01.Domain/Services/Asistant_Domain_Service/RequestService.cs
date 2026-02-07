@@ -33,5 +33,9 @@ namespace Asistant_Domain_Service
             => await _reqrepo.DeleteRequestByRequestId(requestId, ct);
         public async Task<bool> ChangeRequestToAwaitingExpertArrivalOnSite(int requestId, CancellationToken ct)
             => await _reqrepo.ChangeRequestToAwaitingExpertArrivalOnSite(requestId, ct);
+        public async Task<bool> UpdateVerifyExpertDate(int requestId, DateTime verifyDate, CancellationToken ct)
+            => await _reqrepo.UpdateVerifyExpertDate(requestId, verifyDate, ct);
+        public async Task<bool> UpdateCommentId(int requestId, int commentId, CancellationToken ct)
+            => await _reqrepo.UpdateCommentId(requestId, commentId, ct);
             }
 }

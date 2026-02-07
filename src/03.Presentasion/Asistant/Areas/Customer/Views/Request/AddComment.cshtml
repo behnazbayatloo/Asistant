@@ -54,7 +54,7 @@
             <h6 class="card-title text-success">@Model.Suggestion.Title</h6>
             <p class="card-text">@Model.Suggestion.Description</p>
             <ul class="list-unstyled small">
-                <li><strong>قیمت:</strong> @Model.Suggestion.Price.ToString("N0") تومان</li>
+                <li><strong>قیمت:</strong> @Model.Suggestion.Price.Value.ToString("N0") تومان</li>
                 <li><strong>وضعیت:</strong> @Model.Suggestion.Status</li>
                 <li><strong>کارشناس:</strong> @Model.Suggestion.ExpertName</li>
             </ul>
@@ -81,7 +81,7 @@
         </div>
         <div class="card-body">
             <form asp-area="Customer" asp-action="AddComment" asp-controller="Request" method="post">
-
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <input type="hidden" asp-for="@Model.Request.Id" />
                 <input type="hidden" asp-for="@Model.Suggestion.ExpertId" />
                 <input type="hidden" asp-for="@Model.Request.HomeServiceId" />

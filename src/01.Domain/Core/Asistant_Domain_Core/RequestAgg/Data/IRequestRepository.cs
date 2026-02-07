@@ -20,5 +20,7 @@ namespace Asistant_Domain_Core.RequestAgg.Data
         Task<PagedResult<OutputRequestDTO>> GetPagedRequest(int pageNumber, int pageSize, CancellationToken ct);
         Task<OutputRequestDTO?> GetRequestById(int id, CancellationToken ct);
         Task<bool> RejectRequest(int id, CancellationToken ct);
+        Task<bool> UpdateCommentId(int requestId, int commentId, CancellationToken ct);
+        Task<bool> UpdateVerifyExpertDate(int requestId, DateTime verifyDate, CancellationToken ct);
     }
 }

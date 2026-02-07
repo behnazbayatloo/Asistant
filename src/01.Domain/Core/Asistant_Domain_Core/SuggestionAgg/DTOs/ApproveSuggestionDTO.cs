@@ -13,5 +13,6 @@ namespace Asistant_Domain_Core.SuggestionAgg.DTOs
         public int CustomerId { get; set; }
         public int SuggestionId { get; set; }
         public decimal Price { get; set; }
+        public DateTime VerifyExpertDate { get; set; }
     }
 }

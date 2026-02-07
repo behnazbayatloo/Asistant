@@ -264,7 +264,9 @@ HomeServiceId=model.HomeServiceId
                 ExpertId=expertId,
                 RequestId=requestId,
                 Price=price,
-                SuggestionId=suggestionId
+                SuggestionId=suggestionId,
+                VerifyExpertDate=DateTime.Now
+
             };
             var result = await customerApp.ApproveSuggestion(approveSuggestion, ct);
             if (result.IsSuccess)
@@ -314,13 +316,24 @@ HomeServiceId=model.HomeServiceId
                 VerifyExpertDate=request.VerifyExpertDate.ToPeString("yyyy/mm/dd"),
                 Status=request.Status
             };
+            if (request == null)
+            {
+
+                return NotFound($"Request with id {requestId} not found");
+            }
+            if (suggestion == null)
+            {
+
+                ViewBag.Error = "هیچ پیشنهاد تایید شده‌ای برای این درخواست وجود ندارد";
+                return View(new CreateCommentViewModel { Request = new RequestViewModel { Id = requestId } });
+            }
             return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> AddComment(CreateCommentViewModel inputComment, CancellationToken ct)
         {
-            var request = await requsetApp.GetRequestById(inputComment.Request.Id, ct);
-            var suggestion = await suggestionApp.GetApproveSuggestionByRequestId(inputComment.Request.Id, ct);
+            var request = await requsetApp.GetRequestById(inputComment.Request.Id.Value, ct);
+            var suggestion = await suggestionApp.GetApproveSuggestionByRequestId(inputComment.Request.Id.Value, ct);
 
             inputComment.Suggestion = new SuggestionViewModel
             {
@@ -353,19 +366,21 @@ HomeServiceId=model.HomeServiceId
                 VerifyExpertDate = request.VerifyExpertDate.ToPeString("yyyy/mm/dd"),
                 Status = request.Status
             };
-            if(!ModelState.IsValid)
+          
+
+            if (!ModelState.IsValid)
             {
                 return View(inputComment);
             }
             var comment = new InputCommentDTO
             {
                 CreatedAt=DateTime.Now,
-                CustomerId=inputComment.Request.CustomerId,
+                CustomerId=inputComment.Request.CustomerId.Value,
                 Description=inputComment.Comment.Description,
-                ExpertId=inputComment.Suggestion.ExpertId,
-                HomeServiceId=inputComment.Request.HomeServiceId,
+                ExpertId=inputComment.Suggestion.ExpertId.Value,
+                HomeServiceId=inputComment.Request.HomeServiceId.Value,
                 Rate=inputComment.Comment.Rate,
-                RequestId=inputComment.Request.Id,
+                RequestId=inputComment.Request.Id.Value,
                 Title=inputComment.Comment.Title
             };
             var result = await commentApp.CreateComment(comment, ct);

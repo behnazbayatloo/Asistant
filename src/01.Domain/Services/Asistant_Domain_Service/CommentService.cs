@@ -29,7 +29,7 @@ namespace Asistant_Domain_Service
              => await _cmtrepo.RejectComment(id, ct);
         public async Task<bool> DeleteComment(int id, CancellationToken ct)
             => await _cmtrepo.DeleteComment(id, ct);
-        public async Task<bool> CreateComment(InputCommentDTO commentDTO, CancellationToken ct)
+        public async Task<int> CreateComment(InputCommentDTO commentDTO, CancellationToken ct)
             => await _cmtrepo.CreateComment(commentDTO, ct);
         public async Task<CommentDTO?> GetCommentByRequestId(int requestId, CancellationToken ct)
             => await _cmtrepo.GetCommentByRequestId(requestId, ct);

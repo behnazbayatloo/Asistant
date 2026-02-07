@@ -11,7 +11,7 @@ namespace Asistant_Domain_Core.CommentAgg.Service
     public interface ICommentService
     {
         Task<bool> AcceptComment(int id, CancellationToken ct);
-        Task<bool> CreateComment(InputCommentDTO commentDTO, CancellationToken ct);
+        Task<int> CreateComment(InputCommentDTO commentDTO, CancellationToken ct);
         Task<bool> DeleteByCustumerId(CancellationToken ct, int id);
         Task<bool> DeleteByExpertId(CancellationToken ct, int id);
         Task<bool> DeleteComment(int id, CancellationToken ct);

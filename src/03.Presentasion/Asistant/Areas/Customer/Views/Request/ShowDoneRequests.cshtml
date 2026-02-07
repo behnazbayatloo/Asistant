@@ -78,7 +78,7 @@
                         @item.CompletedDate
                     </td>
                     <td>
-                        @if (item.CommentId < 1)
+                        @if (item.CommentId < 1 || item.CommentId==null)
                         {
                             <a asp-area="Customer"
                                asp-controller="Request"
