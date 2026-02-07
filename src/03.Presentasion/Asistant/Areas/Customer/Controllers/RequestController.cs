@@ -1,4 +1,5 @@
 ﻿using Asistant.Areas.Customer.Models;
+using Asistant_Domain_Core._commonEntities;
 using Asistant_Domain_Core.CommentAgg.AppService;
 using Asistant_Domain_Core.CommentAgg.DTOs;
 using Asistant_Domain_Core.HomeServiceAgg.AppServices;
@@ -433,9 +434,9 @@ HomeServiceId=model.HomeServiceId
         public async Task<IActionResult> ShowComments( CancellationToken ct, int pageNumber = 1, int pageSize = 2)
         {
             var customerId = Int32.Parse(User.FindFirst("CustomerId")?.Value);
-            var comments = await commentApp.GetPagedCommentByCustomerId(customerId,pageNumber,pageSize, ct);
+            var pagedComments = await commentApp.GetPagedCommentByCustomerId(customerId,pageNumber,pageSize, ct);
             var model = new PagedViewModel<CommentViewModel, int>();
-            model.Items = comments.Items.Select(c => new CommentViewModel
+            model.Items = pagedComments.Items.Select(c => new CommentViewModel
             {
                 Id = c.Id,
                 CreatedAt = c.CreatedAt.ToPeString("yyyy/mm/dd"),
@@ -451,7 +452,11 @@ HomeServiceId=model.HomeServiceId
                 (c.RequestDescription.Length >= 50 ? c.RequestDescription.Substring(0, 50) + "..." : c.RequestDescription) : ""
 
             }).ToList();
-          
+            model.TotalPages = pagedComments.TotalPages;
+            model.TotalCount = pagedComments.TotalCount;
+            model.PageNumber = pagedComments.PageNumber;
+            model.PageSize = pagedComments.PageSize;
+
             return View(model);
         }
     }
