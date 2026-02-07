@@ -430,5 +430,29 @@ HomeServiceId=model.HomeServiceId
             };
             return View(model);
         }
+        public async Task<IActionResult> ShowComments( CancellationToken ct, int pageNumber = 1, int pageSize = 2)
+        {
+            var customerId = Int32.Parse(User.FindFirst("CustomerId")?.Value);
+            var comments = await commentApp.GetPagedCommentByCustomerId(customerId,pageNumber,pageSize, ct);
+            var model = new PagedViewModel<CommentViewModel, int>();
+            model.Items = comments.Items.Select(c => new CommentViewModel
+            {
+                Id = c.Id,
+                CreatedAt = c.CreatedAt.ToPeString("yyyy/mm/dd"),
+                CustomerName = c.CustomerName,
+                Description = c.Description,
+                ExpertName = c.ExpertName,
+                HomeServiceName = c.HomeServiceName,
+                Rate = c.Rate,
+                Status = c.Status,
+                Title = c.Title,
+                RequestId = c.RequestId,
+                RequestDescription = !string.IsNullOrEmpty(c.RequestDescription) ?
+                (c.RequestDescription.Length >= 50 ? c.RequestDescription.Substring(0, 50) + "..." : c.RequestDescription) : ""
+
+            }).ToList();
+          
+            return View(model);
+        }
     }
 }

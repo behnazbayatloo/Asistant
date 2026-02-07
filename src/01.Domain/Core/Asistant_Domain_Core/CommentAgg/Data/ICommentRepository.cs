@@ -17,6 +17,7 @@ namespace Asistant_Domain_Core.CommentAgg.Data
         Task<bool> DeleteComment(int id, CancellationToken ct);
         Task<CommentDTO?> GetCommentByRequestId(int requestId, CancellationToken ct);
         Task<PagedResult<CommentDTO>> GetPagedComment(int pageNumber, int pageSize, CancellationToken ct);
+        Task<PagedResult<CommentDTO>> GetPagedCommentByCustomerId(int customerId, int pageNumber, int pageSize, CancellationToken ct);
         Task<PagedResult<CommentDTO>> GetPagedPendingComment(int pageNumber, int pageSize, CancellationToken ct);
         Task<bool> RejectComment(int id, CancellationToken ct);
     }

@@ -135,5 +135,32 @@ namespace Asistant_Infra_Repository.CommentAgg
                     Title = c.Title
                 }).FirstOrDefaultAsync(ct);
         }
+        public async Task<PagedResult<CommentDTO>> GetPagedCommentByCustomerId(int customerId,int pageNumber, int pageSize, CancellationToken ct)
+        {
+            var query = _dbcontext.Comments
+                .AsNoTracking()
+                .Where(c=>c.CustomerId==customerId)
+                .OrderByDescending(c => c.CreatedAt)
+                .Select(c => new CommentDTO
+                {
+                    Id = c.Id,
+                    CreatedAt = c.CreatedAt,
+                    CustomerId = c.CustomerId,
+                    CustomerName = c.Customer.User.FirstName + " " + c.Customer.User.LastName,
+                    Description = c.Description,
+                    ExpertId = c.ExpertId,
+                    ExpertName = c.Expert.User.FirstName + " " + c.Expert.User.LastName,
+                    HomeServiceId = c.HomeServiceId,
+                    HomeServiceName = c.HomeService.Name,
+                    Rate = c.Rate,
+                    RequestId = c.RequestId,
+                    RequestDescription= c.Request.Description,
+                    Status = c.Status.ToString(),
+                    Title = c.Title
+                });
+
+            return await query.ToPaginatedResult<CommentDTO>(pageNumber, pageSize, ct);
+
+        }
     }
 }

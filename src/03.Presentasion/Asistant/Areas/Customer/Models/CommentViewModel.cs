@@ -11,7 +11,8 @@ namespace Asistant.Areas.Customer.Models
         public int Rate { get; set; }
         public string CreatedAt { get; set; }
         public string Status { get; set; }
-      
+
+        public string? RequestDescription { get; set; }
         public string CustomerName { get; set; }
         public int CustomerId { get; set; }
         public string ExpertName { get; set; }

@@ -15,8 +15,7 @@ namespace Asistant.Areas.Customer.Models
         public string? VerifyExpertDate { get; set; }
         public string? CompletedDate { get; set; }
 
-
-
+       
         public int? CustomerId { get; set; }
         public string? CustomerName { get; set; }
         public string? HomeServiceName { get; set; }

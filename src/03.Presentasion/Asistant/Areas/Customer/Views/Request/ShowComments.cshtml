@@ -1,0 +1,108 @@
+﻿
+@using Asistant.Areas.Customer.Models
+@model PagedViewModel<CommentViewModel,int>
+
+@{
+    ViewData["Title"] = " مشاهده همه نظرات";
+}
+
+<h4>مشاهده همه نظرات</h4>
+
+
+
+@if (Model.Items is not null && Model.Items.Any())
+{
+   
+            @foreach (var item in Model.Items)
+    {
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                نظر ثبت‌شده
+            </div>
+            <div class="card-body">
+
+                <h5 class="card-title text-dark">@item.Title</h5>
+                <p class="card-text text-muted">@item.Description</p>
+
+                <ul class="list-unstyled small">
+
+                    <li><strong>تاریخ ثبت:</strong> @item.CreatedAt</li>
+                    <li><strong>وضعیت:</strong> @item.Status</li>
+                </ul>
+
+                <hr />
+
+                <div class="mb-2">
+                    <strong>درخواست:</strong> @item.RequestDescription
+                </div>
+                <div class="mb-2">
+                    <strong>کارشناس:</strong> @item.ExpertName
+                </div>
+                <div class="mb-2">
+                    <strong>خدمت:</strong> @item.HomeServiceName
+                </div>
+
+                <hr />
+
+
+                <div class="mb-2">
+                    <strong>امتیاز:</strong>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= item.Rate)
+                        {
+                            <span style="color:gold;">★</span>
+                        }
+                        else
+                        {
+                            <span style="color:lightgray;">★</span>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="card-footer text-end">
+                <form method="post" class="d-inline"
+                      asp-area="Customer"
+                      asp-controller="Request"
+                      asp-action="DeleteComment"
+                      asp-route-commentId="@item.Id"
+                      asp-route-id="@item.RequestId"
+                      onsubmit="return confirm('آیا از حذف این نظر مطمئن هستید؟');">
+                    <button type="submit" class="btn btn-danger btn-sm" title="حذف">
+                        🗑حذف
+                    </button>
+                </form>
+            </div>
+           
+        </div>
+
+    }
+
+                  
+
+
+    <nav>
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link"
+                       asp-area="Customer"
+                       asp-controller="Request"
+                       asp-action="ShowComments"
+                       asp-route-pageNumber="@i"
+                       asp-route-pageSize="@Model.PageSize">
+
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+else
+{
+    <div class="alert alert-info text-center">
+        هیچ نظری برای نمایش وجود ندارد.
+    </div>
+}

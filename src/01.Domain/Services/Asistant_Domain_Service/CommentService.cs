@@ -33,5 +33,7 @@ namespace Asistant_Domain_Service
             => await _cmtrepo.CreateComment(commentDTO, ct);
         public async Task<CommentDTO?> GetCommentByRequestId(int requestId, CancellationToken ct)
             => await _cmtrepo.GetCommentByRequestId(requestId, ct);
+        public async Task<PagedResult<CommentDTO>> GetPagedCommentByCustomerId(int customerId, int pageNumber, int pageSize, CancellationToken ct)
+            => await _cmtrepo.GetPagedCommentByCustomerId(customerId, pageNumber, pageSize, ct);        
     }
 }
