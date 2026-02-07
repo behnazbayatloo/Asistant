@@ -43,5 +43,7 @@ namespace Asistant_Domain_Service
         => await _hmrepo.GetHomeServiceById(id,ct);
         public async Task<List<HomeService>> GetHomeServicesById(List<int> list, CancellationToken ct)
             => await _hmrepo.GetHomeServicesById(list,ct);
+        public async Task<int?> GetCategoryId(int id, CancellationToken ct)
+            => await _hmrepo.GetCategoryId(id,ct);
     }
 }

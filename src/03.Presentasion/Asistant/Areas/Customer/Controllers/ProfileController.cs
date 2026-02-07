@@ -67,10 +67,11 @@ namespace Asistant.Areas.Customer.Controllers
                     FirstName = customer.FirstName,
                     ImagePath = customer.ImagePath
                      ,
-                    LastName = customer.LastName
+                    LastName = customer.LastName,
+                    Ballance=customer.Balance
                 };
             }
-          
+            model.Cities = cities;
 
                 return View(model);
         }
@@ -100,8 +101,11 @@ namespace Asistant.Areas.Customer.Controllers
                 LastName = model.LastName,
                 Password = model.Password,
                 UserId = model.UserId,
-                Image = model.Image
+                Image = model.Image,
+                Balance=model.Ballance
+                
             };
+            model.Cities = cities;
             var result = await customerApp.UpdateCustomer(ct, editCustomer);
             if (result)
             {

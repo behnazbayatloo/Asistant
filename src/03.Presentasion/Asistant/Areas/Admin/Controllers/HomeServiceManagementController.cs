@@ -72,22 +72,18 @@ namespace Asistant.Areas.Admin.Controllers
         public async Task<IActionResult> CreateHomeService(HomeServiceViewModel model, CancellationToken ct)
         {
             var categories = await categoryApp.GetAllCategories(ct);
-            if (!ModelState.IsValid)
-            {
-                model.Categories = categories.Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString()
-                 ,
-                    Text = c.Name
-                });
-                return View(model);
-            }
             model.Categories = categories.Select(c => new SelectListItem
             {
                 Value = c.Id.ToString()
-                ,
+                 ,
                 Text = c.Name
             });
+            if (!ModelState.IsValid)
+            {
+                
+                return View(model);
+            }
+           
             var homeService = new InputHomeServiceDTO
             {
                 Name = model.Name,

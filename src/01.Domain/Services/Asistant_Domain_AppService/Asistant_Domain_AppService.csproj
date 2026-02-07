@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\02.Infrastructure\Infra.Cache\Asistant_Infra_Cache\Asistant_Infra_Cache.csproj" />
     <ProjectReference Include="..\..\..\02.Infrastructure\Infra.File\Asistant_Infra_File\Asistant_Infra_File.csproj" />
     <ProjectReference Include="..\..\Core\Asistant_Domain_Core\Asistant_Domain_Core.csproj" />
   </ItemGroup>

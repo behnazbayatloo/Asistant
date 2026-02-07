@@ -2,10 +2,11 @@
 using Asistant_Domain_Core.HomeServiceAgg.AppServices;
 using Asistant_Domain_Core.HomeServiceAgg.Data;
 using Asistant_Domain_Core.HomeServiceAgg.DTOs;
+using Asistant_Domain_Core.HomeServiceAgg.Entities;
 using Asistant_Domain_Core.HomeServiceAgg.Services;
 using Asistant_Domain_Core.ImageAgg.DTOs;
 using Asistant_Domain_Core.ImageAgg.Service;
-using Asistant_Infra_File.Contract;
+using Asistant_Domain_Core.InfraContracts;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -16,21 +17,46 @@ using System.Threading.Tasks;
 
 namespace Asistant_Domain_AppService
 {
-    public class HomeServiceAppService(IHomeServiceService _hmsrv,IFileService fileservice,IImageService _imageservice,ILogger<HomeServiceAppService> logger):IHomeServiceAppService
+    public class HomeServiceAppService(ICacheService cacheService,IHomeServiceService _hmsrv,IFileService fileservice,IImageService _imageservice,ILogger<HomeServiceAppService> logger):IHomeServiceAppService
     {
         public async Task<IEnumerable<GetHomeServiceDTO>> GetAllHomeServices(CancellationToken ct)
-            => await _hmsrv.GetAllHomeServices(ct);
-        public async Task<PagedResult<GetHomeServiceDTO>> GetPagedHomeServices(int pageNumber,int pageSize,CancellationToken ct)
-            => await _hmsrv.GetPagedHomeService(pageNumber, pageSize, ct);  
+        {
+            var cacheKey = "GetAllHomeServices";
+            var cached = cacheService.Get<IEnumerable<GetHomeServiceDTO>>(cacheKey);
+            if (cached != null)
+                return cached;
+            var services = await _hmsrv.GetAllHomeServices(ct);
+            cacheService.SetSliding(cacheKey, services, 30);
+            return services;
+        }
+        public async Task<PagedResult<GetHomeServiceDTO>> GetPagedHomeServices(int pageNumber, int pageSize, CancellationToken ct)
+        {
+            var cacheKey = "GetPagedHomeServices";
+            var cached = cacheService.Get<PagedResult<GetHomeServiceDTO>>(cacheKey);
+            if (cached != null)
+                return cached;
+            var services  = await _hmsrv.GetPagedHomeService(pageNumber, pageSize, ct);
+            cacheService.SetSliding(cacheKey, services, 30);
+            return services;
+        }
         public async Task<bool> DeleteHomeService(int id,CancellationToken ct)
         {
+            var categoryId = await _hmsrv.GetCategoryId(id, ct);
             var image=await _imageservice.GetImageByHomeServiceId(id, ct);
             if (image != null) 
             {
                 await fileservice.Delete(image.ImagePath, ct);
                 await _imageservice.DeleteImage(image.Id, ct);
             }
-           return await _hmsrv.DeleteHomeService(id, ct);
+           var deleted= await _hmsrv.DeleteHomeService(id, ct);
+            if(deleted)
+            {
+                cacheService.Remove("GetAllHomeServices");
+                cacheService.Remove("GetPagedHomeServices");
+                cacheService.Remove($"homeservices_category_{categoryId}");
+
+            }
+            return deleted;
         }
         public async Task<Result<bool>> CreateHomeService(InputHomeServiceDTO homeServiceDTO,CancellationToken ct)
         {
@@ -49,8 +75,14 @@ namespace Asistant_Domain_AppService
                     int imageId = await _imageservice.SetHomeServiceImage(image, ct);
                     await _hmsrv.UpdateImageId(homeServiceId, imageId, ct);
                 }
+                cacheService.Remove("GetAllHomeServices");
+                cacheService.Remove("GetPagedHomeServices");
+                cacheService.Remove($"homeservices_category_{homeServiceDTO.CategoryId}");
+
                 return Result<bool>.Success(true, "سرویس با موفقیت ثبت شد");
             }
+
+
             return Result<bool>.Failure("عملیات با مشکلی مواجه شد");
         }
         public async Task<Result<bool>> UpdateHomeService(InputHomeServiceDTO homeServiceDTO,CancellationToken ct)
@@ -78,12 +110,24 @@ namespace Asistant_Domain_AppService
             }
             if (result)
             {
+                cacheService.Remove("GetAllHomeServices");
+                cacheService.Remove("GetPagedHomeServices");
+                cacheService.Remove($"homeservices_category_{homeServiceDTO.CategoryId}");
                 return Result<bool>.Success(result,"تغییرات با موفقیت ثبت شد");
             }
             return Result<bool>.Failure("ثبت تغییرات با مشکلی مواجه شد");
         }
-        public async Task<IEnumerable<GetHomeServiceDTO>> GetHomeServiceByCategoryId(int categoryId,CancellationToken ct)
-         => await _hmsrv.GetHomeServicesByCategoryId(categoryId, ct);
+        public async Task<IEnumerable<GetHomeServiceDTO>> GetHomeServiceByCategoryId(int categoryId, CancellationToken ct)
+        {
+            var cacheKey = $"homeservices_category_{categoryId}";
+            var cached = cacheService.Get<IEnumerable<GetHomeServiceDTO>>(cacheKey); 
+            if (cached != null)
+                return cached;
+
+            var services=  await _hmsrv.GetHomeServicesByCategoryId(categoryId, ct);
+            cacheService.SetSliding(cacheKey, services, 30); 
+            return services;
+        }
         public async Task<GetHomeServiceDTO?> GetHomeServiceById(int id, CancellationToken ct)
             => await _hmsrv.GetHomeServiceById(id, ct);
 

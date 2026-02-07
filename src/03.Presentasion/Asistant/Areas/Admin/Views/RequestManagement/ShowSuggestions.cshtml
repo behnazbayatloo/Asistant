@@ -140,7 +140,7 @@
             <ul class="pagination">
              
                 <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
-                    <a class="page-link" href="?id=@Model.MyProp.Id&page=@(Model.PageNumber - 1)&pageSize=@Model.PageSize" aria-label="Previous">
+                    <a class="page-link" asp-area="Admin" asp-controller="RequestManagement" asp-action="ShowSuggestions" asp-route-requestId="@Model.MyProp.Id" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-pageSize="@Model.PageSize" aria-label="Previous">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -148,12 +148,12 @@
                 @for (int i = 1; i <= Model.TotalPages; i++)
                 {
                     <li class="page-item @(Model.PageNumber == i ? "active" : "")">
-                        <a class="page-link" href="?id=@Model.MyProp.Id&page=@i&pageSize=@Model.PageSize">@i</a>
+                        <a class="page-link" asp-area="Admin" asp-controller="RequestManagement" asp-action="ShowSuggestions" asp-route-requestId="@Model.MyProp.Id" asp-route-pageNumber="@i" asp-route-pageSize="@Model.PageSize">@i</a>
                     </li>
                 }
 
                 <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
-                    <a class="page-link" href="?id=@Model.MyProp.Id&page=@(Model.PageNumber + 1)&pageSize=@Model.PageSize" aria-label="Next">
+                    <a class="page-link" asp-area="Admin" asp-controller="RequestManagement" asp-action="ShowSuggestions" asp-route-requestId="@Model.MyProp.Id" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-pageSize="@Model.PageSize" aria-label="Next">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>

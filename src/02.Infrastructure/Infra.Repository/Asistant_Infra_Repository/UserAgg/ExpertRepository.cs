@@ -150,8 +150,12 @@ namespace Asistant_Infra_Repository.UserAgg
                 ).ToListAsync(ct);
                 
         }
+        public async Task<bool> ExistExpert(int expertId, CancellationToken ct)
+        {
+            return await _dbcontext.Experts.AnyAsync(c => c.Id == expertId, ct);
+        }
 
-        
+
 
     }
 }

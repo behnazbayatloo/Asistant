@@ -3,13 +3,15 @@ using Asistant_Domain_Core.CommentAgg.AppService;
 using Asistant_Domain_Core.CommentAgg.Service;
 using Asistant_Domain_Core.ImageAgg.DTOs;
 using Asistant_Domain_Core.ImageAgg.Service;
+using Asistant_Domain_Core.InfraContracts;
 using Asistant_Domain_Core.RequestAgg.Services;
+using Asistant_Domain_Core.SuggestionAgg.DTOs;
 using Asistant_Domain_Core.SuggestionAgg.Services;
 using Asistant_Domain_Core.UserAgg.AppServices;
 using Asistant_Domain_Core.UserAgg.DTOs;
 using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UserAgg.Services;
-using Asistant_Infra_File.Contract;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
@@ -26,7 +28,7 @@ namespace Asistant_Domain_AppService
         RoleManager<IdentityRole<int>> _roleManager, IAppUserService _appsrv,
         ICommentService _cmtsrv,IRequestService _rqsrv,ISuggestionService _sgsrv,
          IFileService fileService,IImageService _imageService,
-        ICustomerService _cutsrv,ILogger<CustomerAppService> logger):ICustomerAppService
+        ICustomerService _cutsrv,IExpertService _expertService,ILogger<CustomerAppService> logger):ICustomerAppService
     {
         public async Task<PagedResult<OutputCustomerDTO>> GetPagedCustomers(int pageNumber, int pageSize, CancellationToken ct)
         {
@@ -135,7 +137,73 @@ namespace Asistant_Domain_AppService
         }
         public async Task<OutputCustomerDTO?> GetCustomerByUserId(int userId, CancellationToken ct)
             => await _cutsrv.GetCustomerByUserId(userId, ct);
+        public async Task<Result<bool>> ApproveSuggestion(ApproveSuggestionDTO approveSuggestion,CancellationToken ct)
+        {
+            var result = await Transaction(approveSuggestion.CustomerId,
+                approveSuggestion.ExpertId, approveSuggestion.Price, ct);
+            if(result.IsSuccess)
+            {
+                await _rqsrv.UpdateVerifyExpertDate(approveSuggestion.RequestId, approveSuggestion.VerifyExpertDate, ct);
+                await _sgsrv.RejectOtherSuggestionByRequestId(approveSuggestion.RequestId, approveSuggestion.SuggestionId, ct);
 
+
+                await _sgsrv.AcceptSuggestion(approveSuggestion.SuggestionId, ct);
+                await _rqsrv.ChangeRequestToAwaitingExpertArrivalOnSite(approveSuggestion.RequestId, ct);
+                return result;
+            }
+            return result;
+            
+        }
+
+
+        private async Task<Result<bool>> Transaction(int customerId,int expertId,decimal price, CancellationToken ct)
+        {
+            var existCustomer = await _cutsrv.ExistCustomer(customerId, ct);
+            var existExpert = await _expertService.ExistExpert(expertId,ct);
+            if(existCustomer)
+            {
+                if (existExpert) 
+                {
+                    var customerBalance = await _appsrv.GetBallanceByCustomerId(customerId, ct);
+                    if (customerBalance == null || customerBalance < price)
+                    {
+
+                        return Result<bool>.Failure("موجودی حساب شما کافی نیست");
+                    }
+                    var expertBalance = await _appsrv.GetBallanceByExpertId(expertId, ct);
+                    
+                    var updatedCustomer = await _appsrv.UpdateBallanceForCustomer(customerId, customerBalance.GetValueOrDefault() - price, ct);
+                    if (!updatedCustomer)
+                    {
+
+                        return Result<bool>.Failure("عملیات با مشکل مواجه شد!");
+                    }
+
+                    var updatedExpert = await _appsrv.UpdateBallanceForExpert(expertId, expertBalance.GetValueOrDefault() + price, ct);
+                    if (!updatedExpert)
+                    {
+                        await _appsrv.UpdateBallanceForCustomer(customerId, customerBalance.GetValueOrDefault(), ct);
+                        return Result<bool>.Failure("عملیات با مشکل مواجه شد!");
+
+                    }
+
+                    return Result<bool>.Success(updatedExpert, $" از حساب شما کسر گردید{price.ToString()}مبلغ ");
+                }
+                else
+                {
+                    return Result<bool>.Failure("کارشناس وجود ندارد");
+                }
+
+            }
+            else
+            {
+                return Result<bool>.Failure("مشتری وجود ندارد!");
+
+            }
+
+
+
+        }
 
     }
 

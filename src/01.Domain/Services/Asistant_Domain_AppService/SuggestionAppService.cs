@@ -24,6 +24,16 @@ namespace Asistant_Domain_AppService
             }
             return result;
         }
+        public async Task<OutputSuggestionDTO?> GetApproveSuggestionByRequestId(int requestId, CancellationToken ct)
+        {
+         var result=   await _sugsrv.GetApproveSuggestionByRequestId(requestId, ct);
+            if (result is not null)
+            {
+                result.ImagesPath= await _imageService.GetSuggestionImagesBySuggestionId(result.Id, ct);
+            }
+            return result;
+        }
+     
 
     }
 }

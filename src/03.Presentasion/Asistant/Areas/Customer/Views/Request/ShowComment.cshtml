@@ -1,0 +1,91 @@
+﻿@using Asistant.Areas.Customer.Models
+@model CommentViewModel
+
+@{
+    ViewData["Title"] = "نمایش نظر";
+}
+
+<div class="container mt-4">
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+    @if (TempData["Succeed"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Succeed"]
+        </div>
+    }
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            نظر ثبت‌شده
+        </div>
+        <div class="card-body">
+
+            <h5 class="card-title text-dark">@Model.Title</h5>
+            <p class="card-text text-muted">@Model.Description</p>
+
+            <ul class="list-unstyled small">
+                
+                <li><strong>تاریخ ثبت:</strong> @Model.CreatedAt</li>
+                <li><strong>وضعیت:</strong> @Model.Status</li>
+            </ul>
+
+            <hr />
+
+            <div class="mb-2">
+                <strong>کاربر:</strong> @Model.CustomerName
+            </div>
+            <div class="mb-2">
+                <strong>کارشناس:</strong> @Model.ExpertName
+            </div>
+            <div class="mb-2">
+                <strong>خدمت:</strong> @Model.HomeServiceName
+            </div>
+
+            <hr />
+
+        
+            <div class="mb-2">
+                <strong>امتیاز:</strong>
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (i <= Model.Rate)
+                    {
+                        <span style="color:gold;">★</span>
+                    }
+                    else
+                    {
+                        <span style="color:lightgray;">★</span>
+                    }
+                }
+            </div>
+        </div>
+        <div class="card-footer text-end">
+            <form method="post" class="d-inline"
+                  asp-area="Customer"
+                  asp-controller="Request"
+                  asp-action="DeleteComment"
+                  asp-route-commentId="@Model.Id"
+                  asp-route-id="@Model.RequestId"
+                  onsubmit="return confirm('آیا از حذف این نظر مطمئن هستید؟');">
+                <button type="submit" class="btn btn-danger btn-sm" title="حذف">
+                    🗑حذف
+                </button>
+            </form>
+        </div>
+        <div class="card-footer text-end">
+            <a asp-area="Customer"
+               asp-controller="Request"
+               asp-action="ShowDoneRequests"
+               class="btn btn-secondary">
+                ⬅️ بازگشت
+            </a>
+        </div>
+    </div>
+    
+  
+
+</div>

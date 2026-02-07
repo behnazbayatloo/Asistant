@@ -32,5 +32,7 @@ namespace Asistant_Domain_Service
             => await _cusrepo.UpdateImageId(id,imageId,ct);
         public async Task<OutputCustomerDTO?> GetCustomerByUserId(int userId, CancellationToken ct)
             => await _cusrepo.GetCustomerByUserId(userId, ct);
+        public async Task<bool> ExistCustomer(int expertId, CancellationToken ct)
+            => await _cusrepo.ExistCustomer(expertId, ct);
     }
 }

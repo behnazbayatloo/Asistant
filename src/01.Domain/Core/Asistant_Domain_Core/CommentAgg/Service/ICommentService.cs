@@ -11,10 +11,13 @@ namespace Asistant_Domain_Core.CommentAgg.Service
     public interface ICommentService
     {
         Task<bool> AcceptComment(int id, CancellationToken ct);
+        Task<int> CreateComment(InputCommentDTO commentDTO, CancellationToken ct);
         Task<bool> DeleteByCustumerId(CancellationToken ct, int id);
         Task<bool> DeleteByExpertId(CancellationToken ct, int id);
         Task<bool> DeleteComment(int id, CancellationToken ct);
+        Task<CommentDTO?> GetCommentByRequestId(int requestId, CancellationToken ct);
         Task<PagedResult<CommentDTO>> GetPagedComment(int pageNumber, int pageSize, CancellationToken ct);
+        Task<PagedResult<CommentDTO>> GetPagedCommentByCustomerId(int customerId, int pageNumber, int pageSize, CancellationToken ct);
         Task<PagedResult<CommentDTO>> GetPagedPendingComment(int pageNumber, int pageSize, CancellationToken ct);
         Task<bool> RejectComment(int id, CancellationToken ct);
     }

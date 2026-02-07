@@ -1,7 +1,9 @@
 ﻿using Asistant_Domain_Core._commonEntities;
 using Asistant_Domain_Core.RequestAgg.DTOs;
+using Asistant_Domain_Core.SuggestionAgg.Enums;
 using Asistant_Domain_Core.SuggestionAgg.Data;
 using Asistant_Domain_Core.SuggestionAgg.DTOs;
+using Asistant_Domain_Core.SuggestionAgg.Enums;
 using Asistant_Infra_Db_Sql.DbContext;
 using Asistant_Infra_Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +50,37 @@ namespace Asistant_Infra_Repository.SuggestionAgg
                            });
 
             return await query.ToPaginatedResult<OutputSuggestionDTO>(pageNumber, pageSize, ct);
+        }
+        public async Task<OutputSuggestionDTO?> GetApproveSuggestionByRequestId(int requestId, CancellationToken ct)
+        {
+            return await _dbcontext.Suggestions
+                .AsNoTracking()
+                .Where(s => s.RequestId == requestId && s.Status == StatusEnum.Accept)
+                .Select(s => new OutputSuggestionDTO
+                {
+                    Id = s.Id,
+                    Title = s.Title,
+                    CreatedAt = s.CreatedAt,
+                    Description = s.Description,
+                    ExpertId = s.ExpertId,
+                    ExpertName = s.Expert.User.FirstName + " " + s.Expert.User.LastName,
+                    Price = s.Price,
+                    ImagesId = s.Images != null ? s.Images.Select(i => i.Id).ToList() : new List<int>(),
+                    RequestId = s.RequestId,
+                    Status = s.Status.ToString()
+
+                }).FirstOrDefaultAsync(ct);
+        }
+        public async Task<bool> RejectOtherSuggestionByRequestId(int requestId,int suggestionId ,CancellationToken ct)
+        {
+            return await _dbcontext.Suggestions
+                .Where(s=>s.RequestId==requestId && s.Id!=suggestionId)
+                .ExecuteUpdateAsync(set=>set.SetProperty(s=>s.Status, StatusEnum.Reject),ct)>0;
+        }
+        public async Task<bool> AcceptSuggestion(int id,CancellationToken ct)
+        {
+            return await _dbcontext.Suggestions.Where(s=>s.Id==id)
+                .ExecuteUpdateAsync(set=>set.SetProperty(s=>s.Status,StatusEnum.Accept),ct)>0;
         }
     }
 }

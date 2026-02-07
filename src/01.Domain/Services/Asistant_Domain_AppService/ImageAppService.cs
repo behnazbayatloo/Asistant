@@ -1,6 +1,6 @@
 ﻿using Asistant_Domain_Core.ImageAgg.AppService;
 using Asistant_Domain_Core.ImageAgg.Service;
-using Asistant_Infra_File.Contract;
+
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

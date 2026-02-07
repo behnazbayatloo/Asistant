@@ -13,6 +13,7 @@ namespace Asistant_Domain_Core.UserAgg.Data
         Task<int> CreateCustomer(int userId, CancellationToken ct);
         Task<int> CreateCustomerByAdmin(CreateCustomerDTO customerDTO, CancellationToken ct);
         Task<bool> DeleteCustomer(CancellationToken ct, int id);
+        Task<bool> ExistCustomer(int customerId, CancellationToken ct);
         Task<PagedResult<OutputCustomerDTO>> GetAllCustumers(int pageNumber, int pageSize, CancellationToken ct);
         Task<OutputCustomerDTO?> GetCustomerById(CancellationToken ct, int id);
         Task<OutputCustomerDTO?> GetCustomerByUserId(int userId, CancellationToken ct);

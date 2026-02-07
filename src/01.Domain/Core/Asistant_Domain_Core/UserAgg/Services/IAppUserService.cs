@@ -14,7 +14,11 @@ namespace Asistant_Domain_Core.UserAgg.Services
         Task<IdentityResult> ChangePassword(int userId, string password);
         Task<IdentityResult> DeleteAppUserById(int id, CancellationToken ct);
         Task<AdminDTO?> GetAdminById(int id, CancellationToken ct);
+        Task<decimal?> GetBallanceByCustomerId(int customerId, CancellationToken ct);
+        Task<decimal?> GetBallanceByExpertId(int expertId, CancellationToken ct);
         Task<PagedResult<AdminDTO>> GetPagedAdmins(int pageNumber, int pageSize, CancellationToken ct);
         Task<IdentityResult> UpdateAppUserFields(AppUserFieldsDTO updateFields);
+        Task<bool> UpdateBallanceForCustomer(int customerId, decimal ballance, CancellationToken ct);
+        Task<bool> UpdateBallanceForExpert(int expertId, decimal ballance, CancellationToken ct);
     }
 }

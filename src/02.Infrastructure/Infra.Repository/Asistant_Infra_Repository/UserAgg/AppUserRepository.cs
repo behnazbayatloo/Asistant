@@ -37,6 +37,28 @@ namespace Asistant_Infra_Repository.UserAgg
             return await query.ToPaginatedResult<AdminDTO>(pageNumber, pageSize, ct);
 
         }
+        public async Task<decimal?> GetBallanceByCustomerId(int customerId, CancellationToken ct)
+        {
+            return await _dbcontext.Users.Where(u => u.CustomerId == customerId)
+                .Select(u => u.Balance)
+                .FirstOrDefaultAsync(ct);
+        }
+        public async Task<decimal?> GetBallanceByExpertId(int expertId, CancellationToken ct)
+        {
+            return await _dbcontext.Users.Where(u => u.ExpertId == expertId)
+               .Select(u => u.Balance)
+               .FirstOrDefaultAsync(ct);
+        }
+        public async Task<bool> UpdateBallanceForCustomer(int customerId, decimal ballance,CancellationToken ct) 
+        {
+             return await _dbcontext.Users.Where(u=>u.CustomerId == customerId)
+                .ExecuteUpdateAsync(set=>set.SetProperty(u=>u.Balance, ballance), ct)>0;
+        }
+        public async Task<bool> UpdateBallanceForExpert(int expertId, decimal ballance, CancellationToken ct)
+        {
+            return await _dbcontext.Users.Where(u=>u.ExpertId== expertId)
+                .ExecuteUpdateAsync(set => set.SetProperty(u => u.Balance, ballance), ct) > 0;
+        }
     }
 
    

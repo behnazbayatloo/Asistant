@@ -19,7 +19,7 @@ namespace Asistant_Domain_Core.CommentAgg.DTOs
         public int CustomerId { get; set; }
         public string ExpertName { get; set; }
         public int ExpertId { get; set; }
-
+        public string? RequestDescription { get; set; }
         public int RequestId { get; set; }
         public string HomeServiceName { get; set; }
         public int HomeServiceId { get; set; }

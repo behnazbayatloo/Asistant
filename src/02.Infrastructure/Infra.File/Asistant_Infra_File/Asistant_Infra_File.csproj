@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\01.Domain\Core\Asistant_Domain_Core\Asistant_Domain_Core.csproj" />
+  </ItemGroup>
+
 </Project>

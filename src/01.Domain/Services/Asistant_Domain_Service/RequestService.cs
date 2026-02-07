@@ -25,5 +25,17 @@ namespace Asistant_Domain_Service
             => await _reqrepo.DeleteRequest(id,ct);
         public async Task<OutputRequestDTO?> GetRequestById(int id, CancellationToken ct)
             => await _reqrepo.GetRequestById(id, ct);
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedInProgressRequestByCustomerId(int id, int pageNumber, int pageSize, CancellationToken ct)
+            => await _reqrepo.GetPagedInProgressRequestByCustomerId(id, pageNumber, pageSize, ct);
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedDoneRequestByCustomerId(int id, int pageNumber, int pageSize, CancellationToken ct)
+            => await _reqrepo.GetPagedDoneRequestByCustomerId(id,pageNumber, pageSize, ct);
+        public async Task<bool> DeleteRequestByRequestId(int requestId, CancellationToken ct)
+            => await _reqrepo.DeleteRequestByRequestId(requestId, ct);
+        public async Task<bool> ChangeRequestToAwaitingExpertArrivalOnSite(int requestId, CancellationToken ct)
+            => await _reqrepo.ChangeRequestToAwaitingExpertArrivalOnSite(requestId, ct);
+        public async Task<bool> UpdateVerifyExpertDate(int requestId, DateTime verifyDate, CancellationToken ct)
+            => await _reqrepo.UpdateVerifyExpertDate(requestId, verifyDate, ct);
+        public async Task<bool> UpdateCommentId(int requestId, int commentId, CancellationToken ct)
+            => await _reqrepo.UpdateCommentId(requestId, commentId, ct);
             }
 }

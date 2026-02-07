@@ -39,6 +39,8 @@ namespace Asistant_Domain_Service
             => await _exprepo.UpdateHomeServicesForExpert(expertId, list, ct);
         public async Task<OutputExpertDTO?> GetExpertByUserId(CancellationToken ct, int userId)
 => await _exprepo.GetExpertByUserId(ct, userId);
+        public async Task<bool> ExistExpert(int expertId, CancellationToken ct)
+            => await _exprepo.ExistExpert(expertId,ct);
 
 
     }

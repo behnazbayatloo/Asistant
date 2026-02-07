@@ -1,4 +1,4 @@
-
+﻿
 using Asistant.Middleware;
 using Asistant_Domain_AppService;
 using Asistant_Domain_Core.CommentAgg.AppService;
@@ -10,6 +10,7 @@ using Asistant_Domain_Core.HomeServiceAgg.Services;
 using Asistant_Domain_Core.ImageAgg.AppService;
 using Asistant_Domain_Core.ImageAgg.Data;
 using Asistant_Domain_Core.ImageAgg.Service;
+using Asistant_Domain_Core.InfraContracts;
 using Asistant_Domain_Core.RequestAgg.AppServices;
 using Asistant_Domain_Core.RequestAgg.Data;
 using Asistant_Domain_Core.RequestAgg.Services;
@@ -22,8 +23,10 @@ using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UserAgg.Services;
 using Asistant_Domain_Service;
 using Asistant_FrameWork.UIExtensions;
+
+using Asistant_Infra_Cache.InMemoryCache;
 using Asistant_Infra_Db_Sql.DbContext;
-using Asistant_Infra_File.Contract;
+
 using Asistant_Infra_File.Service;
 using Asistant_Infra_Repository.CommentAgg;
 using Asistant_Infra_Repository.HomeServiceAgg;
@@ -33,11 +36,14 @@ using Asistant_Infra_Repository.SuggestionAgg;
 using Asistant_Infra_Repository.UserAgg;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Serilog;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
 #region AddServices 
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<ICacheService, InMemoryCacheService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository> ();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ICommentAppService, CommentAppService>();
@@ -69,6 +75,7 @@ builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
 builder.Services.AddScoped<IAppUserService,AppUserService>();
 builder.Services.AddScoped<IAppUserAppService,AppUserAppService>();
 builder.Services.AddScoped<IFileService, FileService>();
+
 #endregion
 // Add services to the container.
 #region DataBaseConfig
@@ -94,6 +101,7 @@ builder.Host.UseSerilog((context, configuration) =>
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddRazorPages();
+
 #region IdentityConfigs
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -128,12 +136,26 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 #endregion
 
+#region Redis Settings
+
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379"; // یا آدرس سرور ریدیس شما
+    options.InstanceName = "MyProject_";
+});
+#endregion
+
+#region InMemoryCache
+builder.Services.AddMemoryCache();
+#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+      
+        app.UseMigrationsEndPoint();
 }
 else
 {

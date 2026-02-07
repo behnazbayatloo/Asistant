@@ -26,6 +26,7 @@ namespace Asistant_Domain_Service
 
 
         }
+       
         public async Task<IdentityResult> ChangePassword(int userId, string password)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -62,7 +63,16 @@ namespace Asistant_Domain_Service
             return null;
            
         }
-       
-        }
+        public async Task<decimal?> GetBallanceByCustomerId(int customerId, CancellationToken ct)
+        => await _userRepository.GetBallanceByCustomerId(customerId, ct);
+        public async Task<decimal?> GetBallanceByExpertId(int expertId, CancellationToken ct)
+        => await _userRepository.GetBallanceByExpertId(expertId, ct);
+        public async Task<bool> UpdateBallanceForCustomer(int customerId, decimal ballance, CancellationToken ct)
+        => await _userRepository.UpdateBallanceForCustomer(customerId, ballance, ct);
+        public async Task<bool> UpdateBallanceForExpert(int expertId, decimal ballance, CancellationToken ct)
+       => await _userRepository.UpdateBallanceForExpert(expertId, ballance, ct);
+
+
+    }
 
 }

@@ -14,6 +14,7 @@ namespace Asistant_Domain_Core.UserAgg.Data
         Task<int> CreateExpert(int userId, CancellationToken ct);
         Task<int> CreateExpertByAdmin(CreateExpertDTO expertDTO, CancellationToken ct);
         Task<bool> DeleteExpert(CancellationToken ct, int id);
+        Task<bool> ExistExpert(int expertId, CancellationToken ct);
         Task<PagedResult<OutputExpertDTO>> GetAllExperts(int pageNumber, int pageSize, CancellationToken ct);
         Task<OutputExpertDTO?> GetExpertById(CancellationToken ct, int id);
         Task<OutputExpertDTO?> GetExpertByUserId(CancellationToken ct, int userId);

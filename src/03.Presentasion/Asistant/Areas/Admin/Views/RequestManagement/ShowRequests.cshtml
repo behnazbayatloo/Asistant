@@ -1,4 +1,4 @@
-﻿@using Asistant_FrameWork.UIExtensions
+﻿
 @using Asistant.Areas.Admin.Models
 @model PagedViewModel<RequestViewModel,int>
 
@@ -138,7 +138,10 @@
                                    asp-controller="RequestManagement"
                                    asp-action="ShowSuggestions"
                                    asp-route-id="@item.Id"
-                               >مشاهده پیشنهادات این درخواست</a>
+                                   class="btn btn-primary btn-sm">
+                                    <i class="bi bi-eye"></i> مشاهده پیشنهادات
+                                </a>
+                    
                                
                             }
                           
@@ -174,6 +177,6 @@
 else
 {
     <div class="alert alert-info text-center">
-        هیچ کامنتی برای نمایش وجود ندارد.
+        هیچ درخواستی برای نمایش وجود ندارد.
     </div>
 }

@@ -116,5 +116,9 @@ namespace Asistant_Infra_Repository.UserAgg
                     Email = c.User.Email
                 }).FirstOrDefaultAsync(ct);
         }
+        public async Task<bool> ExistCustomer(int customerId,CancellationToken ct)
+        {
+            return await _dbcontext.Customers.AnyAsync(c=>c.Id==customerId,ct);
+        }
     }
 }

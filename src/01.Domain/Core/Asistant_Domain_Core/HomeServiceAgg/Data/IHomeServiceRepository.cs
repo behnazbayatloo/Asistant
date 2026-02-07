@@ -16,6 +16,7 @@ namespace Asistant_Domain_Core.HomeServiceAgg.Data
         Task<bool> DeleteHomeServicesByCategoryId(int categoryId, CancellationToken ct);
         Task<bool> ExistHomeService(string name, CancellationToken ct);
         Task<IEnumerable<GetHomeServiceDTO>> GetAllHomeServices(CancellationToken ct);
+        Task<int?> GetCategoryId(int id, CancellationToken ct);
         Task<GetHomeServiceDTO?> GetHomeServiceById(int id, CancellationToken ct);
         Task<int?> GetHomeServiceImageId(int id, CancellationToken ct);
         Task<IEnumerable<GetHomeServiceDTO>> GetHomeServicesByCategoryId(int categoryId, CancellationToken ct);
