@@ -4,6 +4,7 @@ using Asistant_Domain_AppService;
 using Asistant_Domain_Core.CommentAgg.AppService;
 using Asistant_Domain_Core.CommentAgg.Data;
 using Asistant_Domain_Core.CommentAgg.Service;
+using Asistant_Domain_Core.Configurations;
 using Asistant_Domain_Core.HomeServiceAgg.AppServices;
 using Asistant_Domain_Core.HomeServiceAgg.Data;
 using Asistant_Domain_Core.HomeServiceAgg.Services;
@@ -23,10 +24,8 @@ using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UserAgg.Services;
 using Asistant_Domain_Service;
 using Asistant_FrameWork.UIExtensions;
-
 using Asistant_Infra_Cache.InMemoryCache;
 using Asistant_Infra_Db_Sql.DbContext;
-
 using Asistant_Infra_File.Service;
 using Asistant_Infra_Repository.CommentAgg;
 using Asistant_Infra_Repository.HomeServiceAgg;
@@ -75,7 +74,10 @@ builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
 builder.Services.AddScoped<IAppUserService,AppUserService>();
 builder.Services.AddScoped<IAppUserAppService,AppUserAppService>();
 builder.Services.AddScoped<IFileService, FileService>();
+var siteSettings =
+    builder.Configuration.GetSection("SiteSettings").Get<SiteSettings>();
 
+builder.Services.AddSingleton(siteSettings);
 #endregion
 // Add services to the container.
 #region DataBaseConfig
