@@ -1,55 +1,46 @@
 ﻿
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace Asistant.Middleware
 {
 
-
-
     public class GlobalExceptionHandlerMiddleware
     {
-        private readonly RequestDelegate _next;
-        private readonly IWebHostEnvironment _env; 
-
-        public GlobalExceptionHandlerMiddleware(RequestDelegate next, IWebHostEnvironment env)
-        {
+        private readonly RequestDelegate _next; 
+        public GlobalExceptionHandlerMiddleware(RequestDelegate next) 
+        { 
             _next = next;
-            _env = env;
         }
-
         public async Task Invoke(HttpContext context)
         {
-            try
-            {
+            try 
+            { 
                 await _next(context);
             }
-            catch (System.Threading.Tasks.TaskCanceledException)
-            {
+            catch (TaskCanceledException)
+            { 
                 context.Response.StatusCode = (int)HttpStatusCode.OK;
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
-               
-                HandleException(context, ex);
+                await HandleExceptionAsync(context, ex); 
             }
         }
-
-        private void HandleException(HttpContext context, Exception exception)
-        {
+        private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        { 
+            Log.Error(exception, "خطای غیرمنتظره در پردازش درخواست رخ داد");
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError; 
-
-          
-            if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            {
-                context.Response.ContentType = "application/json";
-                context.Response.WriteAsync(new { error = "خطایی رخ داده است" }.ToString());
-            }
-            else
-            {
-              
-                context.Response.Redirect("/Home/Error");
-            }
+            context.Response.ContentType = "application/json"; 
+            var result = System.Text.Json.JsonSerializer.Serialize(new 
+            { 
+                error = "خطایی رخ داده است",
+                details = exception.Message
+            });
+            await context.Response.WriteAsync(result); 
         }
+           
     }
 }

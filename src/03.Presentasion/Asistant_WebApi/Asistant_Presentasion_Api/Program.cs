@@ -30,10 +30,12 @@ using Asistant_Infra_Repository.ImageAgg;
 using Asistant_Infra_Repository.RequestAgg;
 using Asistant_Infra_Repository.SuggestionAgg;
 using Asistant_Infra_Repository.UserAgg;
+using Asistant_Presentasion_Api.Middleware;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -89,6 +91,12 @@ builder.Services.AddSwaggerGen();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+#region Serilog
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
+#endregion
 
 
 var app = builder.Build();
@@ -101,7 +109,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

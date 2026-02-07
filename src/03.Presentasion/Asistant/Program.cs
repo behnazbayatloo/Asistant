@@ -143,14 +143,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = "localhost:6379"; // یا آدرس سرور ریدیس شما
+    options.Configuration = "localhost:6379"; 
     options.InstanceName = "MyProject_";
 });
 #endregion
 
-#region InMemoryCache
-builder.Services.AddMemoryCache();
-#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

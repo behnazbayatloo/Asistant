@@ -1,3 +1,68 @@
 تعمیر سریع
 خیلی سریع مشکل ماشین لباسشویی رو حل کرد.
 5
+ public class DapperRepository : IRepository
+ {
+     string connectionString = @"Server=DESKTOP-LO9POA3\SQLEXPRESS;Database=ToDoList;Integrated Security = true;Encrypt=True;TrustServerCertificate=True;";
+
+     public int Create(ToDoItem item)
+     {
+
+         string query = @"INSERT INTO ToDoItems (Title, Description, IsDone)VALUES (@Title, @Description, @IsDone)";
+         using var cn = new SqlConnection(connectionString);
+         var command = new CommandDefinition(query, item);
+         cn.Execute(command);
+         return item.Id;
+
+     }
+
+     public void Delete(int id)
+     {
+         using SqlConnection cn = new(connectionString);
+
+         string query = $"DELETE FROM {typeof(ToDoItem).Name}s WHERE Id = @Id";
+         cn.Execute(query, new { Id = id });
+
+     }
+
+
+     public List<ToDoItem> GetAll()
+     {
+         using var cn = new SqlConnection(connectionString);
+         var query = "SELECT * FROM ToDoItems";
+         var cmd = new CommandDefinition(query);
+         var result = cn.Query<ToDoItem>(cmd);
+         return result.ToList();
+     }
+
+     public ToDoItem GetById(int id)
+     //{
+     //    using var cn = new SqlConnection(connectionString);
+     //    var query = "SELECT * FROM ToDoItems";
+     //    var cmd = new CommandDefinition(query);
+     //    var result = cn.Query<ToDoItem>(cmd).ToList();
+     //    return result.Single(p => p.Id == id);}
+     {
+         using SqlConnection cn = new(connectionString);
+         string query = $"SELECT * FROM {typeof(ToDoItem).Name}s WHERE Id = @Id";
+         var item = cn.QueryFirstOrDefault<ToDoItem>(query, new { Id = id });
+         //return cn.QuerySingle<User>(query, new { Id = id });
+         return item;
+
+     }
+
+
+
+     public void UpdateStatus(int id, bool st)
+     {
+         using SqlConnection cn = new(connectionString);
+         string query = $"UPDATE {typeof(ToDoItem).Name}s Set IsDone=@IsDone WHERE Id = @Id";
+
+         cn.Execute(query, new { Id = id, IsDone = st });
+
+         //using var connection = new SqlConnection(_connectionString);
+         //var sql = "UPDATE ToDoItems SET IsDone = @IsDone WHERE Id = @Id";
+         //connection.Execute(sql, new { Id = id, IsDone = st });
+
+     }
+ }
