@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\01.Domain\Services\Asistant_Domain_AppService\Asistant_Domain_AppService.csproj" />
     <ProjectReference Include="..\..\01.Domain\Services\Asistant_Domain_Service\Asistant_Domain_Service.csproj" />
     <ProjectReference Include="..\..\02.Infrastructure\Infra.Cache\Asistant_Infra_Cache\Asistant_Infra_Cache.csproj" />
+    <ProjectReference Include="..\..\02.Infrastructure\Infra.Db.Dapper\Asistant_Infra_Db_Dapper\Asistant_Infra_Db_Dapper.csproj" />
     <ProjectReference Include="..\..\02.Infrastructure\Infra.Db.Sql\Asistant_Infra_Db_Sql\Asistant_Infra_Db_Sql.csproj" />
     <ProjectReference Include="..\..\02.Infrastructure\Infra.Repository\Asistant_Infra_Repository\Asistant_Infra_Repository.csproj" />
   </ItemGroup>

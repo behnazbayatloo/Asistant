@@ -22,6 +22,8 @@ using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UserAgg.Services;
 using Asistant_Domain_Service;
 using Asistant_Infra_Cache.InMemoryCache;
+using Asistant_Infra_Db_Dapper.HomeServiceAgg;
+using Asistant_Infra_Db_Dapper.UserAgg;
 using Asistant_Infra_Db_Sql.DbContext;
 using Asistant_Infra_File.Service;
 using Asistant_Infra_Repository.CommentAgg;
@@ -42,6 +44,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 #region AddServices 
+
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ICacheService, InMemoryCacheService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
@@ -75,16 +78,23 @@ builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
 builder.Services.AddScoped<IAppUserService, AppUserService>();
 builder.Services.AddScoped<IAppUserAppService, AppUserAppService>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<ICityDapperRepository, CityDapperRepository>();
+builder.Services.AddScoped<ICategoryDapperRepository, CategoryDapperRepository>();
+builder.Services.AddScoped<IHomeServiceDapperRepository, HomeServiceDapperRepository>();
 var siteSettings =
     builder.Configuration.GetSection("SiteSettings").Get<SiteSettings>();
 
 builder.Services.AddSingleton(siteSettings);
 #endregion
+#region DataBaseConfig
+var connectionString = builder.Configuration.GetSection("ConnectionStringsConfiguration")["DefaultConnection"] ??
+    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+#endregion
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

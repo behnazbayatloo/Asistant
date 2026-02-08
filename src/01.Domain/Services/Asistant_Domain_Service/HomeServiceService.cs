@@ -12,12 +12,13 @@ using System.Threading.Tasks;
 
 namespace Asistant_Domain_Service
 {
-    public class HomeServiceService(IHomeServiceRepository _hmrepo, ILogger<HomeServiceService> logger):IHomeServiceService
+    public class HomeServiceService(IHomeServiceRepository _hmrepo,
+        IHomeServiceDapperRepository homeServiceDapperRepository,ILogger<HomeServiceService> logger):IHomeServiceService
     {
       
 
         public async Task<IEnumerable<GetHomeServiceDTO>> GetAllHomeServices(CancellationToken ct) =>
-            await _hmrepo.GetAllHomeServices(ct);
+            await homeServiceDapperRepository.GetAllHomeServices(ct);
         public async Task<PagedResult<GetHomeServiceDTO>> GetPagedHomeService(int pageNumber,int pageSize,CancellationToken ct)
             => await _hmrepo.GetPagedHomeService(pageNumber, pageSize, ct);
 

@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Asistant_Domain_Service
 {
-    public class CategoryService(ICategoryRepository _catrepo,ILogger<CategoryService> logger):ICategoryService
+    public class CategoryService(ICategoryRepository _catrepo,ICategoryDapperRepository categoryDapperRepository,ILogger<CategoryService> logger):ICategoryService
     {
-        public async Task<IEnumerable<GetCategoryDTO>> GetAllCategories(CancellationToken ct) => await _catrepo.GetAllCtegories(ct);
+        public async Task<IEnumerable<GetCategoryDTO>> GetAllCategories(CancellationToken ct) => await categoryDapperRepository.GetAllCtegories(ct);
         public async Task<PagedResult<GetCategoryDTO>> GetPagedCategories( int pageNumber,int pageSize,CancellationToken ct)
             => await _catrepo.GetPagedCategory(pageNumber, pageSize, ct);
         public async Task<bool> DeleteCategory(int id,CancellationToken ct)

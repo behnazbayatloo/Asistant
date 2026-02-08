@@ -15,11 +15,7 @@ namespace Asistant_Infra_Repository.UserAgg
 {
     public class CityRepository(ApplicationDbContext _dbcontext):ICityRepository
     {
-        public async Task<List<City>> GetAllCities(CancellationToken ct)
-        {
-            return await _dbcontext.Cities.AsNoTracking()
-                .ToListAsync(ct);
-        }
+      
         public async Task<PagedResult<CityDTO>> GetPagedCities(int pageNumber,int pageSize,CancellationToken ct)
         {
             var query = _dbcontext.Cities

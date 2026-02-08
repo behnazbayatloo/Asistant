@@ -25,6 +25,8 @@ using Asistant_Domain_Core.UserAgg.Services;
 using Asistant_Domain_Service;
 using Asistant_FrameWork.UIExtensions;
 using Asistant_Infra_Cache.InMemoryCache;
+using Asistant_Infra_Db_Dapper.HomeServiceAgg;
+using Asistant_Infra_Db_Dapper.UserAgg;
 using Asistant_Infra_Db_Sql.DbContext;
 using Asistant_Infra_File.Service;
 using Asistant_Infra_Repository.CommentAgg;
@@ -74,6 +76,9 @@ builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
 builder.Services.AddScoped<IAppUserService,AppUserService>();
 builder.Services.AddScoped<IAppUserAppService,AppUserAppService>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<ICityDapperRepository, CityDapperRepository>();
+builder.Services.AddScoped<ICategoryDapperRepository, CategoryDapperRepository>();
+builder.Services.AddScoped<IHomeServiceDapperRepository,HomeServiceDapperRepository>();
 var siteSettings =
     builder.Configuration.GetSection("SiteSettings").Get<SiteSettings>();
 
@@ -81,11 +86,10 @@ builder.Services.AddSingleton(siteSettings);
 #endregion
 // Add services to the container.
 #region DataBaseConfig
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(siteSettings.ConnectionStringsConfiguration.DefaultConnection));
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>()
     .AddErrorDescriber<PersianIdentityErrorDescriber>()
     .AddEntityFrameworkStores<ApplicationDbContext>()

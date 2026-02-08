@@ -27,23 +27,7 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
             return category.Id;
         }
 
-        public async Task<IEnumerable<GetCategoryDTO>> GetAllCtegories (CancellationToken ct)
-        {
-           return  await _dbcontext.Categories.AsNoTracking().Select(
-                c => new GetCategoryDTO
-                {
-                    Id=c.Id,
-                    Name = c.Name,
-                    ImagePath=c.Image.ImagePath,
-                    HomeServices=c.HomeServices.Select(hs=> new HomeServiceDTO
-                    {
-                        Id=hs.Id,
-                        Name=hs.Name,
-                    }).ToList()
-
-                }).ToListAsync(ct);
-
-        }
+        
         public async Task<GetCategoryDTO?> GetCategoryById(int id, CancellationToken ct)
         {
             return await _dbcontext.Categories.AsNoTracking().Where(c => c.Id == id).Select(c => new GetCategoryDTO
