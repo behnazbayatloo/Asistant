@@ -157,6 +157,7 @@
                                   asp-controller="CommentManagement"
                                   asp-action="DeleteComment"
                                   asp-route-id="@item.Id"
+                                  asp-route-requestId="@item.RequestId "
                                   onsubmit="return confirm('آیا از حذف این کامنت مطمئن هستید؟');">
                                 <button type="submit" class="btn btn-danger btn-sm" title="حذف">
                                     🗑

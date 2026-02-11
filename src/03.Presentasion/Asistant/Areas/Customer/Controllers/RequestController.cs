@@ -401,7 +401,7 @@ HomeServiceId=model.HomeServiceId
         [HttpPost]
         public async Task<IActionResult> DeleteComment(int commentId,int id,CancellationToken ct)
         {
-            var result =await commentApp.DeleteComment(commentId,ct) ;
+            var result =await commentApp.DeleteComment(commentId,id,ct) ;
             if (result)
             {
                 TempData["Succeed"] = "درخواست با موفقیت حذف گردید";

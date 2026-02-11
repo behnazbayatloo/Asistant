@@ -78,9 +78,9 @@ namespace Asistant.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteComment(int id,CancellationToken ct)
+        public async Task<IActionResult> DeleteComment(int id,int requestId, CancellationToken ct)
         {
-            var result = await _commentApp.DeleteComment(id, ct);
+            var result = await _commentApp.DeleteComment(id, requestId, ct);
             if(result)
             {
                 TempData["Succeed"] = "کامنت با موفقیت حذف گردید";
