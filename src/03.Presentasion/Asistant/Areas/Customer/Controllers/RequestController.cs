@@ -26,6 +26,7 @@ namespace Asistant.Areas.Customer.Controllers
         ISuggestionAppService suggestionApp,
         ICommentAppService commentApp,
         ICustomerAppService customerApp,
+        IExpertAppService expertApp,
         UserManager<AppUser> _userManager) : Controller
     {
         [HttpGet]
@@ -217,7 +218,7 @@ HomeServiceId=model.HomeServiceId
                     CreatedAt = request.CreatedAt.ToPeString("yyyy/MM/dd"),
                     CustomerName = request.CustomerName,
                     Description = request.Description
-               ,
+               ,HomeServiceId=request.HomeServiceId,
                     HomeServiceName = request.HomeServiceName
                ,
                     ImagesPath = request.ImagesPath,
@@ -459,5 +460,45 @@ HomeServiceId=model.HomeServiceId
 
             return View(model);
         }
+        public async Task<IActionResult> ShowExpertProfile(int expertId,int homeServiceId,CancellationToken ct, int pageNumber = 1, int pageSize = 2)
+        {
+            var expert = await expertApp.GetExpertById(ct,expertId);
+            var comments = await commentApp.GetPagedCommentByExpertId(expertId,homeServiceId,pageNumber,pageSize,ct);
+            var model = new PagedViewModel<CommentViewModel, ExpertViewModel>();
+            model.Items = comments.Items.Select(c => new CommentViewModel
+            {
+                Id = c.Id,
+                CreatedAt = c.CreatedAt.ToPeString("yyyy/mm/dd"),
+                CustomerName = c.CustomerName,
+                Description = c.Description,
+                ExpertName = c.ExpertName,
+                HomeServiceName = c.HomeServiceName,
+                HomeServiceId=c.HomeServiceId,
+                Rate = c.Rate,
+                Status = c.Status,
+                Title = c.Title,
+                RequestId = c.RequestId,
+                RequestDescription = !string.IsNullOrEmpty(c.RequestDescription) ?
+                (c.RequestDescription.Length >= 50 ? c.RequestDescription.Substring(0, 50) + "..." : c.RequestDescription) : ""
+
+            }).ToList();
+            model.TotalPages = comments.TotalPages;
+            model.TotalCount = comments.TotalCount;
+            model.PageNumber = comments.PageNumber;
+            model.PageSize = comments.PageSize;
+            model.MyProp = new ExpertViewModel
+            {
+                Id= expert.Id,
+                CityName=expert.CityName,
+                Email=expert.Email,
+                FirstName= expert.FirstName
+                ,HomeServices=expert.HomeServicesNames,
+                LastName = expert.LastName,
+                ImagePath=expert.ImagePath,
+                SelectedHomeService=homeServiceId
+            };
+            return View(model);
+        }
+       
     }
 }

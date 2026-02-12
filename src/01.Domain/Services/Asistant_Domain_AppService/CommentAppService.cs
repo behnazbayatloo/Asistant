@@ -52,5 +52,7 @@ namespace Asistant_Domain_AppService
             => await _cmtserv.GetCommentByRequestId(requestId, ct);
         public async Task<PagedResult<CommentDTO>> GetPagedCommentByCustomerId(int customerId, int pageNumber, int pageSize, CancellationToken ct)
            => await _cmtserv.GetPagedCommentByCustomerId(customerId, pageNumber, pageSize, ct);
+        public async Task<PagedResult<CommentDTO>> GetPagedCommentByExpertId(int expertId, int homeServiceId, int pageNumber, int pageSize, CancellationToken ct)
+          => await _cmtserv.GetPagedCommentByExpertId(expertId, homeServiceId, pageNumber, pageSize, ct);
     }
 }
