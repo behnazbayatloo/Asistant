@@ -49,6 +49,19 @@
                 
             </div>
         </div>
+        <div class="action-buttons">
+            
+            <a  asp-area="Customer"
+                asp-controller="Request"
+                asp-action="ShowSuggestions"
+                asp-route-pageNumber="@TempData["ThisPage"]"
+               asp-route-requestId="@TempData["RequestId"]"
+               class="btn btn-outline"
+               style="border-color: #999; color: #666;">
+                بازگشت به لیست پیشنهادات
+            </a>
+
+        </div>
     </div>
 
     

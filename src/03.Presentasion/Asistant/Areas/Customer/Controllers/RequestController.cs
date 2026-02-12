@@ -460,8 +460,10 @@ HomeServiceId=model.HomeServiceId
 
             return View(model);
         }
-        public async Task<IActionResult> ShowExpertProfile(int expertId,int homeServiceId,CancellationToken ct, int pageNumber = 1, int pageSize = 2)
+        public async Task<IActionResult> ShowExpertProfile(int expertId,int homeServiceId,int thisPage,int requestId,CancellationToken ct, int pageNumber = 1, int pageSize = 2)
         {
+            TempData["ThisPage"] = thisPage;
+            TempData["RequestId"] = requestId;
             var expert = await expertApp.GetExpertById(ct,expertId);
             var comments = await commentApp.GetPagedCommentByExpertId(expertId,homeServiceId,pageNumber,pageSize,ct);
             var model = new PagedViewModel<CommentViewModel, ExpertViewModel>();
