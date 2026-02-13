@@ -334,6 +334,7 @@ HomeServiceId=model.HomeServiceId
         [HttpPost]
         public async Task<IActionResult> AddComment(CreateCommentViewModel inputComment, CancellationToken ct)
         {
+            var customerId = Int32.Parse(User.FindFirst("CustomerId")?.Value);
             var request = await requsetApp.GetRequestById(inputComment.Request.Id.Value, ct);
             var suggestion = await suggestionApp.GetApproveSuggestionByRequestId(inputComment.Request.Id.Value, ct);
 
@@ -377,7 +378,7 @@ HomeServiceId=model.HomeServiceId
             var comment = new InputCommentDTO
             {
                 CreatedAt=DateTime.Now,
-                CustomerId=inputComment.Request.CustomerId.Value,
+                CustomerId= customerId,
                 Description=inputComment.Comment.Description,
                 ExpertId=inputComment.Suggestion.ExpertId.Value,
                 HomeServiceId=inputComment.Request.HomeServiceId.Value,
@@ -386,16 +387,16 @@ HomeServiceId=model.HomeServiceId
                 Title=inputComment.Comment.Title
             };
             var result = await commentApp.CreateComment(comment, ct);
-            if (result)
+            if (result.IsSuccess)
             {
 
-                ViewBag.Succeed ="کامنت با موفقیت ثبت شد";
+                ViewBag.Succeed =result.Message;
             }
             else
             {
 
 
-                ViewBag.Error = "عملیات با مشکل مواجه شد";
+                ViewBag.Error =result.Message;
             }
             return View (inputComment);
         }
@@ -405,7 +406,7 @@ HomeServiceId=model.HomeServiceId
             var result = await commentApp.DeleteComment(commentId, id, ct);
             if (result)
             {
-                TempData["Succeed"] = "درخواست با موفقیت حذف گردید";
+                TempData["Succeed"] = "کامنت با موفقیت حذف گردید";
             }
             else
             {

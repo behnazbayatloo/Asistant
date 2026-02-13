@@ -20,7 +20,8 @@ namespace Asistant_Domain_Core.UserAgg.Services
         Task<OutputExpertDTO?> GetExpertByUserId(CancellationToken ct, int userId);
         Task<List<int>?> GetHomeServiceIdByExpertId(int expertId, CancellationToken ct);
         Task<PagedResult<OutputExpertDTO>> GetPagedExperts(int pageNumber, int pageSize, CancellationToken ct);
-      
+        Task<bool> IsCityForExpert(int expertId, int cityId, CancellationToken ct);
+        Task<bool> IsSkillForExpert(int expertId, int homeServiceId, CancellationToken ct);
         Task<bool> UpdateExpert(CancellationToken ct, UpdateExpertDTO updateExpert);
         Task<bool> UpdateHomeServicesForExpert(int expertId, List<HomeService> list, CancellationToken ct);
         Task<bool> UpdateImageId(int id, int imageId, CancellationToken ct);

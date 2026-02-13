@@ -43,7 +43,10 @@ namespace Asistant_Domain_Service
             => await _exprepo.ExistExpert(expertId,ct);
         public async Task<int?> GetCityIdByExpertId(int expertId, CancellationToken ct)
             => await _exprepo.GetCityIdByExpertId(expertId,ct);
-
+        public async Task<bool> IsCityForExpert(int expertId, int cityId, CancellationToken ct)
+            => await _exprepo.IsCityForExpert(expertId,cityId,ct);
+        public async Task<bool> IsSkillForExpert(int expertId, int homeServiceId, CancellationToken ct)
+            => await _exprepo.IsSkillForExpert(expertId, homeServiceId, ct);
 
     }
 }

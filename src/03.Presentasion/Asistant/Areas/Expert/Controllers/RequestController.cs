@@ -85,9 +85,9 @@ namespace Asistant.Areas.Expert.Controllers
             {
                 return View(model);
             }
-            if(model.Price<0)
+            if(model.Price <= 0)
             {
-                ViewBag.Error = "قیمت نمی تواند منفی باشد";
+                ViewBag.Error = "قیمت نمی تواند منفی یا صفر باشد";
                 return View(model);
             }
             if(model.Price < model.BasePrice)
@@ -108,13 +108,13 @@ namespace Asistant.Areas.Expert.Controllers
                 
             };
             var result = await suggestionApp.CreateSuggestion(suggest, ct);
-            if(result)
+            if(result.IsSuccess)
             {
-                ViewBag.Succeed = "پیشنهاد شما ثبت گردید";
+                ViewBag.Succeed = result.Message;
             }
             else
             {
-                ViewBag.Error = "عملیات با مشکل مواجه شد";
+                ViewBag.Error = result.Message;
 
 
             }
@@ -122,5 +122,6 @@ namespace Asistant.Areas.Expert.Controllers
 
 
         }
+        
     }
 }

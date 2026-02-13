@@ -103,7 +103,8 @@ namespace Asistant_Infra_Repository.RequestAgg
                     SuggestionsId = r.Suggestions != null ? r.Suggestions.Select(s => s.Id).ToList() : new List<int>(),
                     SuggesstionCount = r.Suggestions != null ? r.Suggestions.Count : 0,
                     ImagesId = r.Images != null ? r.Images.Select(i => i.Id).ToList() : new List<int>()
-                    ,BasePriceHomeService= r.HomeService.BasePrice
+                    ,BasePriceHomeService= r.HomeService.BasePrice,
+                    CityId= r.Customer.CityId
 
                 }).FirstOrDefaultAsync(ct);
         }
@@ -240,5 +241,9 @@ namespace Asistant_Infra_Repository.RequestAgg
             return await  _dbcontext.Requests.Where(r=>r.Id==requestId).Select(r=>r.Suggestions.Count())
                 .FirstOrDefaultAsync(ct);
                 }
+        public async Task<bool> IsRequestForCustomer(int customerId,int requestId,CancellationToken ct)
+        {
+            return await _dbcontext.Requests.AnyAsync(r => r.Id == requestId && r.CustomerId == customerId, ct);
+        }
     }
 }

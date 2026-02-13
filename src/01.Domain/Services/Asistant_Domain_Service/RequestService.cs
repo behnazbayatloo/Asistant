@@ -43,5 +43,7 @@ namespace Asistant_Domain_Service
             => await _reqrepo.ChangeRequestToPendingSuggestionApproval(requestId, ct);
         public async Task<int> SuggestionCount(int requestId, CancellationToken ct)
             => await _reqrepo.SuggestionCount(requestId, ct);
+        public async Task<bool> IsRequestForCustomer(int customerId, int requestId, CancellationToken ct)
+            => await _reqrepo.IsRequestForCustomer(customerId, requestId, ct);
             }
 }

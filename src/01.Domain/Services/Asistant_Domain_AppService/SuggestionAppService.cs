@@ -7,6 +7,7 @@ using Asistant_Domain_Core.RequestAgg.Services;
 using Asistant_Domain_Core.SuggestionAgg.AppServices;
 using Asistant_Domain_Core.SuggestionAgg.DTOs;
 using Asistant_Domain_Core.SuggestionAgg.Services;
+using Asistant_Domain_Core.UserAgg.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ using System.Threading.Tasks;
 namespace Asistant_Domain_AppService
 {
     public class SuggestionAppService(ISuggestionService _sugsrv,IImageService _imageService,
-        IFileService fileService,IRequestService requestService,ILogger<SuggestionAppService> logger):ISuggestionAppService
+        IFileService fileService,IExpertService _expertService,IRequestService requestService,ILogger<SuggestionAppService> logger):ISuggestionAppService
     {
         public async Task<PagedResult<OutputSuggestionDTO>> GetPagedSuggestionByRequestId(int id, int pageNumber, int pageSize, CancellationToken ct)
         {
@@ -38,8 +39,19 @@ namespace Asistant_Domain_AppService
             }
             return result;
         }
-        public async Task<bool> CreateSuggestion(InputSuggestionDTO suggestion, CancellationToken ct)
+        public async Task<Result<bool>> CreateSuggestion(InputSuggestionDTO suggestion, CancellationToken ct)
         {
+            var request = await requestService.GetRequestById(suggestion.RequestId,ct);
+            var city = await _expertService.IsCityForExpert(suggestion.ExpertId, request.CityId.Value, ct);
+            if (!city)
+            {
+                return Result<bool>.Failure("شهر شما با شهر کاربر درخواست کننده یکی نیست");
+            }
+            var skill = await _expertService.IsSkillForExpert(suggestion.ExpertId, suggestion.HomeServiceId, ct);
+            if(!skill)
+            {
+                return Result<bool>.Failure("مهارت شما با مهارت مورد نیاز کاربر درخواست کننده یکی نیست");
+            }
             var suggestionId = await _sugsrv.CreateSuggestion(suggestion,ct);
             if(suggestion.Images != null && suggestion.Images.Any())
             {
@@ -58,11 +70,16 @@ namespace Asistant_Domain_AppService
             {
                 await requestService.ChangeRequestToPendingSuggestionApproval(suggestion.RequestId, ct);
             }
-            if (suggestionId <= 0)
+            
+            if (suggestionId > 0)
+            {
+                return Result<bool>.Success(suggestionId > 0,"عملیات موفقیت آمیز بود");
+            }
+            else
             {
                 logger.LogWarning("Failed to create suggestion for ExpertId={ExpertId}", suggestion.ExpertId);
+                return Result<bool>.Failure("عملیات موفقیت آمیز نبود");
             }
-            return suggestionId > 0;
         }
      
 

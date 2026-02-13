@@ -59,6 +59,7 @@ namespace Asistant_Infra_Repository.UserAgg
             return await _dbcontext.Users.Where(u=>u.ExpertId== expertId)
                 .ExecuteUpdateAsync(set => set.SetProperty(u => u.Balance, ballance), ct) > 0;
         }
+       
     }
 
    
