@@ -11,7 +11,7 @@ namespace Asistant.Areas.Expert.Models
 
         [Required(ErrorMessage = "لطفا قیمت را وارد کنید")]
         public decimal Price { get; set; }
-
+        public decimal? BasePrice { get; set; }
         public int ExpertId { get; set; }
         public int HomeServiceId { get; set; }
         public int RequestId { get; set; }

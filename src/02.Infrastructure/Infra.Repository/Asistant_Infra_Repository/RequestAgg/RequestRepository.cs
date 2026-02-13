@@ -103,6 +103,7 @@ namespace Asistant_Infra_Repository.RequestAgg
                     SuggestionsId = r.Suggestions != null ? r.Suggestions.Select(s => s.Id).ToList() : new List<int>(),
                     SuggesstionCount = r.Suggestions != null ? r.Suggestions.Count : 0,
                     ImagesId = r.Images != null ? r.Images.Select(i => i.Id).ToList() : new List<int>()
+                    ,BasePriceHomeService= r.HomeService.BasePrice
 
                 }).FirstOrDefaultAsync(ct);
         }

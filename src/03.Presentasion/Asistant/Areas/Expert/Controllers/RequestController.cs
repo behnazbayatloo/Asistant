@@ -72,7 +72,8 @@ namespace Asistant.Areas.Expert.Controllers
                 ExpertId=expertId,
                 RequestId=request.Id,
                 RequestTitle=request.Title,
-                HomeServiceId=request.HomeServiceId
+                HomeServiceId=request.HomeServiceId,
+                BasePrice=request.BasePriceHomeService
             };
             return View(model);
         }
@@ -82,6 +83,16 @@ namespace Asistant.Areas.Expert.Controllers
             var expertId = Int32.Parse(User.FindFirst("ExpertId")?.Value);
             if (!ModelState.IsValid) 
             {
+                return View(model);
+            }
+            if(model.Price<0)
+            {
+                ViewBag.Error = "قیمت نمی تواند منفی باشد";
+                return View(model);
+            }
+            if(model.Price < model.BasePrice)
+            {
+                ViewBag.Error = "قیمت نباید از قیمت پایه کمتر باشد";
                 return View(model);
             }
             var suggest = new InputSuggestionDTO
@@ -94,6 +105,7 @@ namespace Asistant.Areas.Expert.Controllers
                 RequestId = model.RequestId,
                 Title= model.Title,
                 HomeServiceId=model.HomeServiceId
+                
             };
             var result = await suggestionApp.CreateSuggestion(suggest, ct);
             if(result)
