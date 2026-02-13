@@ -12,11 +12,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Asistant_Domain_Core.SuggestionAgg.Entity;
 
 namespace Asistant_Infra_Repository.SuggestionAgg
 {
     public class SuggestionRepository(ApplicationDbContext _dbcontext):ISuggestionRepository
     {
+        public async Task<int> CreateSuggestion(InputSuggestionDTO inputSuggestionDTO,CancellationToken ct)
+        {
+            var suggestion = new Suggestion
+            {
+                CreatedAt = inputSuggestionDTO.CreatedAt,
+                Description = inputSuggestionDTO.Description,
+                ExpertId= inputSuggestionDTO.ExpertId,
+                Price= inputSuggestionDTO.Price,
+                Status=StatusEnum.Pending,
+                Title= inputSuggestionDTO.Title,
+                RequestId=inputSuggestionDTO.RequestId,
+                
+            };
+            await _dbcontext.Suggestions.AddAsync(suggestion,ct);
+             await _dbcontext.SaveChangesAsync(ct);
+            return suggestion.Id;
+        }
         public async Task<bool> DeleteSuggestionByExpertId(CancellationToken ct, int id)
         {
             return await _dbcontext.Suggestions.Where(s => s.ExpertId == id)

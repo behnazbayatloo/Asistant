@@ -10,6 +10,7 @@ namespace Asistant_Domain_Core.SuggestionAgg.AppServices
 {
     public interface ISuggestionAppService
     {
+        Task<bool> CreateSuggestion(InputSuggestionDTO suggestion, CancellationToken ct);
         Task<OutputSuggestionDTO?> GetApproveSuggestionByRequestId(int requestId, CancellationToken ct);
         Task<PagedResult<OutputSuggestionDTO>> GetPagedSuggestionByRequestId(int id, int pageNumber, int pageSize, CancellationToken ct);
     }

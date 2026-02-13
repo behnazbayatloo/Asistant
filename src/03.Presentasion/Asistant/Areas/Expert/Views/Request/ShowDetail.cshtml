@@ -1,0 +1,77 @@
+﻿@using Asistant.Areas.Expert.Models
+@model RequestViewModel
+
+
+@{
+    ViewData["Title"] = "جزییات درخواست";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/showdeatail.css" />
+}
+
+
+<div class="container">
+    
+
+    <div class="top-bar">
+        <a asp-area="Expert"
+        asp-controller="Request"
+           asp-action="ShowRequests"
+        class="btn-back">
+          بازگشت به لیست درخواست‌ها
+        </a>
+    </div>
+    <h1 class="page-title">جزییات درخواست</h1>
+   
+    <div class="detail-card">
+        <div class="detail-header">
+            <h1 class="detail-title">@Model.Title</h1>
+            <span class="status-badge">@Model.Status</span>
+        </div>
+
+        <div class="info-row">
+            <span class="info-label">مشتری:</span>
+            <span class="info-value">@Model.CustomerName</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">تاریخ ثبت:</span>
+            <span class="info-value">@Model.CreatedAt</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">خدمت مورد نیاز:</span>
+            <span class="info-value">@Model.HomeServiceName</span>
+        </div>
+
+        <div class="description-box">
+            <h3 style="margin-top:0; font-size:1.1rem; color:var(--secondary-color);">توضیحات مشتری:</h3>
+            <p style="margin-bottom:0;">@Model.Description</p>
+        </div>
+
+       
+        @if (Model.ImagesPath != null && Model.ImagesPath.Any())
+        {
+            <div class="gallery-section">
+                <h3 class="gallery-title">تصاویر پیوست:</h3>
+                <div class="image-grid">
+                    @foreach (var img in Model.ImagesPath)
+                    {
+                        <img src="@img" alt="تصویر درخواست" class="grid-img" onclick="window.open(this.src)">
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <div style="margin-top: 30px; text-align: center;">
+        <a asp-area="Expert"
+           asp-controller="Request"
+           asp-action="SendSuggestion"
+           asp-route-requestId="@Model.Id"
+           style="display: inline-block; text-decoration: none; background-color: var(--primary-color); color: white; padding: 12px 30px; border-radius: 8px; font-weight: bold;">
+            ثبت پیشنهاد برای این درخواست
+        </a>
+    </div>
+
+</div>
+

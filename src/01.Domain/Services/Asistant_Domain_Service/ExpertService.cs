@@ -41,6 +41,8 @@ namespace Asistant_Domain_Service
 => await _exprepo.GetExpertByUserId(ct, userId);
         public async Task<bool> ExistExpert(int expertId, CancellationToken ct)
             => await _exprepo.ExistExpert(expertId,ct);
+        public async Task<int?> GetCityIdByExpertId(int expertId, CancellationToken ct)
+            => await _exprepo.GetCityIdByExpertId(expertId,ct);
 
 
     }

@@ -1,0 +1,166 @@
+﻿@using Asistant.Areas.Expert.Models
+@model SuggestionViewModel
+
+@{
+    ViewData["Title"] = "ارسال پیشنهاد جدید";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/sendsuggestion.css" />
+}
+
+<div class="container">
+    <h1 class="page-title">ارسال پیشنهاد جدید</h1>
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
+    @if (ViewBag.Succeed != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Succeed
+        </div>
+    }
+    <div class="form-card">
+        <div class="form-header">
+            <h2 class="form-title">ثبت پیشنهاد قیمت</h2>
+        </div>
+
+          
+            <div class="request-summary-box">
+                <div class="summary-title">
+                    <span>ℹ️</span> خلاصه درخواست مشتری
+                </div>
+                
+                <div class="summary-row">
+                    <span class="summary-label">عنوان درخواست:</span>
+                    <span class="summary-value">@Model.RequestTitle</span>
+                </div>
+                
+           
+                <div class="summary-row">
+                    <span class="summary-label">مشتری:</span>
+                    <span class="summary-value">@Model.CustomerName</span>
+                </div> 
+
+                
+                    <div class="summary-row">
+                        <span class="summary-label">تاریخ ثبت:</span>
+                        <span class="summary-value">@Model.RequestCreatedAt</span>
+                    </div>
+               
+            </div>
+
+        <form asp-area="Expert" asp-controller="Request" asp-action="SendSuggestion" method="post" enctype="multipart/form-data">
+
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.RequestId" />
+            <input type="hidden" asp-for="@Model.ExpertId" />
+            <label asp-for="@Model.Title">عنوان</label>
+            <input asp-for="@Model.Title" type="text" id="title">
+
+            <label asp-for="@Model.Description">توضیحات</label>
+            <textarea id="description" asp-for="@Model.Description"></textarea>
+
+            <label asp-for="@Model.Images">تصاویر</label>
+            <input asp-for="@Model.Images"
+                   type="file"
+                   accept="image/*"
+                   multiple
+                   class="form-control"
+                   id="imageInput">
+
+            <div id="imagePreview" class="row mt-3"></div>
+
+
+
+            <label asp-for="@Model.Price">قیمت پیشنهادی شما</label>
+            <input type="number"  asp-for="@Model.Price" />
+
+            <button type="submit">ثبت سفارش</button>
+        
+
+        <a asp-area="Expert"
+            asp-controller="Request"
+               asp-action="ShowDetail"
+               asp-route-requestId="@Model.RequestId"
+        class="btn-cancel">انصراف و بازگشت</a>
+        </form>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        let selectedFiles = [];
+
+        const input = document.getElementById('imageInput');
+        const preview = document.getElementById('imagePreview');
+
+        input.addEventListener('change', function () {
+            const files = Array.from(this.files);
+
+                   if ((selectedFiles.length + files.length) > 5) {
+            alert('حداکثر ۵ تصویر مجاز است');
+            this.value = '';
+            return;
+
+        }
+            files.forEach(file => {
+
+                if (!file.type.startsWith('image/')) return;
+
+                if (file.size > 2 * 1024 * 1024) {
+                    alert(`حجم فایل ${file.name} بیشتر از ۲ مگابایت است`);
+                    return;
+                }
+
+                selectedFiles.push(file);
+            });
+
+            renderPreview();
+            input.value = '';
+        });
+
+        function renderPreview() {
+            preview.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-3 mb-3';
+
+                    col.innerHTML = `
+                        <div class="card">
+                            <img src="${e.target.result}" class="card-img-top" style="height:150px;object-fit:cover;">
+                            <div class="card-body p-2 text-center">
+                                <small>${file.name}</small>
+                                <button type="button" class="btn btn-sm btn-danger remove-btn" data-index="${index}">حذف</button>
+                            </div>
+                        </div>
+                    `;
+
+                    preview.appendChild(col);
+
+
+                    col.querySelector('.remove-btn').addEventListener('click', function () {
+                        const idx = parseInt(this.dataset.index);
+                        selectedFiles.splice(idx, 1);
+                        renderPreview();
+                    });
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+
+        document.querySelector('form').addEventListener('submit', function (e) {
+
+        });
+    </script>
+}

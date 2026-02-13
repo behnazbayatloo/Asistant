@@ -154,7 +154,10 @@ namespace Asistant_Infra_Repository.UserAgg
         {
             return await _dbcontext.Experts.AnyAsync(c => c.Id == expertId, ct);
         }
-
+        public async Task<int?> GetCityIdByExpertId(int expertId,CancellationToken ct)
+        {
+            return await _dbcontext.Experts.Where(e => e.Id == expertId).Select(c => c.CityId).FirstOrDefaultAsync(ct);
+        }
 
 
     }

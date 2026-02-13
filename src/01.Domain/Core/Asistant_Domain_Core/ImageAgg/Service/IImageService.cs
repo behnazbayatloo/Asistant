@@ -21,6 +21,7 @@ namespace Asistant_Domain_Core.ImageAgg.Service
         Task<int> SetHomeServiceImage(ImageDTO imageDTO, CancellationToken ct);
         Task<int> SetImageProfile(ProfileImageDTO profileImageDTO, CancellationToken ct);
         Task<bool> SetRequestImage(List<RequestImageDTO> requestImages, CancellationToken ct);
+        Task<bool> SetSuggestionImages(List<SuggestionImageDTO> suggestions, CancellationToken ct);
         Task<bool> UpdateImagePathById(string path, int id, CancellationToken ct);
     }
 }

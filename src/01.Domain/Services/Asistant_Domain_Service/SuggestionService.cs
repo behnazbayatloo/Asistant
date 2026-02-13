@@ -25,5 +25,7 @@ namespace Asistant_Domain_Service
        => await _sugrepo.RejectOtherSuggestionByRequestId(requestId, suggestionId, ct); 
         public async Task<bool> AcceptSuggestion(int id, CancellationToken ct)
             => await _sugrepo.AcceptSuggestion(id, ct);
+        public async Task<int> CreateSuggestion(InputSuggestionDTO inputSuggestionDTO,CancellationToken ct)
+            => await _sugrepo.CreateSuggestion(inputSuggestionDTO, ct); 
     }
 }

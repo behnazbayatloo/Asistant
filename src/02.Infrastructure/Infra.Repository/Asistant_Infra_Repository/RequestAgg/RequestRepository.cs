@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Asistant_Infra_Repository.RequestAgg
 {
@@ -187,6 +188,11 @@ namespace Asistant_Infra_Repository.RequestAgg
                 .ExecuteUpdateAsync(set =>
                 set.SetProperty(r => r.Status, StatusEnum.AwaitingExpertArrivalOnSite), ct) > 0;
         }
+        public async Task<bool> ChangeRequestToPendingSuggestionApproval(int requestId,CancellationToken ct)
+        {
+            return await _dbcontext.Requests.Where(r => r.Id == requestId)
+                .ExecuteUpdateAsync(set => set.SetProperty(r => r.Status, StatusEnum.PendingSuggestionApproval), ct) > 0;
+        }
         public async Task<bool> UpdateVerifyExpertDate(int requestId, DateTime verifyDate, CancellationToken ct)
         {
             return await _dbcontext.Requests.Where(r=>r.Id==requestId)
@@ -197,5 +203,41 @@ namespace Asistant_Infra_Repository.RequestAgg
             return await _dbcontext.Requests.Where(r => r.Id == requestId)
                 .ExecuteUpdateAsync(set => set.SetProperty(r => r.CommentId, commentId), ct) > 0;
         }
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedRequestForExpert(int cityId,List<int> homeServicesId ,int pageNumber, int pageSize, CancellationToken ct) 
+        {
+            var query = _dbcontext.Requests.AsNoTracking()
+                .Where(r=>r.Customer.CityId==cityId && homeServicesId.Contains(r.HomeServiceId)
+                && (r.Status == StatusEnum.PendingExpertApproval || r.Status == StatusEnum.PendingSuggestionApproval)
+                )
+               .OrderBy(c => c.CreatedAt)
+                .Select(c => new OutputRequestDTO
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    AppointmentReadyDate = c.AppointmentReadyDate,
+                    CommentId = c.CommentId,
+                    CompletedDate = c.CompletedDate,
+                    CreatedAt = c.CreatedAt,
+                    CustomerId = c.CustomerId,
+                    CustomerName = c.Customer.User.FirstName + " " + c.Customer.User.LastName,
+                    Description = c.Description,
+                    HomeServiceId = c.HomeServiceId,
+                    HomeServiceName = c.HomeService.Name,
+                    Status = c.Status.ToString(),
+                    VerifyExpertDate = c.VerifyExpertDate,
+                    SuggestionsId = c.Suggestions != null ? c.Suggestions.Select(s => s.Id).ToList() : new List<int>(),
+                    SuggesstionCount = c.Suggestions != null ? c.Suggestions.Count : 0,
+                    ImagesId = c.Images != null ? c.Images.Select(i => i.Id).ToList() : new List<int>()
+
+
+                });
+
+            return await query.ToPaginatedResult<OutputRequestDTO>(pageNumber, pageSize, ct);
+        }
+        public async Task<int> SuggestionCount (int requestId,CancellationToken ct)
+        { 
+            return await  _dbcontext.Requests.Where(r=>r.Id==requestId).Select(r=>r.Suggestions.Count())
+                .FirstOrDefaultAsync(ct);
+                }
     }
 }
