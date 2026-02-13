@@ -400,9 +400,9 @@ HomeServiceId=model.HomeServiceId
             return View (inputComment);
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteComment(int commentId,int id,CancellationToken ct)
+        public async Task<IActionResult> DeleteComment(int commentId, int id, CancellationToken ct)
         {
-            var result =await commentApp.DeleteComment(commentId,id,ct) ;
+            var result = await commentApp.DeleteComment(commentId, id, ct);
             if (result)
             {
                 TempData["Succeed"] = "درخواست با موفقیت حذف گردید";
@@ -410,8 +410,9 @@ HomeServiceId=model.HomeServiceId
             else
             {
                 TempData["Error"] = "عملیات موفقیت آمیز نبود";
+                return RedirectToAction("ShowComment", new { requestId = id });
             }
-            return RedirectToAction("ShowComment",new { requestId= id });
+            return RedirectToAction("AddComment", new { requestId = id });
         }
         public async Task<IActionResult> ShowComment(int requestId,CancellationToken ct)
         {
