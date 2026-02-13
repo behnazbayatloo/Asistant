@@ -4,12 +4,15 @@ using Asistant_Domain_Core.RequestAgg.AppServices;
 using Asistant_Domain_Core.SuggestionAgg.AppServices;
 using Asistant_Domain_Core.SuggestionAgg.DTOs;
 using Asistant_FrameWork.UIExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using System.Threading.Tasks;
 
 namespace Asistant.Areas.Expert.Controllers
 {
+    [Area("Expert")]
+    [Authorize(Roles = "Expert")]
     public class RequestController(IRequestAppService requestApp,ISuggestionAppService suggestionApp) : Controller
     {
         public async Task<IActionResult> ShowRequests(CancellationToken ct, int pageNumber = 1, int pageSize = 2)
@@ -68,7 +71,8 @@ namespace Asistant.Areas.Expert.Controllers
                 RequestCreatedAt=request.CreatedAt.ToPeString("yyyy/mm/dd"),
                 ExpertId=expertId,
                 RequestId=request.Id,
-                RequestTitle=request.Title
+                RequestTitle=request.Title,
+                HomeServiceId=request.HomeServiceId
             };
             return View(model);
         }
@@ -88,7 +92,8 @@ namespace Asistant.Areas.Expert.Controllers
                 Images=model.Images,
                 Price = model.Price,
                 RequestId = model.RequestId,
-                Title= model.Title
+                Title= model.Title,
+                HomeServiceId=model.HomeServiceId
             };
             var result = await suggestionApp.CreateSuggestion(suggest, ct);
             if(result)

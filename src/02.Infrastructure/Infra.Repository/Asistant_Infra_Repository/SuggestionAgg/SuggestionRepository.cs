@@ -29,6 +29,7 @@ namespace Asistant_Infra_Repository.SuggestionAgg
                 Status=StatusEnum.Pending,
                 Title= inputSuggestionDTO.Title,
                 RequestId=inputSuggestionDTO.RequestId,
+               HomeServiceId=inputSuggestionDTO.HomeServiceId
                 
             };
             await _dbcontext.Suggestions.AddAsync(suggestion,ct);

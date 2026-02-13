@@ -13,7 +13,7 @@ namespace Asistant.Areas.Expert.Models
         public decimal Price { get; set; }
 
         public int ExpertId { get; set; }
-
+        public int HomeServiceId { get; set; }
         public int RequestId { get; set; }
         public List<IFormFile>? Images { get; set; }
         public List<string>? ImagesPath { get; set; }
