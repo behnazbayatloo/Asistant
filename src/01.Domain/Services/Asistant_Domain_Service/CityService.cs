@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Asistant_Domain_Service
 {
-    public class CityService(ICityRepository _ctyrepo,ILogger<CityService>  logger):ICityService
+    public class CityService(ICityRepository _ctyrepo,ICityDapperRepository cityDapperRepository,ILogger<CityService>  logger):ICityService
     {
-        public async Task<List<City>> GetAllCities (CancellationToken ct)=> await _ctyrepo.GetAllCities(ct);
+        public async Task<List<City>> GetAllCities (CancellationToken ct)=> await cityDapperRepository.GetAllCities(ct);
         public async Task<PagedResult<CityDTO>> GetPagedCities(int pageNumber,int pageSize,CancellationToken ct)
        => await _ctyrepo.GetPagedCities(pageNumber, pageSize, ct);
         public async Task<bool> DeleteCity(int id,CancellationToken ct)

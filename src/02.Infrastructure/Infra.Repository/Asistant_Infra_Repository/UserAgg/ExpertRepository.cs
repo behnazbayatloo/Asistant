@@ -154,8 +154,21 @@ namespace Asistant_Infra_Repository.UserAgg
         {
             return await _dbcontext.Experts.AnyAsync(c => c.Id == expertId, ct);
         }
+        public async Task<int?> GetCityIdByExpertId(int expertId,CancellationToken ct)
+        {
+            return await _dbcontext.Experts.Where(e => e.Id == expertId).Select(c => c.CityId).FirstOrDefaultAsync(ct);
+        }
 
+        public async Task<bool> IsCityForExpert(int expertId, int cityId, CancellationToken ct)
 
-
+        {
+            return await _dbcontext.Experts.AnyAsync(e => e.Id == expertId && e.CityId==cityId,ct);
+        }
+        public async Task<bool> IsSkillForExpert(int expertId,int homeServiceId,CancellationToken ct)
+        {
+            return await _dbcontext.Experts
+        .AnyAsync(e => e.Id == expertId &&
+                       e.HomeServices.Any(hs => hs.Id == homeServiceId), ct);
+        }
     }
 }

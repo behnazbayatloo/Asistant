@@ -37,5 +37,13 @@ namespace Asistant_Domain_Service
             => await _reqrepo.UpdateVerifyExpertDate(requestId, verifyDate, ct);
         public async Task<bool> UpdateCommentId(int requestId, int commentId, CancellationToken ct)
             => await _reqrepo.UpdateCommentId(requestId, commentId, ct);
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedRequestForExpert(int cityId, List<int> homeServicesId, int pageNumber, int pageSize, CancellationToken ct)
+            => await _reqrepo.GetPagedRequestForExpert(cityId, homeServicesId, pageNumber, pageSize, ct);
+        public async Task<bool> ChangeRequestToPendingSuggestionApproval(int requestId, CancellationToken ct)
+            => await _reqrepo.ChangeRequestToPendingSuggestionApproval(requestId, ct);
+        public async Task<int> SuggestionCount(int requestId, CancellationToken ct)
+            => await _reqrepo.SuggestionCount(requestId, ct);
+        public async Task<bool> IsRequestForCustomer(int customerId, int requestId, CancellationToken ct)
+            => await _reqrepo.IsRequestForCustomer(customerId, requestId, ct);
             }
 }

@@ -50,3 +50,15 @@ button {
 #imagePreview .card {
     box-shadow: 0 2px 6px rgba(0,0,0,.1);
 }
+.persian-datepicker-container {
+    font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
+}
+
+.persian-datepicker-rtl .picker-footer {
+    text-align: left;
+}
+
+.input-validation-error {
+    border-color: #dc3545 !important;
+}

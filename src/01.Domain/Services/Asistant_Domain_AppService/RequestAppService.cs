@@ -1,11 +1,13 @@
 ﻿using Asistant_Domain_Core._commonEntities;
+using Asistant_Domain_Core.HomeServiceAgg.Data;
+using Asistant_Domain_Core.HomeServiceAgg.Services;
 using Asistant_Domain_Core.ImageAgg.DTOs;
 using Asistant_Domain_Core.ImageAgg.Service;
 using Asistant_Domain_Core.InfraContracts;
 using Asistant_Domain_Core.RequestAgg.AppServices;
 using Asistant_Domain_Core.RequestAgg.DTOs;
 using Asistant_Domain_Core.RequestAgg.Services;
-
+using Asistant_Domain_Core.UserAgg.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,8 @@ using System.Threading.Tasks;
 
 namespace Asistant_Domain_AppService
 {
-    public class RequestAppService(IRequestService _rqsrv, IFileService fileService, IImageService _imageService, ILogger<RequestAppService> logger) : IRequestAppService
+    public class RequestAppService(IRequestService _rqsrv, 
+        IExpertService _expertService,IHomeServiceService _homeService,IFileService fileService, IImageService _imageService, ILogger<RequestAppService> logger) : IRequestAppService
     {
         public async Task<bool> CreateRequest(CancellationToken ct, InputRequestDTO requestDTO)
         {
@@ -77,6 +80,12 @@ namespace Asistant_Domain_AppService
             => await _rqsrv.GetPagedDoneRequestByCustomerId(id, pageNumber, pageSize, ct);
         public async Task<bool> DeleteRequestByRequestId(int requestId, CancellationToken ct)
            => await _rqsrv.DeleteRequestByRequestId(requestId, ct);
+        public async Task<PagedResult<OutputRequestDTO>> GetPagedRequestForExpert(int expertId,int pageNumber,int pageSize, CancellationToken ct)
+        {
+            var cityId = await _expertService.GetCityIdByExpertId(expertId, ct);
+            var homeServices = await _expertService.GetHomeServiceIdByExpertId(expertId, ct);
+            return await _rqsrv.GetPagedRequestForExpert(cityId.Value, homeServices, pageNumber,pageSize ,ct);
+        }
 
     }
 }

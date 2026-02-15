@@ -1,0 +1,207 @@
+﻿@using Asistant.Areas.Customer.Models
+@model PagedViewModel<CommentViewModel, ExpertViewModel>;
+@{
+    ViewData["Title"] = "مشاهده پروفایل کارششناس";
+}
+
+  @section Styles {
+    <link rel="stylesheet" href="~/css/showexpertprofileforcustomerarea.css" />
+  }
+   
+<div class="container">
+    <h2>مشاهده پروفایل کارشناس</h2>
+    <div class="profile-card">
+        <div class="profile-header"></div>
+        <div class="profile-content">
+                            @if (Model.MyProp != null)
+                            {
+                                @if (!string.IsNullOrEmpty(Model.MyProp.ImagePath))
+                                {
+                                    <img src="@Url.Content(Model.MyProp.ImagePath)"
+                                         alt="تصویر @Model.MyProp.FirstName"
+                                         class="avatar" />
+                                }
+                                else
+                                {
+
+                                    <p>عکسی ثبت نشده است</p>
+                                }
+                            }
+            
+            <div class="info-wrapper">
+                <h1 class="expert-name">@Model.MyProp.FirstName @Model.MyProp.LastName</h1>
+                
+               
+                <div class="skills-container">
+                    @if (Model.MyProp.HomeServices != null)
+                    {
+                        foreach (var service in Model.MyProp.HomeServices)
+                        {
+                            <span class="skill-tag">@service</span>
+                        }
+                    }
+                </div>
+
+                <div class="expert-info-row">
+                    <span>📍</span> <span>@Model.MyProp.CityName</span>
+                </div>
+                
+                
+            </div>
+        </div>
+        <div class="action-buttons">
+            
+            <a  asp-area="Customer"
+                asp-controller="Request"
+                asp-action="ShowSuggestions"
+                asp-route-pageNumber="@TempData["ThisPage"]"
+               asp-route-requestId="@TempData["RequestId"]"
+               class="btn btn-outline"
+               style="border-color: #999; color: #666;">
+                بازگشت به لیست پیشنهادات
+            </a>
+
+        </div>
+    </div>
+
+    
+    <div class="comments-section">
+        <div class="section-title">
+            <span>نظرات و تجربیات مشتریان</span>
+            <span style="font-size: 0.9rem; color: #666;">(صفحه @Model.PageNumber از @Model.TotalPages)</span>
+        </div>
+
+        <ul class="comment-list">
+            @if (Model.Items != null && Model.Items.Any())
+            {
+                foreach (var comment in Model.Items)
+                {
+                    <li class="comment-item">
+                        
+                        <img src="https://via.placeholder.com/50" alt="کاربر" class="comment-avatar">
+                        
+                        <div class="comment-body">
+                            <div class="comment-title-box">
+                                <h4 class="comment-title">@comment.Title</h4>
+                            </div>
+                            <div class="comment-header">
+                                @if (!string.IsNullOrEmpty(comment.CustomerName))
+                               {
+                                    <span class="comment-author">@comment.CustomerName</span>
+                                }
+                                else
+                                {
+                                    <span class="comment-author">کاربر ناشناس</span>
+                                }
+                                <span class="comment-date">@comment.CreatedAt</span>
+                            </div>
+                            
+                            
+                            <div class="comment-service-name">نوع سریس: @comment.HomeServiceName</div>
+
+                            <div class="rating">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= comment.Rate)
+                                    {
+                                        <text>★</text>
+                                    }
+                                    else
+                                    {
+                                        <text>☆</text>
+                                    }
+                                }
+                            </div>
+                            
+                            
+                            <p class="comment-text">
+                                @comment.Description
+                            </p>
+
+                            
+                            @if (!string.IsNullOrEmpty(comment.RequestDescription))
+                            {
+                                <div class="comment-request-desc">
+                                    <strong>در خصوص درخواست:</strong> @comment.RequestDescription
+                                </div>
+                            }
+                        </div>
+                    </li>
+                }
+            }
+            else
+            {
+                <li style="text-align: center; color: #999; padding: 20px;">
+                    هنوز نظری برای این کارشناس ثبت نشده است.
+                </li>
+            }
+        </ul>
+
+
+        @if (Model.TotalPages > 1)
+        {
+            <div class="pagination-container">
+             
+                @if (Model.PageNumber > 1)
+                { 
+                    <a class="page-link"
+                    asp-area="Customer" 
+                    asp-controller="Request"
+                       asp-action="ShowExpertProfile"
+                       asp-route-expertId="@Model.MyProp.Id"
+                       asp-route-homeServiceId="@Model.MyProp.SelectedHomeService"
+                       asp-route-pageNumber="@(Model.PageNumber - 1)"
+                    asp-route-pageSize="@Model.PageSize">
+                قبلی</a>
+                }
+                else
+                {
+                    <span class="page-link disabled">قبلی</span>
+                }
+
+                
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    if (i == Model.PageNumber)
+                    {
+                        <span class="page-link active">@i</span>
+                    }
+                    else
+                    {
+                        <a class="page-link"
+                           asp-area="Customer"
+                           asp-controller="Request"
+                           asp-action="ShowExpertProfile"
+                           asp-route-expertId="@Model.MyProp.Id"
+                           asp-route-homeServiceId="@Model.MyProp.SelectedHomeService"
+                           asp-route-pageNumber="@i"
+                           asp-route-pageSize="@Model.PageSize">
+                          @i</a>
+                    }
+                }
+
+               
+                @if (Model.PageNumber < Model.TotalPages)
+                {
+                    <a class="page-link"
+                       asp-area="Customer"
+                       asp-controller="Request"
+                       asp-action="ShowExpertProfile"
+                       asp-route-expertId="@Model.MyProp.Id"
+                       asp-route-homeServiceId="@Model.MyProp.SelectedHomeService"
+                       asp-route-pageNumber="@(Model.PageNumber + 1 )"
+                       asp-route-pageSize="@Model.PageSize">
+                      بعدی</a>
+                }
+                else
+                {
+                    <span class="page-link disabled">بعدی</span>
+                }
+            </div>
+        }
+     
+
+    </div>
+
+</div>
+

@@ -26,6 +26,7 @@ namespace Asistant.Areas.Customer.Controllers
         ISuggestionAppService suggestionApp,
         ICommentAppService commentApp,
         ICustomerAppService customerApp,
+        IExpertAppService expertApp,
         UserManager<AppUser> _userManager) : Controller
     {
         [HttpGet]
@@ -217,7 +218,7 @@ HomeServiceId=model.HomeServiceId
                     CreatedAt = request.CreatedAt.ToPeString("yyyy/MM/dd"),
                     CustomerName = request.CustomerName,
                     Description = request.Description
-               ,
+               ,HomeServiceId=request.HomeServiceId,
                     HomeServiceName = request.HomeServiceName
                ,
                     ImagesPath = request.ImagesPath,
@@ -333,6 +334,7 @@ HomeServiceId=model.HomeServiceId
         [HttpPost]
         public async Task<IActionResult> AddComment(CreateCommentViewModel inputComment, CancellationToken ct)
         {
+            var customerId = Int32.Parse(User.FindFirst("CustomerId")?.Value);
             var request = await requsetApp.GetRequestById(inputComment.Request.Id.Value, ct);
             var suggestion = await suggestionApp.GetApproveSuggestionByRequestId(inputComment.Request.Id.Value, ct);
 
@@ -376,7 +378,7 @@ HomeServiceId=model.HomeServiceId
             var comment = new InputCommentDTO
             {
                 CreatedAt=DateTime.Now,
-                CustomerId=inputComment.Request.CustomerId.Value,
+                CustomerId= customerId,
                 Description=inputComment.Comment.Description,
                 ExpertId=inputComment.Suggestion.ExpertId.Value,
                 HomeServiceId=inputComment.Request.HomeServiceId.Value,
@@ -385,32 +387,33 @@ HomeServiceId=model.HomeServiceId
                 Title=inputComment.Comment.Title
             };
             var result = await commentApp.CreateComment(comment, ct);
-            if (result)
+            if (result.IsSuccess)
             {
 
-                ViewBag.Succeed ="کامنت با موفقیت ثبت شد";
+                ViewBag.Succeed =result.Message;
             }
             else
             {
 
 
-                ViewBag.Error = "عملیات با مشکل مواجه شد";
+                ViewBag.Error =result.Message;
             }
             return View (inputComment);
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteComment(int commentId,int id,CancellationToken ct)
+        public async Task<IActionResult> DeleteComment(int commentId, int id, CancellationToken ct)
         {
-            var result =await commentApp.DeleteComment(commentId,ct) ;
+            var result = await commentApp.DeleteComment(commentId, id, ct);
             if (result)
             {
-                TempData["Succeed"] = "درخواست با موفقیت حذف گردید";
+                TempData["Succeed"] = "کامنت با موفقیت حذف گردید";
             }
             else
             {
                 TempData["Error"] = "عملیات موفقیت آمیز نبود";
+                return RedirectToAction("ShowComment", new { requestId = id });
             }
-            return RedirectToAction("ShowComment",new { requestId= id });
+            return RedirectToAction("AddComment", new { requestId = id });
         }
         public async Task<IActionResult> ShowComment(int requestId,CancellationToken ct)
         {
@@ -459,5 +462,47 @@ HomeServiceId=model.HomeServiceId
 
             return View(model);
         }
+        public async Task<IActionResult> ShowExpertProfile(int expertId,int homeServiceId,int thisPage,int requestId,CancellationToken ct, int pageNumber = 1, int pageSize = 2)
+        {
+            TempData["ThisPage"] = thisPage;
+            TempData["RequestId"] = requestId;
+            var expert = await expertApp.GetExpertById(ct,expertId);
+            var comments = await commentApp.GetPagedCommentByExpertId(expertId,homeServiceId,pageNumber,pageSize,ct);
+            var model = new PagedViewModel<CommentViewModel, ExpertViewModel>();
+            model.Items = comments.Items.Select(c => new CommentViewModel
+            {
+                Id = c.Id,
+                CreatedAt = c.CreatedAt.ToPeString("yyyy/mm/dd"),
+                CustomerName = c.CustomerName,
+                Description = c.Description,
+                ExpertName = c.ExpertName,
+                HomeServiceName = c.HomeServiceName,
+                HomeServiceId=c.HomeServiceId,
+                Rate = c.Rate,
+                Status = c.Status,
+                Title = c.Title,
+                RequestId = c.RequestId,
+                RequestDescription = !string.IsNullOrEmpty(c.RequestDescription) ?
+                (c.RequestDescription.Length >= 50 ? c.RequestDescription.Substring(0, 50) + "..." : c.RequestDescription) : ""
+
+            }).ToList();
+            model.TotalPages = comments.TotalPages;
+            model.TotalCount = comments.TotalCount;
+            model.PageNumber = comments.PageNumber;
+            model.PageSize = comments.PageSize;
+            model.MyProp = new ExpertViewModel
+            {
+                Id= expert.Id,
+                CityName=expert.CityName,
+                Email=expert.Email,
+                FirstName= expert.FirstName
+                ,HomeServices=expert.HomeServicesNames,
+                LastName = expert.LastName,
+                ImagePath=expert.ImagePath,
+                SelectedHomeService=homeServiceId
+            };
+            return View(model);
+        }
+       
     }
 }

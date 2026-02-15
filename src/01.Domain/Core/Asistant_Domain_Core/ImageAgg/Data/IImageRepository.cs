@@ -24,5 +24,6 @@ namespace Asistant_Domain_Core.ImageAgg.Data
         Task<bool> SetRequestImage(List<RequestImageDTO> requestImages, CancellationToken ct);
         Task<List<string>> GetSuggestionImagesBySuggestionId(int id, CancellationToken ct);
         Task<List<string>> GetRequestImagesByRequestId(int id, CancellationToken ct);
+        Task<bool> SetSuggestionImages(List<SuggestionImageDTO> suggestionImageDTOs, CancellationToken ct);
     }
 }

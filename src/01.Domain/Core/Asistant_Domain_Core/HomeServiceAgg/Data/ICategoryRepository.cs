@@ -13,7 +13,7 @@ namespace Asistant_Domain_Core.HomeServiceAgg.Data
         Task<int> CreateCategory(string name, CancellationToken c);
         Task<bool> DeleteCategory(int id, CancellationToken ct);
         Task<bool> ExistCategoryName(string name, CancellationToken ct);
-        Task<IEnumerable<GetCategoryDTO>> GetAllCtegories(CancellationToken ct);
+     
         Task<GetCategoryDTO?> GetCategoryById(int id, CancellationToken ct);
         Task<int?> GetCategoryImageId(int id, CancellationToken ct);
         Task<PagedResult<GetCategoryDTO>> GetPagedCategory(int pageNumber, int pageSize, CancellationToken ct);

@@ -18,6 +18,7 @@ namespace Asistant_Domain_Core.CommentAgg.Service
         Task<CommentDTO?> GetCommentByRequestId(int requestId, CancellationToken ct);
         Task<PagedResult<CommentDTO>> GetPagedComment(int pageNumber, int pageSize, CancellationToken ct);
         Task<PagedResult<CommentDTO>> GetPagedCommentByCustomerId(int customerId, int pageNumber, int pageSize, CancellationToken ct);
+        Task<PagedResult<CommentDTO>> GetPagedCommentByExpertId(int expertId, int homeServiceId, int pageNumber, int pageSize, CancellationToken ct);
         Task<PagedResult<CommentDTO>> GetPagedPendingComment(int pageNumber, int pageSize, CancellationToken ct);
         Task<bool> RejectComment(int id, CancellationToken ct);
     }

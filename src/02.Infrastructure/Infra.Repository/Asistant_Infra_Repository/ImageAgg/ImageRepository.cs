@@ -1,4 +1,5 @@
-﻿using Asistant_Domain_Core.ImageAgg.Data;
+﻿using Asistant_Domain_Core.CommentAgg.Enum;
+using Asistant_Domain_Core.ImageAgg.Data;
 using Asistant_Domain_Core.ImageAgg.DTOs;
 using Asistant_Domain_Core.ImageAgg.Entity;
 using Asistant_Domain_Core.ImageAgg.Enum;
@@ -131,6 +132,22 @@ namespace Asistant_Infra_Repository.ImageAgg
             }
             await _dbcontext.Images.AddRangeAsync(images, ct);
           return  await _dbcontext.SaveChangesAsync(ct)>0;
+        }
+        public async Task<bool> SetSuggestionImages(List<SuggestionImageDTO> suggestionImageDTOs,CancellationToken ct)
+        {
+            var images = new List<Image>();
+            foreach (var imageDTO in  suggestionImageDTOs)
+            {
+                var image = new Image
+                {
+                    ImagePath = imageDTO.ImagePath,
+                    SuggestionId = imageDTO.SuggestionId,
+                    ImageCategory = ImageEnum.Suggestion
+                };
+                images.Add(image);
+            }
+            await _dbcontext.Images.AddRangeAsync(images, ct);
+            return await _dbcontext.SaveChangesAsync(ct) > 0;
         }
         public async Task<List<string>> GetSuggestionImagesBySuggestionId(int id,CancellationToken ct)
         {

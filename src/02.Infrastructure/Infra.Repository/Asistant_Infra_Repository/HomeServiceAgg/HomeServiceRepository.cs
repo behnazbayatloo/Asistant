@@ -31,22 +31,7 @@ namespace Asistant_Infra_Repository.HomeServiceAgg
 
         }
 
-        public async Task<IEnumerable<GetHomeServiceDTO>> GetAllHomeServices(CancellationToken ct)
-        {
-          return  await _dbcontext.HomeServices.AsNoTracking().Select(hs => new GetHomeServiceDTO
-            {
-                Id = hs.Id
-                ,
-                Name = hs.Name
-                ,
-                BasePrice = hs.BasePrice,
-                CategoryId = hs.CategoryId,
-                ImageId = hs.ImageId,
-                Description = hs.Description,
-                ImagePath=hs.Image.ImagePath,
-                CategoryName=hs.Category.Name
-            }).ToListAsync(ct);
-        }
+      
         public async Task<GetHomeServiceDTO?> GetHomeServiceById(int id, CancellationToken ct)
         {
             return await _dbcontext.HomeServices.AsNoTracking().Where(hs => hs.Id == id).Select(hs => new GetHomeServiceDTO

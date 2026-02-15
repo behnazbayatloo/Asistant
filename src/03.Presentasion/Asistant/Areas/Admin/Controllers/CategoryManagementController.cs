@@ -50,7 +50,7 @@ namespace Asistant.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> CreateCategory(CancellationToken ct)
+        public IActionResult CreateCategory()
         {
 
             return View();

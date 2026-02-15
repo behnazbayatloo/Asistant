@@ -36,6 +36,8 @@ namespace Asistant_Domain_Core.RequestAgg.DTOs
         public CommentDTO? Comment { get; set; }
         public int? CommentId { get; set; }
         public int SuggesstionCount { get; set; }
+        public decimal? BasePriceHomeService { get; set; }
+        public int? CityId { get; set; }
       
     }
 }

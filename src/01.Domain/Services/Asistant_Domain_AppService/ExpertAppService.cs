@@ -58,7 +58,21 @@ namespace Asistant_Domain_AppService
            
         }
         public async Task<OutputExpertDTO?> GetExpertById(CancellationToken ct, int id)
-            => await _expsrv.GetExpertById(ct, id);
+        {
+            var expert= await _expsrv.GetExpertById(ct, id);
+            if(expert== null)
+            {
+                return expert;
+            }
+            if(expert.HomeServicesId !=null)
+            {
+                var homeServices = await _homeService.GetHomeServicesById(expert.HomeServicesId, ct);
+                expert.HomeServicesNames= homeServices.Select(hs=> hs.Name).ToList();   
+            }
+            return expert;
+              
+        
+        }
 
         public async Task<bool> UpdateExpert(CancellationToken ct, UpdateExpertDTO updateExpert)
         {
@@ -175,7 +189,7 @@ namespace Asistant_Domain_AppService
             return result;
         }
         public async Task<OutputExpertDTO?> GetExpertByUserId(CancellationToken ct, int userId)
-=> await _expsrv.GetExpertByUserId(ct, userId);
+              => await _expsrv.GetExpertByUserId(ct, userId);
         }
           
 

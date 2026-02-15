@@ -4,6 +4,7 @@ using Asistant_Domain_AppService;
 using Asistant_Domain_Core.CommentAgg.AppService;
 using Asistant_Domain_Core.CommentAgg.Data;
 using Asistant_Domain_Core.CommentAgg.Service;
+using Asistant_Domain_Core.Configurations;
 using Asistant_Domain_Core.HomeServiceAgg.AppServices;
 using Asistant_Domain_Core.HomeServiceAgg.Data;
 using Asistant_Domain_Core.HomeServiceAgg.Services;
@@ -23,10 +24,10 @@ using Asistant_Domain_Core.UserAgg.Entities;
 using Asistant_Domain_Core.UserAgg.Services;
 using Asistant_Domain_Service;
 using Asistant_FrameWork.UIExtensions;
-
 using Asistant_Infra_Cache.InMemoryCache;
+using Asistant_Infra_Db_Dapper.HomeServiceAgg;
+using Asistant_Infra_Db_Dapper.UserAgg;
 using Asistant_Infra_Db_Sql.DbContext;
-
 using Asistant_Infra_File.Service;
 using Asistant_Infra_Repository.CommentAgg;
 using Asistant_Infra_Repository.HomeServiceAgg;
@@ -75,15 +76,20 @@ builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
 builder.Services.AddScoped<IAppUserService,AppUserService>();
 builder.Services.AddScoped<IAppUserAppService,AppUserAppService>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<ICityDapperRepository, CityDapperRepository>();
+builder.Services.AddScoped<ICategoryDapperRepository, CategoryDapperRepository>();
+builder.Services.AddScoped<IHomeServiceDapperRepository,HomeServiceDapperRepository>();
+var siteSettings =
+    builder.Configuration.GetSection("SiteSettings").Get<SiteSettings>();
 
+builder.Services.AddSingleton(siteSettings);
 #endregion
 // Add services to the container.
 #region DataBaseConfig
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(siteSettings.ConnectionStringsConfiguration.DefaultConnection));
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>()
     .AddErrorDescriber<PersianIdentityErrorDescriber>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -141,14 +147,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = "localhost:6379"; // یا آدرس سرور ریدیس شما
+    options.Configuration = "localhost:6379"; 
     options.InstanceName = "MyProject_";
 });
 #endregion
 
-#region InMemoryCache
-builder.Services.AddMemoryCache();
-#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

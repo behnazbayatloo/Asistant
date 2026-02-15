@@ -1,0 +1,198 @@
+﻿@using Asistant.Areas.Expert.Models
+@model SuggestionViewModel
+
+@{
+    ViewData["Title"] = "ارسال پیشنهاد جدید";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/sendsuggestion.css" />
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+
+          
+            <h1 class="page-title text-center mb-4">ارسال پیشنهاد جدید</h1>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @ViewBag.Error
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (ViewBag.Succeed != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @ViewBag.Succeed
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+          
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0 font-weight-bold">ثبت پیشنهاد قیمت</h5>
+                </div>
+                <div class="card-body">
+
+                  
+                    <div class="alert alert-info bg-light border-info mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="fs-4 me-2">ℹ️</span>
+                            <strong class="text-info">خلاصه درخواست مشتری</strong>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <span class="text-muted small">عنوان درخواست:</span>
+                                <div class="fw-bold">@Model.RequestTitle</div>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="text-muted small">مشتری:</span>
+                                <div class="fw-bold">@Model.CustomerName</div>
+                                <span class="text-muted small">قیمت پایه سرویس:</span>
+                                <div class="fw-bold">@Model.BasePrice</div>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-muted small">تاریخ ثبت:</span>
+                                <span>@Model.RequestCreatedAt</span>
+                            </div>
+                        </div>
+                    </div>
+
+                  
+                    <form asp-area="Expert" asp-controller="Request" asp-action="SendSuggestion" method="post" enctype="multipart/form-data">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        
+                        <input type="hidden" asp-for="@Model.RequestId" />
+                        <input type="hidden" asp-for="@Model.ExpertId" />
+                        <input type="hidden" asp-for="@Model.HomeServiceId" />
+                        <input type="hidden" asp-for="@Model.BasePrice" />
+
+                       
+                        <div class="mb-3">
+                            <label asp-for="@Model.Title" class="form-label fw-bold">عنوان پیشنهاد</label>
+                            <input asp-for="@Model.Title" class="form-control" placeholder="عنوان پیشنهاد خود را وارد کنید">
+                            <span asp-validation-for="@Model.Title" class="text-danger small"></span>
+                        </div>
+
+                      
+                        <div class="mb-3">
+                            <label asp-for="@Model.Description" class="form-label fw-bold">توضیحات</label>
+                            <textarea asp-for="@Model.Description" class="form-control" rows="4" placeholder="جزئیات پیشنهاد خود را بنویسید..."></textarea>
+                            <span asp-validation-for="@Model.Description" class="text-danger small"></span>
+                        </div>
+
+                       
+                        <div class="mb-3">
+                            <label asp-for="@Model.Price" class="form-label fw-bold">قیمت پیشنهادی (تومان)</label>
+                            <div class="input-group">
+                                <input asp-for="@Model.Price" type="number" class="form-control text-start" placeholder="مبلغ را وارد کنید">
+                                <span class="input-group-text">تومان</span>
+                            </div>
+                            <span asp-validation-for="@Model.Price" class="text-danger small"></span>
+                        </div>
+
+                       
+                        <div class="mb-4">
+                            <label asp-for="@Model.Images" class="form-label fw-bold">تصاویر و مستندات</label>
+                            <input asp-for="@Model.Images" type="file" accept="image/*" multiple class="form-control" id="imageInput">
+                            <div class="form-text">فرمت‌های مجاز: jpg, png, jpeg. (انتخاب چندگانه مجاز است)</div>
+                            <div id="imagePreview" class="row mt-3 g-2"></div>
+                        </div>
+
+                      
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                            <a asp-area="Expert"
+                               asp-controller="Request"
+                               asp-action="ShowDetail"
+                               asp-route-requestId="@Model.RequestId"
+                               class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> انصراف و بازگشت
+                            </a>
+                            <button type="submit" class="btn btn-success px-4">
+                                <i class="bi bi-check-circle"></i> ثبت نهایی پیشنهاد
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        let selectedFiles = [];
+
+        const input = document.getElementById('imageInput');
+        const preview = document.getElementById('imagePreview');
+
+        input.addEventListener('change', function () {
+            const files = Array.from(this.files);
+
+                   if ((selectedFiles.length + files.length) > 5) {
+            alert('حداکثر ۵ تصویر مجاز است');
+            this.value = '';
+            return;
+
+        }
+            files.forEach(file => {
+
+                if (!file.type.startsWith('image/')) return;
+
+                if (file.size > 2 * 1024 * 1024) {
+                    alert(`حجم فایل ${file.name} بیشتر از ۲ مگابایت است`);
+                    return;
+                }
+
+                selectedFiles.push(file);
+            });
+
+            renderPreview();
+            input.value = '';
+        });
+
+        function renderPreview() {
+            preview.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-3 mb-3';
+
+                    col.innerHTML = `
+                        <div class="card">
+                            <img src="${e.target.result}" class="card-img-top" style="height:150px;object-fit:cover;">
+                            <div class="card-body p-2 text-center">
+                                <small>${file.name}</small>
+                                <button type="button" class="btn btn-sm btn-danger remove-btn" data-index="${index}">حذف</button>
+                            </div>
+                        </div>
+                    `;
+
+                    preview.appendChild(col);
+
+
+                    col.querySelector('.remove-btn').addEventListener('click', function () {
+                        const idx = parseInt(this.dataset.index);
+                        selectedFiles.splice(idx, 1);
+                        renderPreview();
+                    });
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+
+        document.querySelector('form').addEventListener('submit', function (e) {
+
+        });
+    </script>
+}

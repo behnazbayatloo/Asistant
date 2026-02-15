@@ -18,7 +18,13 @@
             @ViewBag.Error
         </div>
     }
-  
+    @if (TempData["Succeed"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Succeed"]
+        </div>
+    }
+
     <div class="card mb-3 shadow-sm">
         <div class="card-header bg-primary text-white">
             خلاصه درخواست
