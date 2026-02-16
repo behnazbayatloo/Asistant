@@ -32,7 +32,7 @@ namespace Asistant_Domain_AppService
         }
         public async Task<PagedResult<GetCategoryDTO>> GetPagedCategories(int pageNumber, int pageSize, CancellationToken ct)
         {
-            var cacheKey = "GetPagedCategories";
+            var cacheKey = $"GetPagedCategories-{pageNumber}-{pageSize}";
             var cached = cacheService.Get<PagedResult<GetCategoryDTO>>(cacheKey);
             if (cached != null)
                 return cached;

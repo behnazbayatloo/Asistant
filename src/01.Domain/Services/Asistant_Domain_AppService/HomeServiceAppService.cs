@@ -31,7 +31,7 @@ namespace Asistant_Domain_AppService
         }
         public async Task<PagedResult<GetHomeServiceDTO>> GetPagedHomeServices(int pageNumber, int pageSize, CancellationToken ct)
         {
-            var cacheKey = "GetPagedHomeServices";
+            var cacheKey = $"GetPagedHomeServices-{pageNumber}-{pageSize}";
             var cached = cacheService.Get<PagedResult<GetHomeServiceDTO>>(cacheKey);
             if (cached != null)
                 return cached;
