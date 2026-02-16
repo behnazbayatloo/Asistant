@@ -32,12 +32,9 @@ namespace Asistant_Domain_AppService
         }
         public async Task<PagedResult<GetCategoryDTO>> GetPagedCategories(int pageNumber, int pageSize, CancellationToken ct)
         {
-            var cacheKey = "GetPagedCategories";
-            var cached = cacheService.Get<PagedResult<GetCategoryDTO>>(cacheKey);
-            if (cached != null)
-                return cached;
+          
             var category = await _catserv.GetPagedCategories(pageNumber, pageSize, ct);
-            cacheService.SetSliding(cacheKey, category, 30);
+            
             return category;
         }
         public async Task<bool> DeleteCategory(int id,CancellationToken ct)
@@ -54,7 +51,7 @@ namespace Asistant_Domain_AppService
             if(deleted)
             {
                 cacheService.Remove("GetAllCategories");
-                cacheService.Remove("GetPagedCategories");
+              
             }
             return deleted;
         }
@@ -78,7 +75,7 @@ namespace Asistant_Domain_AppService
 
                 }
                 cacheService.Remove("GetAllCategories");
-                cacheService.Remove("GetPagedCategories");
+                
                 return Result<bool>.Success(true, "دسته بندی با موفقیت ثبت شد");
             }
             return Result<bool>.Failure("عملیات با مشکلی مواجه شد");
@@ -112,7 +109,7 @@ namespace Asistant_Domain_AppService
             if (result)
             {
                 cacheService.Remove("GetAllCategories");
-                cacheService.Remove("GetPagedCategories");
+               
                 return Result<bool>.Success(result, "تغییرات با موفقیت ثبت شد");
             }
             return Result<bool>.Failure("ثبت تغییرات با مشکلی مواجه شد");
