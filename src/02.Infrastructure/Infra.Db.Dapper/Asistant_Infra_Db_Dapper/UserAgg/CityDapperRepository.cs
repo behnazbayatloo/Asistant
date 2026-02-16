@@ -21,7 +21,7 @@ namespace Asistant_Infra_Db_Dapper.UserAgg
         {
             using var cn = new SqlConnection(connectionString);
             await cn.OpenAsync(ct);
-            var query = "SELECT Id,Name FROM Cities";
+            var query = "SELECT Id,Name FROM Cities c WHERE c.IsDeleted=0";
             var cmd = new CommandDefinition(query, parameters: null, cancellationToken: ct); 
             var result = await cn.QueryAsync<City>(cmd); 
             return result.ToList();

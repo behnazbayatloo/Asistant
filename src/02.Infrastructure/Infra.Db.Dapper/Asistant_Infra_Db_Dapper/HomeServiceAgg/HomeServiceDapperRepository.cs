@@ -24,7 +24,8 @@ namespace Asistant_Infra_Db_Dapper.HomeServiceAgg
                   i.ImagePath,c.Name AS CategoryName
                   FROM HomeServices hs
                     LEFT JOIN Categories c ON c.Id = hs.CategoryId
-                    LEFT JOIN Images i ON i.HomeServiceId = hs.Id";
+                    LEFT JOIN Images i ON i.HomeServiceId = hs.Id
+                    WHERE hs.IsDeleted=0";
             var cmd = new CommandDefinition(query, parameters: null, cancellationToken: ct);
             var result = cn.Query<GetHomeServiceDTO>(cmd);
             return result.ToList();

@@ -25,7 +25,8 @@ namespace Asistant_Infra_Db_Dapper.HomeServiceAgg
                 @" SELECT c.Id, c.Name, i.ImagePath, hs.Id, hs.Name,
                   hs.CategoryId FROM Categories c 
                     LEFT JOIN HomeServices hs ON hs.CategoryId = c.Id
-                    LEFT JOIN Images i ON i.CategoryId = c.Id ";
+                    LEFT JOIN Images i ON i.CategoryId = c.Id
+                    WHERE c.IsDeleted=0 ";
             var cmd = new CommandDefinition(sql, cancellationToken: ct);
             var categoryDict = new Dictionary<int, GetCategoryDTO>();
             var result = await cn.QueryAsync<GetCategoryDTO, HomeServiceDTO, GetCategoryDTO>
