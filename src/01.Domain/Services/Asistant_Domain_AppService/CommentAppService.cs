@@ -38,6 +38,23 @@ namespace Asistant_Domain_AppService
             }
             return deleted;
         }
+        public async Task<Result<bool>> DeleteCommentForCustomer(int id, int requestId,int customerId ,CancellationToken ct)
+        {
+            var request = await _requestService.IsRequestForCustomer(customerId, requestId, ct);
+            if (!request)
+            {
+                return Result<bool>.Failure("این درخواست برای شما نیست");
+            }
+
+            var deleted = await _cmtserv.DeleteComment(id, ct);
+            if (deleted)
+            {
+                var result = await _requestService.UpdateCommentId(requestId, 0, ct);
+                return Result<bool>.Success(result, "کامنت با موفقیت حذف گردید");
+            }
+            else
+                return Result<bool>.Failure("کامنت حذف نشد");
+        }
         public async Task<Result<bool>> CreateComment(InputCommentDTO commentDTO, CancellationToken ct)
         {
             var request = await _requestService.IsRequestForCustomer(commentDTO.CustomerId, commentDTO.RequestId, ct);

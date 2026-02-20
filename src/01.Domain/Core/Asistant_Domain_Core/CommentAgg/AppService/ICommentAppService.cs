@@ -13,6 +13,7 @@ namespace Asistant_Domain_Core.CommentAgg.AppService
         Task<bool> AcceptComment(int id, CancellationToken ct);
         Task<Result<bool>> CreateComment(InputCommentDTO commentDTO, CancellationToken ct);
         Task<bool> DeleteComment(int id,int requestId, CancellationToken ct);
+        Task<Result<bool>> DeleteCommentForCustomer(int id, int requestId, int customerId, CancellationToken ct);
         Task<CommentDTO?> GetCommentByRequestId(int requestId, CancellationToken ct);
         Task<PagedResult<CommentDTO>> GetPagedComment(int pageNumber, int pageSize, CancellationToken ct, bool? showAll = null);
         Task<PagedResult<CommentDTO>> GetPagedCommentByCustomerId(int customerId, int pageNumber, int pageSize, CancellationToken ct);

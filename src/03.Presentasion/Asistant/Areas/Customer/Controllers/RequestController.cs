@@ -403,14 +403,15 @@ HomeServiceId=model.HomeServiceId
         [HttpPost]
         public async Task<IActionResult> DeleteComment(int commentId, int id, CancellationToken ct)
         {
-            var result = await commentApp.DeleteComment(commentId, id, ct);
-            if (result)
+            var customerId = Int32.Parse(User.FindFirst("CustomerId")?.Value);
+            var result = await commentApp.DeleteCommentForCustomer(commentId, id, customerId, ct);
+            if (result.IsSuccess)
             {
-                TempData["Succeed"] = "کامنت با موفقیت حذف گردید";
+                TempData["Succeed"] = result.Message;
             }
             else
             {
-                TempData["Error"] = "عملیات موفقیت آمیز نبود";
+                TempData["Error"] = result.Message;
                 return RedirectToAction("ShowComment", new { requestId = id });
             }
             return RedirectToAction("AddComment", new { requestId = id });
